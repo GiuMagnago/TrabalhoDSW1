@@ -8,21 +8,25 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ufscar.dc.dsw.domain.Editora;
+import br.ufscar.dc.dsw.domain.Empresa;
 
-public class EditoraDAO extends GenericDAO {
+public class EmpresaDAO extends GenericDAO {
 
-    public void insert(Editora editora) {
+    public void insert(Empresa empresa) {
 
-        String sql = "INSERT INTO Editora (cnpj, nome) VALUES (?, ?)";
+        String sql = "INSERT INTO Empresa (email, senha, cnpj, nome, descricao, cidade) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             Connection conn = this.getConnection();
-            PreparedStatement statement = conn.prepareStatement(sql);;
+            PreparedStatement statement = conn.prepareStatement(sql);
 
             statement = conn.prepareStatement(sql);
-            statement.setString(1, editora.getCNPJ());
-            statement.setString(2, editora.getNome());
+            statement.setString(1, empresa.getEmail());
+            statement.setString(2, empresa.getSenha());
+            statement.setString(3, empresa.getCNPJ());
+            statement.setString(4, empresa.getNome());
+            statement.setString(5, empresa.getDescricao());
+            statement.setString(6, empresa.getCidade());
             statement.executeUpdate();
 
             statement.close();
@@ -32,11 +36,11 @@ public class EditoraDAO extends GenericDAO {
         }
     }
 
-    public List<Editora> getAll() {
+    public List<Empresa> getAll() {
 
-        List<Editora> listaEditoras = new ArrayList<>();
+        List<Empresa> listaEmpresas = new ArrayList<>();
 
-        String sql = "SELECT * from Editora";
+        String sql = "SELECT * from Empresa";
 
         try {
             Connection conn = this.getConnection();
@@ -45,11 +49,14 @@ public class EditoraDAO extends GenericDAO {
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
                 Long id = resultSet.getLong("id");
+                String email = resultSet.getString("email");
+                String senha = resultSet.getString("senha");
                 String cnpj = resultSet.getString("cnpj");
                 String nome = resultSet.getString("nome");
-                Editora editora = new Editora(id, cnpj, nome);
-                editora.setQtdeLivros(new LivroDAO().countByEditora(id));
-                listaEditoras.add(editora);
+                String descricao = resultSet.getString("descricao");
+                String cidade = resultSet.getString("cidade");
+                Empresa empresa = new Empresa(id, email, senha, cnpj, nome, descricao, cidade);
+                listaEmpresas.add(empresa);
             }
 
             resultSet.close();
@@ -58,17 +65,17 @@ public class EditoraDAO extends GenericDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return listaEditoras;
+        return listaEmpresas;
     }
 
-    public void delete(Editora editora) {
-        String sql = "DELETE FROM Editora where id = ?";
+    public void delete(Empresa empresa) {
+        String sql = "DELETE FROM Empresa where id = ?";
 
         try {
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
 
-            statement.setLong(1, editora.getId());
+            statement.setLong(1, empresa.getId());
             statement.executeUpdate();
 
             statement.close();
@@ -78,17 +85,20 @@ public class EditoraDAO extends GenericDAO {
         }
     }
 
-    public void update(Editora editora) {
-        String sql = "UPDATE Editora SET cnpj = ?, nome = ?";
-        sql += " WHERE id = ?";
+    public void update(Empresa empresa) {
+        String sql = "UPDATE Empresa SET email = ?, senha = ?, cnpj = ?, nome = ?, descricao = ?, cidade = ? WHERE id = ?";
 
         try {
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
 
-            statement.setString(1, editora.getCNPJ());
-            statement.setString(2, editora.getNome());
-            statement.setLong(3, editora.getId());
+            statement.setString(1, empresa.getEmail());
+            statement.setString(2, empresa.getSenha());
+            statement.setString(3, empresa.getCNPJ());
+            statement.setString(4, empresa.getNome());
+            statement.setString(5, empresa.getDescricao());
+            statement.setString(5, empresa.getCidade());
+            statement.setLong(6, empresa.getId());
             
             statement.executeUpdate();
 
@@ -99,10 +109,10 @@ public class EditoraDAO extends GenericDAO {
         }
     }
 
-    public Editora get(Long id) {
-        Editora editora = null;
+    public Empresa get(Long id) {
+        Empresa empresa = null;
         
-        String sql = "SELECT * from Editora where id = ?";
+        String sql = "SELECT * from Empresa where id = ?";
 
         try {
             Connection conn = this.getConnection();
@@ -111,10 +121,13 @@ public class EditoraDAO extends GenericDAO {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
+                String email = resultSet.getString("email");
+                String senha = resultSet.getString("senha");
                 String cnpj = resultSet.getString("cnpj");
                 String nome = resultSet.getString("nome");
-                editora = new Editora(id, cnpj, nome);
-                editora.setQtdeLivros(new LivroDAO().countByEditora(id));
+                String descricao = resultSet.getString("descricao");
+                String cidade = resultSet.getString("cidade");
+                empresa = new Empresa(id, email, senha, cnpj, nome, descricao, cidade);
             }
 
             resultSet.close();
@@ -123,6 +136,6 @@ public class EditoraDAO extends GenericDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return editora;
+        return empresa;
     }
 }

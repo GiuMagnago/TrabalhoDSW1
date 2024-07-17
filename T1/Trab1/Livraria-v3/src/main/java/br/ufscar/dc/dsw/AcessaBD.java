@@ -12,14 +12,17 @@ public class AcessaBD {
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             Connection con = (Connection) DriverManager.getConnection(""
-                    + "jdbc:derby://localhost:1527/Livraria", "root", "root");
+                    + "jdbc:derby://localhost:1527/Sistema", "root", "root");
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from Livro");
+            ResultSet rs = stmt.executeQuery("select * from Profissional");
             while (rs.next()) {
-                System.out.print(rs.getString("Titulo"));
-                System.out.print(", " + rs.getString("Autor"));
-                System.out.print(", " + rs.getInt("Ano"));
-                System.out.println(" (R$ " + rs.getFloat("Preco") + ")");
+                System.out.print(rs.getString("email"));
+                System.out.print(", " + rs.getString("senha"));
+                System.out.print(", " + rs.getInt("nome"));
+                System.out.print(", " + rs.getInt("sexo"));
+                System.out.print(", " + rs.getInt("cpf"));
+                System.out.print(", " + rs.getInt("telefone"));
+                System.out.println(", " + rs.getInt("datanasc"));
             }
             stmt.close();
             con.close();

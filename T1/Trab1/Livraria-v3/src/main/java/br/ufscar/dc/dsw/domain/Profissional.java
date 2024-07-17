@@ -2,33 +2,40 @@ package br.ufscar.dc.dsw.domain;
 import java.util.Date;
 
 public class Profissional {
-
+    private long id;
     private String email;
     private String senha;
     private String CPF;
     private String nome;
+    private String telefone;
     private String sexo;
     private Date dataNasc;
-    private String telefone;
 
-    public Profissional(String email) {
+    public Profissional() {}
+
+    public Profissional(String email, String senha, String CPF, String nome, String telefone, String sexo, Date dataNasc) {
         this.email = email;
-    }
-
-    public Profissional(String email, String senha, String CPF, String nome, 
-            String sexo, Date dataNasc, String telefone) {
-        this(senha, CPF, nome, sexo, dataNasc);
-        this.email = email;
-        this.telefone = telefone;
-    }
-
-    public Profissional(String senha, String CPF, String nome, String sexo,
-            Date dataNasc) {
         this.senha = senha;
         this.CPF = CPF;
         this.nome = nome;
+        this.telefone = telefone;
         this.sexo = sexo;
         this.dataNasc = dataNasc;
+    }
+    
+    public Profissional(long id, String email, String senha, String CPF, String nome, String telefone, String sexo, Date dataNasc) {
+        this.id = id;
+        this.email = email;
+        this.senha = senha;
+        this.CPF = CPF;
+        this.nome = nome;
+        this.telefone = telefone;
+        this.sexo = sexo;
+        this.dataNasc = dataNasc;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getEmail() {
@@ -55,12 +62,20 @@ public class Profissional {
         this.CPF = CPF;
     }
 
-    public String getnome() {
+    public String getNome() {
         return nome;
     }
 
-    public void setnome(String nome) {
+    public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getSexo() {
@@ -77,13 +92,5 @@ public class Profissional {
 
     public void setDataNasc(Date dataNasc) {
         this.dataNasc = dataNasc;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
     }
 }
