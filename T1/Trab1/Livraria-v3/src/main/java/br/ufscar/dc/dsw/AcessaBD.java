@@ -12,7 +12,7 @@ public class AcessaBD {
         try {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             Connection con = (Connection) DriverManager.getConnection(""
-                    + "jdbc:derby://localhost:1527/Sistema", "root", "root");
+                    + "jdbc:derby://localhost:1527/Sistema", "aluno", "aluno");
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery("select * from Profissional");
             while (rs.next()) {

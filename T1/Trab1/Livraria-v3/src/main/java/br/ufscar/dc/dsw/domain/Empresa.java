@@ -9,7 +9,9 @@ public class Empresa {
     private String descricao;
     private String cidade;
 
-    public Empresa() {}
+    public Empresa(long id) {
+        this.id = id;
+    }
 
     public Empresa(String email, String senha, String CNPJ, String nome, String descricao, String cidade) {
         this.email = email;

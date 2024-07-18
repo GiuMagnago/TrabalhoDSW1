@@ -16,17 +16,28 @@
 				<fmt:message key="books.welcome" />
 			</h1>
 			<h2>
-				<a href="/${requestScope.contextPath}"> <fmt:message key="main.link" /></a> 
-				&nbsp;&nbsp;&nbsp; 
-				<a href="/${requestScope.contextPath}/livros/cadastro"> <fmt:message key="books.create" />
+				<a href="/${sessionScope.contextPath}/editoras">
+					<fmt:message key="publishers.entity" />
+				</a>
+				&nbsp;&nbsp;&nbsp;
+				<a href="/${sessionScope.contextPath}/usuarios"> 
+					<fmt:message key="users.entity" />
+				</a> 
+				&nbsp;&nbsp;&nbsp;
+			    <a href="${pageContext.request.contextPath}/logout.jsp">
+					<fmt:message key="exit.link" />
+				</a>
+				<br/>
+				<br/>
+				<a href="/${sessionScope.contextPath}/livros/cadastro">
+					<fmt:message key="books.create" />
 				</a>
 			</h2>
+			<h3><fmt:message key="books.list" /></h3>
+			<br/>
 		</div>
 		<div align="center">
 			<table border="1">
-				<caption>
-					<fmt:message key="books.list" />
-				</caption>
 				<tr>
 					<th><fmt:message key="book.ID" /></th>
 					<th><fmt:message key="book.title" /></th>
@@ -44,10 +55,10 @@
 						<td>${livro.autor}</td>
 						<td>${livro.ano}</td>
 						<td>${livro.preco}</td>
-						<td><a href="/${requestScope.contextPath}/livros/edicao?id=${livro.id}">
+						<td><a href="/${sessionScope.contextPath}/livros/edicao?id=${livro.id}">
 								<fmt:message key="books.update" />
 						</a> &nbsp;&nbsp;&nbsp;&nbsp; <a
-							href="/${requestScope.contextPath}/livros/remocao?id=${livro.id}"
+							href="/${sessionScope.contextPath}/livros/remocao?id=${livro.id}"
 							onclick="return confirm('<fmt:message key="confirm.link" />');">
 								<fmt:message key="books.delete" />
 						</a></td>

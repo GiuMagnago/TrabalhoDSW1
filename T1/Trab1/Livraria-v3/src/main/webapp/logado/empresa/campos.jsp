@@ -24,7 +24,7 @@
 			value="<c:out value='${editora.CNPJ}' />" /></td>
 	</tr>
 	<tr>
-		<td><label for="nome"> <fmt:message key="publisher.name" />
+		<td><label for="nome"><fmt:message key="publisher.name" />
 		</label></td>
 		<td><input type="text" name="nome" size="45" required
 			value="<c:out value='${editora.nome}' />" /></td>

@@ -13,15 +13,30 @@
 	<body>
 		<div align="center">
 			<h1>
-				<fmt:message key="books.welcome" />
+				<fmt:message key="users.welcome" />
 			</h1>
 			<h2>
-				<a href="lista"> <fmt:message key="books.list" /></a>
+				<a href="/${sessionScope.contextPath}/editoras"> 
+			    	<fmt:message key="publishers.entity" />
+				</a> 
+				&nbsp;&nbsp;&nbsp;
+			    <a href="/${sessionScope.contextPath}/livros"> 
+			    	<fmt:message key="books.entity" />
+				</a> 
+				&nbsp;&nbsp;&nbsp;
+				<a href="${pageContext.request.contextPath}/logout.jsp">
+					<fmt:message key="exit.link" />
+				</a>
+				<br/>
+				<br/>
+				<a href="lista"> 
+					<fmt:message key="users.list" />
+				</a>
 			</h2>
 		</div>
 		<div align="center">
 			<c:choose>
-				<c:when test="${livro != null}">
+				<c:when test="${usuario != null}">
 					<form action="atualizacao" method="post">
 						<%@include file="campos.jsp"%>
 					</form>

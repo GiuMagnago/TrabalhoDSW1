@@ -11,7 +11,9 @@ public class Profissional {
     private String sexo;
     private Date dataNasc;
 
-    public Profissional() {}
+    public Profissional(long id) {
+        this.id = id;
+    }
 
     public Profissional(String email, String senha, String CPF, String nome, String telefone, String sexo, Date dataNasc) {
         this.email = email;
