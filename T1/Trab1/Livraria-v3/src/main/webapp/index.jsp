@@ -12,11 +12,7 @@
     </head>
 
     <body>
-        <a href="livros">CRUD
-            <fmt:message key="books.entity" /></a>
-        <br>
-        <a href="editoras">CRUD
-            <fmt:message key="publishers.entity" /></a>
+        <h1>hello word</h1>
     </body>
 </fmt:bundle>
 

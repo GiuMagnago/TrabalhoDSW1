@@ -1,0 +1,15 @@
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/dao/ProfissionalDAO.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/dao/GenericDAO.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/domain/Profissional.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/domain/Empresa.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/AcessaBD.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/filter/JSPFilter.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/controller/IndexController.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/controller/AdministradorController.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/domain/Administrador.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/util/Erro.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/controller/EmpresaController.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/controller/ProfissionalController.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/dao/AdministradorDAO.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/dao/EmpresaDAO.java
+/mnt/d/Downloads/TrabalhoDSW1/T1/Trab1/Livraria-v3/src/main/java/br/ufscar/dc/dsw/domain/Usuario.java

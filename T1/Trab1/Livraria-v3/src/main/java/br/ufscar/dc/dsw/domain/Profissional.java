@@ -1,23 +1,21 @@
 package br.ufscar.dc.dsw.domain;
 import java.util.Date;
 
-public class Profissional {
-    private long id;
-    private String email;
-    private String senha;
+public class Profissional extends Usuario {
+    private long idProfissional;
     private String CPF;
     private String nome;
     private String telefone;
     private String sexo;
     private Date dataNasc;
 
-    public Profissional(long id) {
-        this.id = id;
+    public Profissional(long idUsuario, long idProfissional) {
+        super(idUsuario);
+        this.idProfissional = idProfissional;
     }
 
-    public Profissional(String email, String senha, String CPF, String nome, String telefone, String sexo, Date dataNasc) {
-        this.email = email;
-        this.senha = senha;
+    public Profissional(long idUsuario, String email, String senha, String CPF, String nome, String telefone, String sexo, Date dataNasc) {
+        super(idUsuario, email, senha);
         this.CPF = CPF;
         this.nome = nome;
         this.telefone = telefone;
@@ -25,37 +23,15 @@ public class Profissional {
         this.dataNasc = dataNasc;
     }
     
-    public Profissional(long id, String email, String senha, String CPF, String nome, String telefone, String sexo, Date dataNasc) {
-        this.id = id;
-        this.email = email;
-        this.senha = senha;
-        this.CPF = CPF;
-        this.nome = nome;
-        this.telefone = telefone;
-        this.sexo = sexo;
-        this.dataNasc = dataNasc;
+
+    public long getIdProfissional() {
+        return idProfissional;
     }
 
-    public long getId() {
-        return id;
+    public void setIdProfissional(long idProfissional) {
+        this.idProfissional = idProfissional;
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
+    
     public String getCPF() {
         return CPF;
     }

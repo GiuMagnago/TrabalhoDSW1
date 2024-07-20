@@ -6,6 +6,7 @@ import br.ufscar.dc.dsw.domain.Usuario;
 import br.ufscar.dc.dsw.util.Erro;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet(urlPatterns = "/empresas/*")
 public class EmpresaController extends HttpServlet {
@@ -25,6 +27,21 @@ public class EmpresaController extends HttpServlet {
 	public void init() {
 		dao = new EmpresaDAO();
 	}
+
+	protected void cadastrar(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		String email = request.getParameter("email");
+		String senha = request.getParameter("senha");
+		String cnpj = request.getParameter("cnpj");
+		String nome = request.getParameter("nome");
+		String descricao = request.getParameter("descricao");
+		String cidade = request.getParameter("cidade");
+
+		Empresa empresa = new Empresa(email, senha, cnpj, nome, descricao, cidade);
+
+		long idNewUser = dao.insert(empresa);
+	}
+
+
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

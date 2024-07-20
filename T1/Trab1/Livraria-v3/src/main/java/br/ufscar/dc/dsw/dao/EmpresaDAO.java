@@ -12,21 +12,20 @@ import br.ufscar.dc.dsw.domain.Empresa;
 
 public class EmpresaDAO extends GenericDAO {
 
-    public void insert(Empresa empresa) {
+    public void insert(long userId, Empresa empresa) {
 
-        String sql = "INSERT INTO Empresa (email, senha, cnpj, nome, descricao, cidade) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Empresa (id_usuario, cnpj, nome, descricao, cidade) VALUES (?, ?, ?, ?, ?)";
 
         try {
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
 
             statement = conn.prepareStatement(sql);
-            statement.setString(1, empresa.getEmail());
-            statement.setString(2, empresa.getSenha());
-            statement.setString(3, empresa.getCNPJ());
-            statement.setString(4, empresa.getNome());
-            statement.setString(5, empresa.getDescricao());
-            statement.setString(6, empresa.getCidade());
+            statement.setLong(1, userId);
+            statement.setString(2, empresa.getCNPJ());
+            statement.setString(3, empresa.getNome());
+            statement.setString(4, empresa.getDescricao());
+            statement.setString(5, empresa.getCidade());
             statement.executeUpdate();
 
             statement.close();
@@ -40,7 +39,7 @@ public class EmpresaDAO extends GenericDAO {
 
         List<Empresa> listaEmpresas = new ArrayList<>();
 
-        String sql = "SELECT * from Empresa";
+        String sql = "SELECT * FROM Empresa JOIN Usuario ON Usuario.id_usuario = Empresa.id_usuario";
 
         try {
             Connection conn = this.getConnection();
@@ -48,7 +47,7 @@ public class EmpresaDAO extends GenericDAO {
 
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                Long id = resultSet.getLong("id");
+                Long id = resultSet.getLong("id_usuario");
                 String email = resultSet.getString("email");
                 String senha = resultSet.getString("senha");
                 String cnpj = resultSet.getString("cnpj");
@@ -68,37 +67,18 @@ public class EmpresaDAO extends GenericDAO {
         return listaEmpresas;
     }
 
-    public void delete(Empresa empresa) {
-        String sql = "DELETE FROM Empresa where id = ?";
-
-        try {
-            Connection conn = this.getConnection();
-            PreparedStatement statement = conn.prepareStatement(sql);
-
-            statement.setLong(1, empresa.getId());
-            statement.executeUpdate();
-
-            statement.close();
-            conn.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public void update(Empresa empresa) {
-        String sql = "UPDATE Empresa SET email = ?, senha = ?, cnpj = ?, nome = ?, descricao = ?, cidade = ? WHERE id = ?";
+        String sql = "UPDATE Empresa SET cnpj = ?, nome = ?, descricao = ?, cidade = ? WHERE id_usuario = ?";
 
         try {
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
 
-            statement.setString(1, empresa.getEmail());
-            statement.setString(2, empresa.getSenha());
-            statement.setString(3, empresa.getCNPJ());
-            statement.setString(4, empresa.getNome());
-            statement.setString(5, empresa.getDescricao());
-            statement.setString(5, empresa.getCidade());
-            statement.setLong(6, empresa.getId());
+            statement.setString(1, empresa.getCNPJ());
+            statement.setString(2, empresa.getNome());
+            statement.setString(3, empresa.getDescricao());
+            statement.setString(4, empresa.getCidade());
+            statement.setLong(5, empresa.getIdUsuario());
             
             statement.executeUpdate();
 
@@ -109,25 +89,25 @@ public class EmpresaDAO extends GenericDAO {
         }
     }
 
-    public Empresa get(Long id) {
+    public Empresa get(Long idUsuario, String email, String senha) {
         Empresa empresa = null;
         
-        String sql = "SELECT * from Empresa where id = ?";
+        String sql = "SELECT * from Empresa where id_usuario = ?";
 
         try {
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
             
-            statement.setLong(1, id);
+            statement.setLong(1, idUsuario);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                String email = resultSet.getString("email");
-                String senha = resultSet.getString("senha");
+                Long idEmpresa = resultSet.getLong("id_empresa");
                 String cnpj = resultSet.getString("cnpj");
                 String nome = resultSet.getString("nome");
                 String descricao = resultSet.getString("descricao");
                 String cidade = resultSet.getString("cidade");
-                empresa = new Empresa(id, email, senha, cnpj, nome, descricao, cidade);
+                empresa = new Empresa(idUsuario, email, senha, cnpj, nome, descricao, cidade);
+                empresa.setIdEmpresa(idEmpresa);
             }
 
             resultSet.close();

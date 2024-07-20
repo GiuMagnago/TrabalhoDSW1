@@ -25,7 +25,7 @@
             <table>
                 <tr>
                     <th><fmt:message key="user.login" />:</th>
-                    <td><input type="text" name="login"
+                    <td><input type="text" name="email"
                                value="${param.login}"/></td>
                 </tr>
                 <tr>
