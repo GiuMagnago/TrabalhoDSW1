@@ -13,7 +13,7 @@ CREATE TABLE Usuario(
 CREATE TABLE Empresa(
     id_empresa bigint not null auto_increment, 
     id_usuario bigint not null FOREIGN KEY REFERENCES Usuario(id_usuario) ON DELETE CASCADE ON UPDATE Usuario, 
-    cnpj varchar(18) not null, 
+    cnpj varchar(14) not null, 
     nome varchar(256) not null,
     descricao varchar(256), 
     cidade varchar(40) not null
@@ -22,7 +22,7 @@ CREATE TABLE Empresa(
 CREATE TABLE Profissional(
     id_profissional bigint not null auto_increment PRIMARY KEY,  
     id_usuario bigint not null FOREIGN KEY REFERENCES Usuario(id_usuario) ON DELETE CASCADE ON UPDATE Usuario, 
-    cpf varchar(15) not null, 
+    cpf varchar(11) not null, 
     nome varchar(256) not null, 
     telefone varchar(15) not null, 
     sexo varchar(15) not null, 
@@ -32,7 +32,7 @@ CREATE TABLE Profissional(
 CREATE TABLE Vaga(
     id_vaga bigint not null auto_increment PRIMARY KEY, 
     id_empresa bigint not null FOREIGN KEY REFERENCES Empresa(id_empresa) ON DELETE CASCADE ON UPDATE Empresa, 
-    cnpj_empresa varchar(18), 
+    cnpj_empresa varchar(14), 
     descricao varchar(50), 
     datalimite date, 
 );

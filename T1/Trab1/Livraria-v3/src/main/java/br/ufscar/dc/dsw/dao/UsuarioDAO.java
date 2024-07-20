@@ -111,8 +111,9 @@ public class UsuarioDAO extends GenericDAO {
         return usuario;
     }
 
-    public void updateUsuario(Usuario usuario) {
+    public boolean updateUsuario(Usuario usuario) {
         String sql = "UPDATE Usuario SET email = ? AND senha = ? WHERE id_usuario = ?";
+        boolean res = false;
         try {
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -121,6 +122,7 @@ public class UsuarioDAO extends GenericDAO {
             statement.setString(2, usuario.getSenha());
             statement.setLong(3, usuario.getIdUsuario());
 
+            res = (statement.executeUpdate() > 0);
             if (usuario instanceof Empresa) {
                 EmpresaDAO dao = new EmpresaDAO();
                 dao.update((Empresa) usuario);
@@ -133,6 +135,7 @@ public class UsuarioDAO extends GenericDAO {
         } catch (Exception e) {
             // TODO: handle exception
         }
+        return res;
     }
  
     public void deletarUsuario(long userId) {

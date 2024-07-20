@@ -12,6 +12,14 @@ public class Empresa extends Usuario {
         this.idEmpresa = idEmpresa;
     }
 
+    public Empresa(String email, String senha, String CNPJ, String nome, String descricao, String cidade) {
+        super(email, senha);
+        this.CNPJ = CNPJ;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.cidade = cidade;
+    }
+
     public Empresa(long idUsuario, String email, String senha, String CNPJ, String nome, String descricao, String cidade) {
         super(idUsuario, email, senha);
         this.CNPJ = CNPJ;

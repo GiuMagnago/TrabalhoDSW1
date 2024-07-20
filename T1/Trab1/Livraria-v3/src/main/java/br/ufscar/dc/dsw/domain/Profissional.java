@@ -13,6 +13,15 @@ public class Profissional extends Usuario {
         super(idUsuario);
         this.idProfissional = idProfissional;
     }
+    
+    public Profissional(String email, String senha, String CPF, String nome, String telefone, String sexo, Date dataNasc) {
+        super(email, senha);
+        this.CPF = CPF;
+        this.nome = nome;
+        this.telefone = telefone;
+        this.sexo = sexo;
+        this.dataNasc = dataNasc;
+    }
 
     public Profissional(long idUsuario, String email, String senha, String CPF, String nome, String telefone, String sexo, Date dataNasc) {
         super(idUsuario, email, senha);

@@ -1,14 +1,10 @@
 package br.ufscar.dc.dsw.controller;
 
-import br.ufscar.dc.dsw.dao.EmpresaDAO;
+import br.ufscar.dc.dsw.dao.UsuarioDAO;
 import br.ufscar.dc.dsw.domain.Empresa;
 import br.ufscar.dc.dsw.domain.Usuario;
-import br.ufscar.dc.dsw.util.Erro;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,19 +12,48 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(urlPatterns = "/empresas/*")
+@WebServlet(urlPatterns = "/empresa")
 public class EmpresaController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private EmpresaDAO dao;
+	private UsuarioDAO usuarioDAO;
 
 	@Override
 	public void init() {
-		dao = new EmpresaDAO();
+		usuarioDAO = new UsuarioDAO();
 	}
 
-	protected void cadastrar(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        String path = request.getHeader("Referer");
+        String[] parts = path.split("/");
+        String action = parts[parts.length - 2];
+        HttpSession session = request.getSession();
+
+        try{
+            switch (action) {
+                case "cadastro":
+                    register(request, response, session);
+                    break;
+
+                case "atualizar":
+                    update(request, response, session);
+                    break;
+
+                default:
+                    invalidateRequest(request, response, session);
+                    break;
+            }
+        }
+        catch (ServletException e)
+        {
+            throw new ServletException(e);
+        }
+    }
+
+	protected void register(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
 		String email = request.getParameter("email");
 		String senha = request.getParameter("senha");
 		String cnpj = request.getParameter("cnpj");
@@ -38,129 +63,46 @@ public class EmpresaController extends HttpServlet {
 
 		Empresa empresa = new Empresa(email, senha, cnpj, nome, descricao, cidade);
 
-		long idNewUser = dao.insert(empresa);
+		long idNewUser = usuarioDAO.inserirUsuario(empresa);
+		if (idNewUser != 0) {
+			empresa.setIdUsuario(idNewUser);
+			session.setAttribute("empresa", empresa);
+			response.sendRedirect("/SistemaVagas");
+		} else {
+			// em caso de erro, volta pra página de cadastro com os dados preenchidos
+			session.setAttribute("email", email);
+			session.setAttribute("senha", senha);
+			session.setAttribute("cnpj", cnpj);
+			session.setAttribute("nome", nome);
+			session.setAttribute("descricao", descricao);
+			session.setAttribute("cidade", cidade);
+
+			session.setAttribute("ErrorCriarNovoUsuario", "Confira os dados");
+            response.sendRedirect("/SistemaVagas/cadastro/empresa.jsp");
+		}
 	}
 
-
-
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
-	}
-
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		Usuario usuario = (Usuario) request.getSession().getAttribute("usuarioLogado");
-		Erro erros = new Erro();
-
-		if (usuario == null) {
-			response.sendRedirect(request.getContextPath());
-			return;
-		} else if (!usuario.getPapel().equals("ADMIN")) {
-			erros.add("Acesso não autorizado!");
-			erros.add("Apenas Papel [ADMIN] tem acesso a essa página");
-			request.setAttribute("mensagens", erros);
-			RequestDispatcher rd = request.getRequestDispatcher("/noAuth.jsp");
-			rd.forward(request, response);
-			return;
+	protected void update(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		Object o = session.getAttribute("empresa");
+		Usuario usuario = null;
+		if (o instanceof Usuario) {
+			usuario = (Usuario) o;
 		}
 		
-		String action = request.getPathInfo();
-		if (action == null) {
-			action = "";
-		}
-
-		try {
-			switch (action) {
-			case "/cadastro":
-				apresentaFormCadastro(request, response);
-				break;
-			case "/insercao":
-				insere(request, response);
-				break;
-			case "/remocao":
-				remove(request, response);
-				break;
-			case "/edicao":
-				apresentaFormEdicao(request, response);
-				break;
-			case "/atualizacao":
-				atualize(request, response);
-				break;
-			default:
-				lista(request, response);
-				break;
+		if (usuario != null) {
+			if (usuarioDAO.updateUsuario(usuario)) {
+				Empresa empresa = (Empresa) usuario;
+				session.setAttribute("empresa", empresa);
+            	response.sendRedirect("/SistemaVagas/usuario.jsp");
+			} else {
+				session.setAttribute("erroAtualizarEmpresa", "Cheque os dados inseridos");
+            	response.sendRedirect("/SistemaVagas/atualizar/empresa.jsp");
 			}
-		} catch (RuntimeException | IOException | ServletException e) {
-			throw new ServletException(e);
 		}
 	}
 
-	private void lista(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Empresa> listaEmpresas = dao.getAll();
-		request.setAttribute("listaEmpresas", listaEmpresas);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/logado/empresa/lista.jsp");
-		dispatcher.forward(request, response);
-	}
-
-	private void apresentaFormCadastro(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/logado/empresa/formulario.jsp");
-		dispatcher.forward(request, response);
-	}
-
-	private void apresentaFormEdicao(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		Long id = Long.parseLong(request.getParameter("id"));
-		Empresa empresa = dao.get(id);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/logado/empresa/formulario.jsp");
-		request.setAttribute("empresa", empresa);
-		dispatcher.forward(request, response);
-	}
-
-	private void insere(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-
-		String email = request.getParameter("email");
-		String senha = request.getParameter("senha");
-		String cnpj = request.getParameter("cnpj");
-		String nome = request.getParameter("nome");
-		String descricao = request.getParameter("descricao");
-		String cidade = request.getParameter("cidade");
-		
-
-		Empresa empresa = new Empresa(email, senha, cnpj, nome, descricao, cidade);
-
-		dao.insert(empresa);
-		response.sendRedirect("lista");
-	}
-
-	private void atualize(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		request.setCharacterEncoding("UTF-8");
-		Long id = Long.parseLong(request.getParameter("id"));
-		String email = request.getParameter("email");
-		String senha = request.getParameter("senha");
-		String cnpj = request.getParameter("cnpj");
-		String nome = request.getParameter("nome");
-		String descricao = request.getParameter("descricao");
-		String cidade = request.getParameter("cidade");
-
-		Empresa empresa = new Empresa(id, email, senha, cnpj, nome, descricao, cidade);
-
-		dao.update(empresa);
-		response.sendRedirect("lista");
-	}
-
-	private void remove(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Long id = Long.parseLong(request.getParameter("id"));
-
-		Empresa empresa = new Empresa(id);
-		dao.delete(empresa);
-		response.sendRedirect("lista");
+	protected void invalidateRequest(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		session.invalidate();
+		response.sendRedirect("SistemaVagas/index.jsp");
 	}
 }
