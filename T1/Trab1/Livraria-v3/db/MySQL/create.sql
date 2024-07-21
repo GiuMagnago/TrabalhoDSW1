@@ -34,11 +34,13 @@ CREATE TABLE Vaga(
     id_empresa bigint not null FOREIGN KEY REFERENCES Empresa(id_empresa) ON DELETE CASCADE ON UPDATE Empresa, 
     cnpj_empresa varchar(14), 
     descricao varchar(50), 
-    datalimite date, 
+    dataLimite date
+
 );
 
 create table Candidatura(
     id_profissional bigint not null FOREIGN KEY REFERENCES Profissional(id_profissional) ON DELETE CASCADE ON UPDATE Profissional,
     id_empresa bigint not null FOREIGN KEY REFERENCES Empresa(id_empresa) ON DELETE CASCADE ON UPDATE Empresa, 
-    statusCandidatura varchar(20)
+    statusCandidatura varchar(20),
+    id_candidatura bigint not null auto_increment PRIMARY KEY
 );
