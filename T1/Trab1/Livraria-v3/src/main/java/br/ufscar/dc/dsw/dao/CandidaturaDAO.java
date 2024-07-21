@@ -7,17 +7,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ufscar.dc.dsw.domain.Vagas;
+import br.ufscar.dc.dsw.domain.Candidatura;
 
-public class CandidaturaDAO extends GenericDAO{
-
+public class CandidaturaDAO extends GenericDAO {
     public void insert(Candidatura candidatura) {
-        String sql = "INSERT INTO Candidatura (id_empresa, id_profissional, status_candidatura) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Candidatura (id_profissional, id_vaga, statusCandidatura) VALUES (?, ?, ?)";
         try {
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setLong(1, candidatura.getIdEmpresa());
-            statement.setLong(2, candidatura.getProfissional().getId_profissional());
+            statement.setLong(1, candidatura.getIdProfissional());
+            statement.setLong(2, candidatura.getIdVaga());
             statement.setString(3, candidatura.getStatusCandidatura());
             statement.executeUpdate();
             
@@ -30,10 +29,13 @@ public class CandidaturaDAO extends GenericDAO{
     }
 
     public void update(Candidatura candidatura) {
-        String sql = "UPDATE Candidatura SET status_candidatura=? WHERE id=?";
+        String sql = "UPDATE Candidatura SET status_candidatura = ? WHERE id_profissional = ? AND id_vaga = ?";
         try {
             Connection conn = this.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, candidatura.getStatusCandidatura());
+            statement.setLong(2, candidatura.getIdProfissional());
+            statement.setLong(3, candidatura.getIdVaga());
             statement.executeUpdate();
 
             statement.close();
@@ -42,96 +44,24 @@ public class CandidaturaDAO extends GenericDAO{
             throw new RuntimeException(e);
         }
     }
+    
+    public List<Candidatura> getAllFromProfissional(long id_profissional) {
+        List<Candidatura> listaCandidaturas = new ArrayList<>();
+        String sql = "SELECT * FROM Candidatura JOIN Profissional ON Profissional.id_profissional = Candidatura.id_profissional JOIN Vaga ON Vaga.id_vaga = Candidatura.id_vaga WHERE id_profissional = ?";
 
-    public void excluir(long id_candidatura) {
-        String sql = "DELETE FROM Candidatura WHERE id=?";
         try {
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setLong(1, id_candidatura);
-            statement.executeUpdate();
 
-            statement.close();
-            conn.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+            statement.setLong(1, id_profissional);
 
-    public List<Candidatura> getAllbyEmpresa() {
-
-        List<Candidatura> listaCandidatura_Empresas = new ArrayList<>();
-
-        String sql = "SELECT * FROM Candidatura JOIN Empresa ON Empresa.id_empresa = Candidatura.id_empresa";
-
-        try {
-            Connection conn = this.getConnection();
-            Statement statement = conn.createStatement();
-            
             ResultSet resultSet = statement.executeQuery(sql);
-            while(resultSet.next()){
-                Long idEmpresa = resultSet.getLong("id_empresa");
-                String statusCandidatura = resultSet.getString("status_candidatura");
-                Candidatura candidatura = new Candidatura(id_empresa, status_candidatura);
-                listaCandidatura_Empresas.add(candidatura);
-            }
+            while (resultSet.next()) {
+                long id_vaga = resultSet.getLong("id_vaga");
+                String statusCandidatura = resultSet.getString("statusCandidatura");
 
-            resultSet.close();
-            statement.close();
-            conn.close();
-            
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return candidatura;
-    }
-
-    public List<Candidatura> getAllbyProfissional(Profissional profissional) {
-
-        List<Candidatura> listaCandidatura_Profissional = new ArrayList<>();
-
-        String sql = "SELECT * FROM Candidatura JOIN Empresa, Profissional ON Empresa.id_empresa = Candidatura.id_empresa, Profissional.id_profissional = Candidatura.id_profissional";
-
-        try {
-            Connection conn = this.getConnection();
-            Statement statement = conn.createStatement();
-            
-            ResultSet resultSet = statement.executeQuery(sql);
-            while(resultSet.next()){
-                Long idEmpresa = resultSet.getLong("id_empresa");
-                Long idProfissional = resultSet.getLong(Profissional.getId_profissional(););
-                String statusCandidatura = resultSet.getString("status_candidatura");
-                Candidatura candidatura = new Candidatura(id_empresa, profissional, status_candidatura);
-                listaCandidatura_Profissional.add(candidatura);
-            }
-
-            resultSet.close();
-            statement.close();
-            conn.close();
-            
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return candidatura;
-    }
-
-    public Candidatura get(Long id_empresa, Long id_profissional, String status candidatura){
-        Candidatura candidatura = null;
-
-        String sql = "SELECT * from Candidatura WHERE id = ?";
-
-        try{
-            Connection conn = this.getConnection();
-            PreparedStatement statement = conn.prepareStatement(sql);
-
-            statement.setLong(1, id_candidatura);
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
-                Long idEmpresa = resultSet.getLong("id_empresa");
-                Long idProfissional = resultSet.getLong(Profissional.getId_profissional(););
-                String statusCandidatura = resultSet.getString("status_candidatura");
-                Candidatura candidatura = new Candidatura(id_empresa, profissional, status_candidatura);
-                candidatura.setIdCandidatura(idEmpresa);
+                Candidatura vaga = new Candidatura(id_profissional, id_vaga, statusCandidatura);
+                listaCandidaturas.add(vaga);
             }
 
             resultSet.close();
@@ -140,6 +70,8 @@ public class CandidaturaDAO extends GenericDAO{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        return listaCandidaturas;
     }
-    return candidatura;
+
 }

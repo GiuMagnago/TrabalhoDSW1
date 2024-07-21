@@ -101,7 +101,7 @@ public class ProfissionalController extends HttpServlet {
 	}
 
     protected void update(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException  {
-        Object o = session.getAttribute("empresa");
+        Object o = session.getAttribute("profissional");
 		Usuario usuario = null;
 		if (o instanceof Usuario) {
 			usuario = (Usuario) o;

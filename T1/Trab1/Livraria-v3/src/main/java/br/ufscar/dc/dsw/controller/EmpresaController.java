@@ -27,28 +27,18 @@ public class EmpresaController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        String path = request.getHeader("Referer");
-        String[] parts = path.split("/");
-        String action = parts[parts.length - 2];
+        String action = request.getParameter("action");
         HttpSession session = request.getSession();
 
-        try{
-            switch (action) {
-                case "cadastro":
-                    register(request, response, session);
-                    break;
-
-                case "atualizar":
-                    update(request, response, session);
-                    break;
-
-                default:
-                    invalidateRequest(request, response, session);
-                    break;
+        try {
+            if ("cadastro".equals(action)) {
+                register(request, response, session);
+            } else if ("atualizar".equals(action)) {
+                update(request, response, session);
+            } else {
+                invalidateRequest(request, response, session);
             }
-        }
-        catch (ServletException e)
-        {
+        } catch (ServletException e) {
             throw new ServletException(e);
         }
     }

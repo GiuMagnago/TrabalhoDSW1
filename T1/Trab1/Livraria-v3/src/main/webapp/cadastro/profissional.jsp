@@ -21,12 +21,12 @@
             <div class="titulo">
                 <h1>Cadastro de Profissional</h1>
             </div>
-            <a href="/SistemaVagas/cadastro/cadastro.jsp" class="btn voltar">
+            <a href="/SistemaVagas/cadastro.jsp" class="btn voltar">
                 <fmt:message key="voltar"/>
             </a>
         </header>
         <div class="formulario">
-            <form id="form" action="/SistemaCadastro/profissional" method="post">
+            <form id="form" action="profissional" method="post">
                 <h3>
                     <fmt:message key="profissional" />
                 </h3>

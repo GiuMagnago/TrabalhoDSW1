@@ -1,34 +1,43 @@
 package br.ufscar.dc.dsw.domain;
 
-class Candidatura extends Empresa {
-    private Profissional profissional;
+public class Candidatura {
+    private long id_profissional;
+    private long id_vaga;
     private String statusCandidatura;
-    private long id_candidatura;
 
-    public Candidatura(long id_empresa, Profissional profissional, String statusCandidatura) {
-        super(null, id_empresa);
-        this.profissional = profissional;
+    public Candidatura(long id_profissional, long id_vaga) {
+        this.id_profissional = id_profissional;
+        this.id_vaga = id_vaga;
+        this.statusCandidatura = "ABERTO";
+    }
+
+    public Candidatura(long id_profissional, long id_vaga, String statusCandidatura) {
+        this.id_profissional = id_profissional;
+        this.id_vaga = id_vaga;
         this.statusCandidatura = statusCandidatura;
     }
 
-    public Candidatura(long id_empresa, String statusCandidatura) {
-        super(null, id_empresa);
-        this.statusCandidatura = statusCandidatura;
+    public void setIdProfissional(long id_profissional) {
+        this.id_profissional = id_profissional;
     }
 
-    public String getStatusCandidatura() {
-        return this.statusCandidatura;
+    public long getIdProfissional() {
+        return id_profissional;
+    }
+
+    public void setIdVaga(long id_vaga) {
+        this.id_vaga = id_vaga;
+    }
+
+    public long getIdVaga() {
+        return id_vaga;
     }
 
     public void setStatusCandidatura(String statusCandidatura) {
         this.statusCandidatura = statusCandidatura;
     }
 
-    public long getId_candidatura(){
-        return this.getId_candidatura;
-    }
-
-    public void setIdCandidatura(long id_candidatura){
-        this.id_candidatura = id_candidatura;
+    public String getStatusCandidatura() {
+        return statusCandidatura;
     }
 }

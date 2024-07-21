@@ -59,17 +59,21 @@
                 <fmt:message key="atualizar"/>
             </div>
             <hr>
-            <div class="botao consultas" onclick="minhasConsultas()">
-                <fmt:message key="consultas"/>
-            </div>
+            <c:when test="${profissional != null}">
+                    <div class="botao vagas" onclick="minhasVagas()">
+                        <fmt:message key="Candidaturas"/>
+                    </div>
+                </c:when>
+                <c:when test="${empresa != null}">
+                    <div class="botao vagas" onclick="minhasCandidaturas()">
+                        <fmt:message key="Vagas"/>
+                    </div>
+                </c:when>
             <hr>
             <div class="botao desconectar" onclick="desconectarUsuario()">
                 <fmt:message key="desconectar"/>
             </div>
             <hr>
-            <div class="botao deletar" onclick="deletarUsuario()">
-                <fmt:message key="deletar"/>
-            </div>
         </div>
     </main>
     </fmt:bundle>
@@ -80,14 +84,12 @@
         function desconectarUsuario(){
             window.location.href = "/SistemaVagas/usuario?action=logout";
         }
-        function minhasConsultas(){
-            window.location.href = "/SistemaVagas/agendamento?action=minhasConsultas&idUsuario=${idUsuario}";
+        function minhasVagas() {
+            window.location.href = "/SistemaVagas/vaga?action=minhasVagas&idUsuario=${userId}"
         }
-        function deletarUsuario(){
-            const confirmacao = confirm("Tem certeza que quer excluir sua conta?");
-            if (confirmacao){
-                window.location.href = "/SistemaVagas/usuario?action=deletarUsuario&idUsuario=${idUsuario}";
-            }
+
+        function minhasCandidaturas(){
+            window.location.href = "/SistemaVagas/vaga?action=minhasCandidaturas&idUsuario=${userId}";
         }
     </script>
 </body>

@@ -9,9 +9,9 @@
     <title>SistemaVagas</title>
 </head>
 <body>
-    <c:set var="cliente" value="${sessionScope.cliente}" />
     <c:set var="profissional" value="${sessionScope.profissional}" />
-    <c:set var="listaProfissionais" value="${sessionScope.listaProfissionais}" />
+    <c:set var="empresa" value="${sessionScope.empresa}" />
+    <c:set var="listaVagas" value="${sessionScope.listaVagas}" />
     <c:set var="agendamento" value="${sessionScope.agendamento}" />
     <c:set var="deletado" value="${sessionScope.deletado}" />
 
@@ -29,20 +29,20 @@
         <div class="usuario">
             <c:choose>
                 <c:when test="${profissional != null}">
-                    <a href="/SistemaVagas/perfil/usuario.jsp" class="btn cliente">
-                        <fmt:message key="BoasVindas" /> ${cliente.nome}
-                    </a>
-                </c:when>
-                <c:when test="${empresa != null}">
                     <a href="/SistemaVagas/perfil/usuario.jsp" class="btn profissional">
                         <fmt:message key="BoasVindas" /> ${profissional.nome}
                     </a>
                 </c:when>
+                <c:when test="${empresa != null}">
+                    <a href="/SistemaVagas/perfil/usuario.jsp" class="btn empresa">
+                        <fmt:message key="BoasVindas" /> ${empresa.nome}
+                    </a>
+                </c:when>
                 <c:otherwise>
-                    <a href="/SistemaVagas/login/login.jsp" class="btn login">
+                    <a href="/SistemaVagas/login.jsp" class="btn login">
                         <fmt:message key="entrar"/>
                     </a>
-                    <a href="/SistemaVagas/cadastro/cadastro.jsp" class="btn cadastro">
+                    <a href="/SistemaVagas/cadastro.jsp" class="btn cadastro">
                         <fmt:message key="cadastro"/>
                     </a>
                 </c:otherwise>
