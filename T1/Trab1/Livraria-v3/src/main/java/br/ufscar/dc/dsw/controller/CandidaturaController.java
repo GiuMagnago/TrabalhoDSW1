@@ -2,15 +2,9 @@ package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.dao.CandidaturaDAO;
 import br.ufscar.dc.dsw.domain.Candidatura;
-import br.ufscar.dc.dsw.dao.VagaDAO;
-import br.ufscar.dc.dsw.domain.Vaga;
-import br.ufscar.dc.dsw.domain.Empresa;
 import br.ufscar.dc.dsw.domain.Profissional;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;

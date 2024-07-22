@@ -44,7 +44,7 @@
 						<td>${vaga.descricao}</td>
 						<td>${vaga.dataLimite}</td>
 						<td>
-							<a href=""></a>
+							<a href="">Editar</a>
 						</td>
 					</tr>
 				</c:forEach>
