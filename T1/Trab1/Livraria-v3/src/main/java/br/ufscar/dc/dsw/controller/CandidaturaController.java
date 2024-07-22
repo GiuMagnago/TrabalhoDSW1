@@ -38,6 +38,9 @@ public class CandidaturaController extends HttpServlet {
                     minhasCandidaturas(request, response, session);
                     break;
 
+                case "candidaturasPorVaga":
+                    candidaturasPorVaga(request, response, session);
+                    break;
                 default:
                     invalidateRequest(request, response, session);
                     break;
@@ -51,6 +54,17 @@ public class CandidaturaController extends HttpServlet {
 
     protected void minhasCandidaturas(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
         List<Candidatura> listCanditaturas = dao.getAllFromProfissional(Long.parseLong(request.getParameter("userId")));
+
+        if (listCanditaturas.size() > 0) {
+            session.setAttribute("listaCandidaturas", listCanditaturas);
+        } else {
+            session.setAttribute("semCanditaturas", "Este profissional não se candidatou a nenhuma vaga");
+        }
+        response.sendRedirect("SistemaCanditaturas/listaCandidatura.jsp");
+    }
+
+    protected void candidaturasPorVaga(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+        List<Candidatura> listCanditaturas = dao.getAllFromVaga(Long.parseLong(request.getParameter("vagaId")));
 
         if (listCanditaturas.size() > 0) {
             session.setAttribute("listaCandidaturas", listCanditaturas);

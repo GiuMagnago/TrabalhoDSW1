@@ -74,4 +74,33 @@ public class CandidaturaDAO extends GenericDAO {
         return listaCandidaturas;
     }
 
+    public List<Candidatura> getAllFromVaga(long id_vaga) {
+        List<Candidatura> listaCandidaturas = new ArrayList<>();
+        String sql = "SELECT * FROM Candidatura JOIN Profissional ON Profissional.id_profissional = Candidatura.id_profissional JOIN Vaga ON Vaga.id_vaga = Candidatura.id_vaga WHERE id_vaga = ?";
+
+        try {
+            Connection conn = this.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+
+            statement.setLong(1, id_vaga);
+
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                long id_profissional = resultSet.getLong("id_profissional");
+                String statusCandidatura = resultSet.getString("statusCandidatura");
+
+                Candidatura vaga = new Candidatura(id_profissional, id_vaga, statusCandidatura);
+                listaCandidaturas.add(vaga);
+            }
+
+            resultSet.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listaCandidaturas;
+    }
+
 }
