@@ -26,10 +26,11 @@
             </a>
         </header>
         <div class="formulario">
-            <form id="form" action="empresa?action=cadastro" method="post">
+            <form id="form" action="cadastro" method="post">
                 <h3>
                     <fmt:message key="empresa" />
                 </h3>
+                <input type="hidden" name="action" value="cadastro">
 
                 <label for="email">
                     <fmt:message key="email"/>

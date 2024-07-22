@@ -9,7 +9,8 @@
     <title>SistemaVagas</title>
 </head>
 <body>
-    <c:set var="profissional" value="${sessionScope.profissional}" />
+    <h1>auydgawuydbawyd</h1>
+    <!-- <c:set var="profissional" value="${sessionScope.profissional}" />
     <c:set var="empresa" value="${sessionScope.empresa}" />
     <c:set var="path" value="/SistemaVagas/atualizar" />
 
@@ -22,18 +23,18 @@
 
     <fmt:bundle basename="messages">
     <header>
-        <div class="titulo">BuscarX</div>
+        <div class="titulo">SistemaVagas</div>
 
         <div class="usuario">
             <c:choose>
-                <c:when test="${profissional != null}">
+                <c:when test="${profissional neq null}">
                     <a href="/SistemaVagas" class="btn profissional" >
                         <fmt:message key="BoasVindas" /> ${profissional.nome}
                         <c:set var="path" value="${path}/profissional.jsp" />
                         <c:set var="idUsuario" value="${profissional.idUsuario}" />
                     </a>
                 </c:when>
-                <c:when test="${empresa != null}">
+                <c:when test="${empresa neq null}">
                     <a href="/SistemaVagas" class="btn empresa">
                         <fmt:message key="BoasVindas" /> ${empresa.nome}
                         <c:set var="path" value="${path}/empresa.jsp" />
@@ -60,12 +61,12 @@
             </div>
             <hr>
             <c:when test="${profissional != null}">
-                    <div class="botao vagas" onclick="meusRegistros()">
+                    <div class="botao vagas" onclick="minhasVagas()">
                         <fmt:message key="Candidaturas"/>
                     </div>
                 </c:when>
                 <c:when test="${empresa != null}">
-                    <div class="botao vagas" onclick="meusRegistros()">
+                    <div class="botao vagas" onclick="minhasCandidaturas()">
                         <fmt:message key="Vagas"/>
                     </div>
                 </c:when>
@@ -74,9 +75,6 @@
                 <fmt:message key="desconectar"/>
             </div>
             <hr>
-            <div class="botao deletar" onclick="deletarUsuario()">
-                <fmt:message key="deletar"/>
-            </div>
         </div>
     </main>
     </fmt:bundle>
@@ -87,15 +85,13 @@
         function desconectarUsuario(){
             window.location.href = "/SistemaVagas/usuario?action=logout";
         }
-        function minhasConsultas(){
-            window.location.href = "/SistemaVagas/agendamento?action=minhasConsultas&idUsuario=${idUsuario}";
+        function minhasVagas() {
+            window.location.href = "/SistemaVagas/vaga?action=minhasVagas&idUsuario=${userId}"
         }
-        function deletarUsuario(){
-            const confirmacao = confirm("Tem certeza que quer excluir sua conta?");
-            if (confirmacao){
-                window.location.href = "/SistemaVagas/usuario?action=deletarUsuario&idUsuario=${idUsuario}";
-            }
+
+        function minhasCandidaturas(){
+            window.location.href = "/SistemaVagas/vaga?action=minhasCandidaturas&idUsuario=${userId}";
         }
-    </script>
+    </script> -->
 </body>
 </html>

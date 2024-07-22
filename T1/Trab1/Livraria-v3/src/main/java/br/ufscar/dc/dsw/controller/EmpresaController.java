@@ -7,12 +7,13 @@ import br.ufscar.dc.dsw.domain.Usuario;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(urlPatterns = "/empresa")
+@WebServlet(urlPatterns = "/empresa/*")
 public class EmpresaController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -25,15 +26,44 @@ public class EmpresaController extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        String action = request.getParameter("action");
+        String action = request.getPathInfo();
+        if (action == null) {
+            action = "";
+        }
         HttpSession session = request.getSession();
 
         try {
-            if ("cadastro".equals(action)) {
+            if (action.contains("/formCadastro")) {
+                formCadastro(request, response, session);
+            } else if ("/formUpdate".equals(action)) {
+                //formUpdate(request, response, session);
+            } else {
+                //invalidateRequest(request, response, session);
+            }
+        } catch (ServletException e) {
+            throw new ServletException(e);
+        }
+    }
+
+	protected void formCadastro(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		response.sendRedirect("/SistemaVagas/empresas/cadastro.jsp");
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        String action = request.getPathInfo();
+        if (action == null) {
+            action = "";
+        }
+        HttpSession session = request.getSession();
+
+        try {
+            if ("/cadastro".equals(action)) {
                 register(request, response, session);
-            } else if ("atualizar".equals(action)) {
+            } else if ("/atualizar".equals(action)) {
                 update(request, response, session);
             } else {
                 invalidateRequest(request, response, session);
@@ -58,7 +88,7 @@ public class EmpresaController extends HttpServlet {
 			empresa.setIdUsuario(idNewUser);
 			session.setAttribute("empresa", empresa);
 			session.setAttribute("profissional", null);
-			response.sendRedirect("/SistemaVagas");
+			response.sendRedirect("/SistemaVagas/usuario.jsp");
 		} else {
 			// em caso de erro, volta pra página de cadastro com os dados preenchidos
 			session.setAttribute("email", email);
@@ -69,7 +99,7 @@ public class EmpresaController extends HttpServlet {
 			session.setAttribute("cidade", cidade);
 
 			session.setAttribute("ErrorCriarNovoUsuario", "Confira os dados");
-            response.sendRedirect("/SistemaVagas/cadastro/empresa.jsp");
+            response.sendRedirect("/SistemaVagas/empresa/formCadastro");
 		}
 	}
 

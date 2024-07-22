@@ -62,10 +62,5 @@
         <div class="tabela" id="tabela"></div>
     </main>
     </fmt:bundle>
-    <script>
-        const testCliente = ${cliente != null};
-        const testProfissional = ${profissional != null};
-    </script>
-    <script src="/AgendarConsultas/js/tabela.js"> </script>awhbdauwvfdbauywtfvawuytfw
 </body>
 </html>

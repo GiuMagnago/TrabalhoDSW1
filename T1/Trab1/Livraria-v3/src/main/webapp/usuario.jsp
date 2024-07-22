@@ -9,7 +9,8 @@
     <title>SistemaVagas</title>
 </head>
 <body>
-    <c:set var="profissional" value="${sessionScope.profissional}" />
+    <h1>auydgawuydbawyd</h1>
+    <!-- <c:set var="profissional" value="${sessionScope.profissional}" />
     <c:set var="empresa" value="${sessionScope.empresa}" />
     <c:set var="path" value="/SistemaVagas/atualizar" />
 
@@ -22,18 +23,18 @@
 
     <fmt:bundle basename="messages">
     <header>
-        <div class="titulo">BuscarX</div>
+        <div class="titulo">SistemaVagas</div>
 
         <div class="usuario">
             <c:choose>
-                <c:when test="${profissional != null}">
+                <c:when test="${profissional neq null}">
                     <a href="/SistemaVagas" class="btn profissional" >
                         <fmt:message key="BoasVindas" /> ${profissional.nome}
                         <c:set var="path" value="${path}/profissional.jsp" />
                         <c:set var="idUsuario" value="${profissional.idUsuario}" />
                     </a>
                 </c:when>
-                <c:when test="${empresa != null}">
+                <c:when test="${empresa neq null}">
                     <a href="/SistemaVagas" class="btn empresa">
                         <fmt:message key="BoasVindas" /> ${empresa.nome}
                         <c:set var="path" value="${path}/empresa.jsp" />
@@ -91,6 +92,6 @@
         function minhasCandidaturas(){
             window.location.href = "/SistemaVagas/vaga?action=minhasCandidaturas&idUsuario=${userId}";
         }
-    </script>
+    </script> -->
 </body>
 </html>
