@@ -84,6 +84,7 @@ public class ProfissionalController extends HttpServlet {
 		if (idNewUser != 0) {
 			profissional.setIdUsuario(idNewUser);
 			session.setAttribute("profissional", profissional);
+            session.setAttribute("empresa", null);
 			response.sendRedirect("/SistemaVagas");
 		} else {
 			// em caso de erro, volta pra página de cadastro com os dados preenchidos
