@@ -7,6 +7,9 @@
     <title>SistemaVagas</title>
 </head>
 <body>
+    <%
+			String contextPath = request.getContextPath().replace("/", "");
+		%>
     <fmt:bundle basename="messages">
         <header>
             <div class="titulo">
@@ -27,7 +30,7 @@
                 <a href="/SistemaVagas/cadastro/profissional.jsp" class="btn profissional">
                     <fmt:message key="profissional"/>
                 </a>
-                <a href="/SistemaVagas/cadastro/empresa.jsp" class="btn empresa">
+                <a href="/SistemaVagas/empresa/formCadastro" class="btn empresa">
                     <fmt:message key="empresa"/>
                 </a>
             </div>

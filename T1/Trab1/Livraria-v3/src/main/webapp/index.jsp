@@ -29,12 +29,12 @@
         <div class="usuario">
             <c:choose>
                 <c:when test="${profissional != null}">
-                    <a href="/SistemaVagas/perfil/usuario.jsp" class="btn profissional">
+                    <a href="/SistemaVagas/usuario.jsp" class="btn profissional">
                         <fmt:message key="BoasVindas" /> ${profissional.nome}
                     </a>
                 </c:when>
                 <c:when test="${empresa != null}">
-                    <a href="/SistemaVagas/perfil/usuario.jsp" class="btn empresa">
+                    <a href="/SistemaVagas/usuario.jsp" class="btn empresa">
                         <fmt:message key="BoasVindas" /> ${empresa.nome}
                     </a>
                 </c:when>

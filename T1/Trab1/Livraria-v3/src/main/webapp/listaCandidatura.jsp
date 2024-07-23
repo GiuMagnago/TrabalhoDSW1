@@ -12,7 +12,7 @@
 
 	<body>
 		<c:choose>
-			<c:when test="{empresa == null}">
+			<c:when test="${profissional != null}">
 				<c:if test="${not empty sessionScope.semCanditaturas}">
 					<script>
 						alert("${sessionScope.semCanditaturas}");
@@ -46,7 +46,7 @@
 					</table>
 				</div>
 			</c:when>
-			<c:otherwise>
+			<c:when test="${empresa != null}">
 				<c:if test="${not empty sessionScope.semCanditaturas}">
 					<script>
 						alert("${sessionScope.semCanditaturas}");
@@ -78,7 +78,7 @@
 						</c:forEach>
 					</table>
 				</div>
-			</c:otherwise>
+			</c:when>
 		</c:choose>
 	</body>
 </fmt:bundle>
