@@ -44,10 +44,24 @@ public class CandidaturaDAO extends GenericDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public class CandidaturaProfissionalView {
+        public long id_vaga;
+        public String nome_empresa;
+        public String cnpj_empresa;
+        public String status;
+
+        public CandidaturaProfissionalView(long id_vaga, String nome_empresa, String cnpj_empresa, String status) {
+            this.id_vaga = id_vaga;
+            this.nome_empresa = nome_empresa;
+            this.cnpj_empresa = cnpj_empresa;
+            this.status = status;
+        }
+    }
     
-    public List<Candidatura> getAllFromProfissional(long id_profissional) {
-        List<Candidatura> listaCandidaturas = new ArrayList<>();
-        String sql = "SELECT * FROM Candidatura JOIN Profissional ON Profissional.id_profissional = Candidatura.id_profissional JOIN Vaga ON Vaga.id_vaga = Candidatura.id_vaga WHERE id_profissional = ?";
+    public List<CandidaturaProfissionalView> getAllFromProfissional(long id_profissional) {
+        List<CandidaturaProfissionalView> listaCandidaturaProfissionalView = new ArrayList<>();
+        String sql = "SELECT * FROM Candidatura JOIN Vaga ON Vaga.id_vaga = Candidatura.id_vaga JOIN Empresa ON Vaga.cnpj_empresa = Empresa.cnpj WHERE id_profissional = ?";
 
         try {
             Connection conn = this.getConnection();
@@ -57,11 +71,13 @@ public class CandidaturaDAO extends GenericDAO {
 
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                long id_vaga = resultSet.getLong("id_vaga");
-                String statusCandidatura = resultSet.getString("statusCandidatura");
+                long id_vaga = resultSet.getLong("Candidatura.id_vaga");
+                String nome_empresa = resultSet.getString("Empresa.nome");
+                String cnpj_empresa = resultSet.getString("Empresa.cnpj");
+                String statusCandidatura = resultSet.getString("Candidatura.statusCandidatura");
 
-                Candidatura vaga = new Candidatura(id_profissional, id_vaga, statusCandidatura);
-                listaCandidaturas.add(vaga);
+                CandidaturaProfissionalView candidaturaProfissionalView = new CandidaturaProfissionalView(id_vaga, nome_empresa, cnpj_empresa, statusCandidatura);
+                listaCandidaturaProfissionalView.add(candidaturaProfissionalView);
             }
 
             resultSet.close();
@@ -71,12 +87,26 @@ public class CandidaturaDAO extends GenericDAO {
             throw new RuntimeException(e);
         }
 
-        return listaCandidaturas;
+        return listaCandidaturaProfissionalView;
     }
 
-    public List<Candidatura> getAllFromVaga(long id_vaga) {
-        List<Candidatura> listaCandidaturas = new ArrayList<>();
-        String sql = "SELECT * FROM Candidatura JOIN Profissional ON Profissional.id_profissional = Candidatura.id_profissional JOIN Vaga ON Vaga.id_vaga = Candidatura.id_vaga WHERE id_vaga = ?";
+    public class CandidaturaEmpresaView {
+        public long id_vaga;
+        public long id_profissional;
+        public String nome_profissional;
+        public String status;
+
+        public CandidaturaEmpresaView(long id_vaga, long id_profissional, String nome_profissional, String status) {
+            this.id_vaga = id_vaga;
+            this.id_profissional = id_profissional;
+            this.nome_profissional = nome_profissional;
+            this.status = status;
+        }
+    }
+
+    public List<CandidaturaEmpresaView> getAllFromVaga(long id_vaga) {
+        List<CandidaturaEmpresaView> listaCandidaturaEmpresaViews = new ArrayList<>();
+        String sql = "SELECT * FROM Candidatura JOIN Profissional ON Profissional.id_profissional = Candidatura.id_profissional WHERE id_vaga = ?";
 
         try {
             Connection conn = this.getConnection();
@@ -86,11 +116,12 @@ public class CandidaturaDAO extends GenericDAO {
 
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                long id_profissional = resultSet.getLong("id_profissional");
-                String statusCandidatura = resultSet.getString("statusCandidatura");
+                long id_profissional = resultSet.getLong("Candidatura.id_profissional");
+                String nome_profissional = resultSet.getString("Profissional.nome");
+                String statusCandidatura = resultSet.getString("Candidatura.statusCandidatura");
 
-                Candidatura vaga = new Candidatura(id_profissional, id_vaga, statusCandidatura);
-                listaCandidaturas.add(vaga);
+                CandidaturaEmpresaView candidaturaEmpresaView = new CandidaturaEmpresaView(id_vaga, id_profissional, nome_profissional, statusCandidatura);
+                listaCandidaturaEmpresaViews.add(candidaturaEmpresaView);
             }
 
             resultSet.close();
@@ -100,7 +131,7 @@ public class CandidaturaDAO extends GenericDAO {
             throw new RuntimeException(e);
         }
 
-        return listaCandidaturas;
+        return listaCandidaturaEmpresaViews;
     }
 
 }

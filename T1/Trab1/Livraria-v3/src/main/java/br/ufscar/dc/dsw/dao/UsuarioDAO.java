@@ -39,7 +39,7 @@ public class UsuarioDAO extends GenericDAO {
             statement.setString(1, usuario.getEmail());
             statement.setString(2, usuario.getSenha());
             if (checkExistence(conn, sql, sql)) {
-                statement.executeQuery();
+                statement.executeUpdate();
                 ResultSet gK = statement.getGeneratedKeys();
                 if (gK.next()) {
                     userId = gK.getLong(1);

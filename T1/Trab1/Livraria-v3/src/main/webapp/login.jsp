@@ -19,7 +19,7 @@
     <fmt:bundle basename="messages">
         <header>
             <div class="titulo">
-                <h1>BuscarX</h1>
+                <h1>SistemaVagas</h1>
             </div>
 
             <a href="/SistemaVagas/index.jsp" class="btn voltar">
@@ -28,8 +28,7 @@
         </header>
 
         <div class="formulario">
-            <form action="/SistemaVagas/usuario" method="GET">
-                <input type="hidden" name="action" value="login">
+            <form action="/SistemaVagas/usuario/login" method="GET">
 
                 <h3><fmt:message key="login"/></h3>
 

@@ -12,7 +12,7 @@
 
 	<body>
 		<c:choose>
-			<c:when test="{empresa == null}">
+			<c:when test="${profissional != null}">
 				<c:if test="${not empty sessionScope.semCanditaturas}">
 					<script>
 						alert("${sessionScope.semCanditaturas}");
@@ -21,30 +21,32 @@
 				</c:if>
 				<div align="center">
 					<h1>
-						Suas Vagas
+						Suas Candidaturas
 					</h1>
 				</div>
 				<div align="center">
 					<table border="1">
 						<caption>
-							Suas vagas
+							Suas candidaturas
 						</caption>
 						<tr>
-							<th><fmt:message key="candidatura.id_profissional" /></th>
 							<th><fmt:message key="candidatura.id_vaga" /></th>
+							<th><fmt:message key="candidatura.nome_empresa" /></th>
+							<th><fmt:message key="candidatura.cnpj_empresa" /></th>
 							<th><fmt:message key="candidatura.statusCandidatura" /></th>
 						</tr>
-						<c:forEach var="candidatura" items="${requestScope.listaCandidatura}">
+						<c:forEach var="candidatura" items="${requestScope.listaCandidaturas}">
 							<tr>
-								<td>${candidatura.id_profissional}</td>
 								<td>${candidatura.id_vaga}</td>
+								<td>${candidatura.nome_empresa}</td>
+								<td>${candidatura.cnpj_empresa}</td>
 								<td>${candidatura.statusCandidatura}</td>
 							</tr>
 						</c:forEach>
 					</table>
 				</div>
 			</c:when>
-			<c:otherwise>
+			<c:when test="${empresa != null}">
 				<c:if test="${not empty sessionScope.semCanditaturas}">
 					<script>
 						alert("${sessionScope.semCanditaturas}");
@@ -53,13 +55,13 @@
 				</c:if>
 				<div align="center">
 					<h1>
-						Suas Vagas
+						Candidatos
 					</h1>
 				</div>
 				<div align="center">
 					<table border="1">
 						<caption>
-							Suas vagas
+							Candidatos
 						</caption>
 						<tr>
 							<th><fmt:message key="candidatura.id_profissional" /></th>
@@ -68,14 +70,15 @@
 						</tr>
 						<c:forEach var="candidatura" items="${requestScope.listaCandidatura}">
 							<tr>
-								<td>${candidatura.id_profissional}</td>
 								<td>${candidatura.id_vaga}</td>
+								<td>${candidatura.id_profissional}</td>
+								<td>${candidatura.nome_profissional}</td>
 								<td>${candidatura.statusCandidatura}</td>
 							</tr>
 						</c:forEach>
 					</table>
 				</div>
-			</c:otherwise>
+			</c:when>
 		</c:choose>
 	</body>
 </fmt:bundle>

@@ -13,7 +13,7 @@ import br.ufscar.dc.dsw.domain.Profissional;
 import br.ufscar.dc.dsw.domain.Usuario;
 import br.ufscar.dc.dsw.dao.UsuarioDAO;
 
-@WebServlet(urlPatterns = {"/usuario"})
+@WebServlet(urlPatterns = {"/usuario/*"})
 public class UsuarioController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -28,18 +28,20 @@ public class UsuarioController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        String action = request.getParameter("action");
+        String action = request.getPathInfo();
+        if (action == null) {
+            action = "";
+        }
         HttpSession session = request.getSession();
 
         switch (action) {
-            case "login":
+            case "/login":
                 logar(request, response, session);
                 break;
 
-            case "logout":
+            case "/logout":
                 invalidar(request, response, session);
                 break;
-
             default:
                 invalidar(request, response, session);
                 break;
@@ -64,12 +66,12 @@ public class UsuarioController extends HttpServlet {
                 session.setAttribute("profissional", (Profissional) usuario);
             }
 
-            response.sendRedirect("/usuario.jsp");
+            response.sendRedirect("/SistemaVagas/usuario.jsp");
         } 
         else
         {
             session.setAttribute("erroLogarUsuario", "Email ou Senha incorretos");
-            response.sendRedirect("/AgendarConsultas/login/login.jsp");
+            response.sendRedirect("/SistemaVagas/login.jsp");
         }
     }
 

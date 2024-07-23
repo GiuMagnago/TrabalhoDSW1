@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.controller;
 
 import br.ufscar.dc.dsw.dao.CandidaturaDAO;
+import br.ufscar.dc.dsw.dao.CandidaturaDAO.*;
 import br.ufscar.dc.dsw.domain.Candidatura;
 import br.ufscar.dc.dsw.domain.Profissional;
 
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(urlPatterns = "/candidatura")
+@WebServlet(urlPatterns = "/candidatura/*")
 public class CandidaturaController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -53,10 +54,10 @@ public class CandidaturaController extends HttpServlet {
     }
 
     protected void minhasCandidaturas(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
-        List<Candidatura> listCanditaturas = dao.getAllFromProfissional(Long.parseLong(request.getParameter("userId")));
+        List<CandidaturaProfissionalView> listCandidaturaProfissionalView = dao.getAllFromProfissional(Long.parseLong(request.getParameter("userId")));
 
-        if (listCanditaturas.size() > 0) {
-            session.setAttribute("listaCandidaturas", listCanditaturas);
+        if (listCandidaturaProfissionalView.size() > 0) {
+            session.setAttribute("listaCandidaturas", listCandidaturaProfissionalView);
         } else {
             session.setAttribute("semCanditaturas", "Este profissional não se candidatou a nenhuma vaga");
         }
@@ -64,12 +65,12 @@ public class CandidaturaController extends HttpServlet {
     }
 
     protected void candidaturasPorVaga(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
-        List<Candidatura> listCanditaturas = dao.getAllFromVaga(Long.parseLong(request.getParameter("vagaId")));
+        List<CandidaturaEmpresaView> listCandidaturaEmpresaView = dao.getAllFromVaga(Long.parseLong(request.getParameter("vagaId")));
 
-        if (listCanditaturas.size() > 0) {
-            session.setAttribute("listaCandidaturas", listCanditaturas);
+        if (listCandidaturaEmpresaView.size() > 0) {
+            session.setAttribute("listaCandidaturas", listCandidaturaEmpresaView);
         } else {
-            session.setAttribute("semCanditaturas", "Este profissional não se candidatou a nenhuma vaga");
+            session.setAttribute("semCanditaturas", "Esta vaga não possui nenhum candidato");
         }
         response.sendRedirect("SistemaCanditaturas/listaCandidatura.jsp");
     }
