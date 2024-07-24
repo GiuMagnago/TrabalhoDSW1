@@ -34,12 +34,12 @@ public class EmpresaController extends HttpServlet {
         HttpSession session = request.getSession();
 
         try {
-            if (action.contains("/formCadastro")) {
+            if (action.equals("/formCadastro")) {
                 formCadastro(request, response, session);
-            } else if ("/formUpdate".equals(action)) {
-                //formUpdate(request, response, session);
+            } else if (action.equals("/formUpdate")) {
+                formUpdate(request, response, session);
             } else {
-                //invalidateRequest(request, response, session);
+                invalidateRequest(request, response, session);
             }
         } catch (ServletException e) {
             throw new ServletException(e);
@@ -48,6 +48,10 @@ public class EmpresaController extends HttpServlet {
 
 	protected void formCadastro(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
 		response.sendRedirect("/SistemaVagas/empresas/cadastro.jsp");
+	}
+
+	protected void formUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		response.sendRedirect("/SistemaVagas/empresas/atualizar.jsp");
 	}
 
 	@Override
@@ -60,9 +64,9 @@ public class EmpresaController extends HttpServlet {
         HttpSession session = request.getSession();
 
         try {
-            if ("/cadastro".equals(action)) {
+            if (action.equals("/cadastro")) {
                 register(request, response, session);
-            } else if ("/atualizar".equals(action)) {
+            } else if (action.equals("/atualizar")) {
                 update(request, response, session);
             } else {
                 invalidateRequest(request, response, session);
@@ -102,22 +106,23 @@ public class EmpresaController extends HttpServlet {
 		}
 	}
 
+
 	protected void update(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
-		Object o = session.getAttribute("empresa");
-		Usuario usuario = null;
-		if (o instanceof Usuario) {
-			usuario = (Usuario) o;
-		}
+		Usuario usuario = usuarioDAO.getUsuario(request.getParameter("email"), request.getParameter("senha"));
 		
 		if (usuario != null) {
+			// Redireciona para a página do usuário, mas somente após atualizar
 			if (usuarioDAO.updateUsuario(usuario)) {
 				Empresa empresa = (Empresa) usuario;
 				session.setAttribute("empresa", empresa);
-            	response.sendRedirect("/SistemaVagas/usuario.jsp");
+				response.sendRedirect("/SistemaVagas/usuario.jsp");
 			} else {
 				session.setAttribute("erroAtualizarEmpresa", "Cheque os dados inseridos");
-            	response.sendRedirect("/SistemaVagas/atualizar/empresa.jsp");
+				response.sendRedirect("/SistemaVagas/empresas/atualizar.jsp");
 			}
+		} else {
+			// Caso o usuário não seja encontrado na sessão, redireciona para a página de login ou alguma outra página apropriada
+			response.sendRedirect("/SistemaVagas/login.jsp");
 		}
 	}
 

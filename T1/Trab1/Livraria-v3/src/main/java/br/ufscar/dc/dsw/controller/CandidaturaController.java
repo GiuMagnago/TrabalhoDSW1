@@ -30,31 +30,27 @@ public class CandidaturaController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        String action = request.getParameter("action");
+        String action = request.getPathInfo();
+        if (action == null) {
+            action = "";
+        }
         HttpSession session = request.getSession();
 
-        try{
-            switch (action) {
-                case "minhasCandidaturas":
-                    minhasCandidaturas(request, response, session);
-                    break;
-
-                case "candidaturasPorVaga":
-                    candidaturasPorVaga(request, response, session);
-                    break;
-                default:
-                    invalidateRequest(request, response, session);
-                    break;
+        try {
+            if (action.equals("/minhasCandidaturas")) {
+                minhasCandidaturas(request, response, session);
+            } else if (action.equals("/candidaturaPorVagas")) {
+                candidaturasPorVaga(request, response, session);
+            } else {
+                invalidateRequest(request, response, session);
             }
-        }
-        catch (ServletException e)
-        {
+        } catch (ServletException e) {
             throw new ServletException(e);
         }
     }
 
     protected void minhasCandidaturas(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
-        List<CandidaturaProfissionalView> listCandidaturaProfissionalView = dao.getAllFromProfissional(Long.parseLong(request.getParameter("userId")));
+        List<CandidaturaProfissionalView> listCandidaturaProfissionalView = dao.getAllFromProfissional(Long.parseLong(request.getParameter("idUsuario")));
 
         if (listCandidaturaProfissionalView.size() > 0) {
             session.setAttribute("listaCandidaturas", listCandidaturaProfissionalView);

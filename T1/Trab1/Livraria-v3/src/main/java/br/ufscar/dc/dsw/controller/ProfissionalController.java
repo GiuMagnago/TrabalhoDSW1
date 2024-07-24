@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(urlPatterns = "/profissional")
+@WebServlet(urlPatterns = "/profissional/*")
 public class ProfissionalController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -28,29 +28,53 @@ public class ProfissionalController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        String path = request.getHeader("Referer");
-        String[] parts = path.split("/");
-        String action = parts[parts.length - 2];
-        HttpSession session = request.getSession();
-        try{
-            switch (action) {
-                case "cadastro":
-                    register(request, response, session);
-                    break;
-
-                case "atualizar":
-                    update(request, response, session);
-                    break;
-
-                default:
-                    invalidateRequest(request, response, session);
-                    break;
-            }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        String action = request.getPathInfo();
+        if (action == null) {
+            action = "";
         }
-        catch (ServletException e)
-        {
+        HttpSession session = request.getSession();
+
+        try {
+            if (action.equals("/formCadastro")) {
+                formCadastro(request, response, session);
+            } else if (action.equals("/formUpdate")) {
+                formUpdate(request, response, session);
+            } else {
+                invalidateRequest(request, response, session);
+            }
+        } catch (ServletException e) {
+            throw new ServletException(e);
+        }
+    }
+
+    protected void formCadastro(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		response.sendRedirect("/SistemaVagas/profissionais/cadastro.jsp");
+	}
+
+	protected void formUpdate(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+		response.sendRedirect("/SistemaVagas/profissionais/atualizar.jsp");
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        String action = request.getPathInfo();
+        if (action == null) {
+            action = "";
+        }
+        HttpSession session = request.getSession();
+
+        try {
+            if (action.equals("/cadastro")) {
+                register(request, response, session);
+            } else if (action.equals("/atualizar")) {
+                update(request, response, session);
+            } else {
+                invalidateRequest(request, response, session);
+            }
+        } catch (ServletException e) {
             throw new ServletException(e);
         }
     }
@@ -85,7 +109,7 @@ public class ProfissionalController extends HttpServlet {
 			profissional.setIdUsuario(idNewUser);
 			session.setAttribute("profissional", profissional);
             session.setAttribute("empresa", null);
-			response.sendRedirect("/SistemaVagas");
+			response.sendRedirect("/SistemaVagas/usuario.jsp");
 		} else {
 			// em caso de erro, volta pra página de cadastro com os dados preenchidos
 			session.setAttribute("email", email);
@@ -97,7 +121,7 @@ public class ProfissionalController extends HttpServlet {
             session.setAttribute("dataNasc", dataNasc);
 
 			session.setAttribute("ErrorCriarNovoUsuario", "Confira os dados");
-            response.sendRedirect("/SistemaVagas/cadastro/profissional.jsp");
+            response.sendRedirect("/SistemaVagas/profissional/formCadastro");
 		}
 	}
 

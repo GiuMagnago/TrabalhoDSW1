@@ -11,16 +11,19 @@
 				<body>
 					<c:choose>
 						<c:when test="${empresa != null}">
-							<c:if test="${not empty sessionScope.semVagas}">
-								<script>
-									alert("${sessionScope.semVagas}");
-								</script>
-								<c:remove var="semVagas" scope="session" />
-							</c:if>
+							<c:choose>
+								<c:when test="${not empty sessionScope.semVagas}">
+									<script>
+										alert("${sessionScope.semVagas}");
+									</script>
+									<c:remove var="semVagas" scope="session" />
+								</c:when>
+							</c:choose>
 							<div align="center">
 								<h1>
 									Suas Vagas
 								</h1>
+								<button onclick="criarVaga()">Criar Vaga</button>
 							</div>
 							<div align="center">
 								<table border="1">
@@ -65,12 +68,14 @@
 							</div>
 						</c:when>
 						<c:when test="${profissional != null}">
-							<c:if test="${not empty sessionScope.semVagas}">
-								<script>
-									alert("${sessionScope.semVagas}");
-								</script>
-								<c:remove var="semVagas" scope="session" />
-							</c:if>
+							<c:choose>
+								<c:when test="${not empty sessionScope.semVagas}">
+									<script>
+										alert("${sessionScope.semVagas}");
+									</script>
+									<c:remove var="semVagas" scope="session" />
+								</c:when>
+							</c:choose>
 							<div align="center">
 								<h1>
 									Vagas
@@ -119,12 +124,6 @@
 							</div>
 						</c:when>
 						<c:otherwise>
-							c:if test="${not empty sessionScope.semVagas}">
-							<script>
-								alert("${sessionScope.semVagas}");
-							</script>
-							<c:remove var="semVagas" scope="session" />
-							</c:if>
 							<div align="center">
 								<h1>
 									Vagas
@@ -169,7 +168,11 @@
 							</div>
 						</c:otherwise>
 					</c:choose>
-
+					<script>
+						function criarVaga() {
+							window.location.href = "/SistemaVagas/vagas/criacao.jsp"
+						}
+					</script>
 				</body>
 
 				</html>

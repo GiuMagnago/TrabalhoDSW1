@@ -34,17 +34,14 @@ public class UsuarioController extends HttpServlet {
         }
         HttpSession session = request.getSession();
 
-        switch (action) {
-            case "/login":
+        try {
+            if (action.equals("/login")) {
                 logar(request, response, session);
-                break;
-
-            case "/logout":
-                invalidar(request, response, session);
-                break;
-            default:
-                invalidar(request, response, session);
-                break;
+            } else if (action.equals("/logout")) {
+                invalidateRequest(request, response, session);
+            }
+        } catch (ServletException e) {
+            throw new ServletException(e);
         }
     }
 
@@ -75,8 +72,8 @@ public class UsuarioController extends HttpServlet {
         }
     }
 
-    protected void invalidar(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
+    protected void invalidateRequest(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
         session.invalidate();
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("/SistemaVagas/index.jsp");
     }
 }

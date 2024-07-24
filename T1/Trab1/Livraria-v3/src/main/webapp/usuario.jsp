@@ -11,17 +11,10 @@
                 </head>
 
                 <body>
-                    <h1>awbhduyawdn</h1>
                     <c:set var="profissional" value="${sessionScope.profissional}" />
                     <c:set var="empresa" value="${sessionScope.empresa}" />
-                    <c:set var="path" value="/SistemaVagas/atualizar" />
-
-                    <c:if test="${not empty sessionScope.erroDeletar}">
-                        <script>
-                            alert('${sessionScope.erroDeletar}');
-                        </script>
-                        <c:remove var="erroDeletar" scope="session" />
-                    </c:if>
+                    <c:set var="username" value="${(empresa != null) ? empresa.getNome() : profisional.getNome()}" />
+                    <c:set var="pathUpdate" value="" />
 
                     <main>
                         <div class="titulo">SistemaVagas</div>
@@ -38,26 +31,32 @@
                                     <c:set var="path" value="/SistemaVagas" />
                                 </c:when>
                                 <c:otherwise>
+                                    <div class="perfil">
+                                        <h1>${username}</h1>
+                                    </div>
                                     <div class="opcao">
-                                        <div class="botao atualizar" onclick="atualizarUsuario()">
-                                            atualizar
-                                        </div>
-                                        <hr>
-                                        <c:when test="${empresa != null}">
-                                            <div class="botao vagas" onclick="minhasVagas()">
-                                                Vagas
-                                            </div>
-                                        </c:when>
-                                        <c:when test="${profissional != null}">
-                                            <div class="botao candidaturas" onclick="minhasCandidaturas()">
-                                                Candidaturas
-                                            </div>
-                                        </c:when>
-                                        <hr>
-                                        <div class="botao desconectar" onclick="desconectarUsuario()">
-                                            tchau
-                                        </div>
-                                        <hr>
+                                        <button class="botao atualizar" onclick="atualizarUsuario()">
+                                            Atualizar
+                                        </button>
+                                        <c:choose>
+                                            <c:when test="${empresa != null}">
+                                                <c:set var="pathUpdate" value="/SistemaVagas/empresas/atualizar.jsp" />
+                                                <button class="botao vagas" onclick="minhasVagas()">
+                                                    Vagas
+                                                </button>
+                                            </c:when>
+                                            <c:when test="${profissional != null}">
+                                                <button class="botao candidaturas" onclick="minhasCandidaturas()">
+                                                    Candidaturas
+                                                </button>
+                                            </c:when>
+                                        </c:choose>
+                                        <button class="botao desconectar" onclick="desconectarUsuario()">
+                                            Desconectar
+                                        </button>
+                                        <button class="botao deletar" onclick="deletarUsuario()">
+                                            Deletar conta
+                                        </button>
                                     </div>
                                 </c:otherwise>
                             </c:choose>
@@ -65,17 +64,19 @@
                     </main>
                     <script>
                         function atualizarUsuario() {
-                            window.location.href = "${path}";
+                            window.location.href = "${pathUpdate}";
                         }
                         function desconectarUsuario() {
-                            window.location.href = "/SistemaVagas/usuario?action=logout";
+                            window.location.href = "/SistemaVagas/usuario/logout";
                         }
                         function minhasVagas() {
-                            window.location.href = "/SistemaVagas/vaga?action=minhasVagas&idUsuario=${empresa.getIdUsuario()}"
+                            window.location.href = "/SistemaVagas/vaga/minhasVagas?idUsuario=${empresa.getIdUsuario()}"
                         }
-
                         function minhasCandidaturas() {
-                            window.location.href = "/SistemaVagas/vaga?action=minhasCandidaturas&idUsuario=${profissional.getIdUsuario()}";
+                            window.location.href = "/SistemaVagas/candidatura/minhasCandidaturas?idUsuario=${profissional.getIdUsuario()}";
+                        }
+                        function deletarUsuario() {
+                            window.location.href = "/SistemaVagas/usuario/deletar";
                         }
                     </script>
                 </body>

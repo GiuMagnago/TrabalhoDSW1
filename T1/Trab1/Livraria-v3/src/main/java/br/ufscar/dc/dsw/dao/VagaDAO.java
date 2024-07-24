@@ -14,7 +14,7 @@ import br.ufscar.dc.dsw.domain.Vaga;
 public class VagaDAO extends GenericDAO{
 
     public void insert(Vaga vaga) {
-        String sql = "INSERT INTO Vaga (id_empresa, cnpj_empresa, descricao, remuneracao, dataLimite,) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Vaga (id_empresa, cnpj_empresa, descricao, remuneracao, dataLimite) VALUES (?, ?, ?, ?, ?)";
         try {
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -39,8 +39,8 @@ public class VagaDAO extends GenericDAO{
         String sql = "SELECT * FROM Vaga JOIN Empresa ON Empresa.id_empresa = Vaga.id_empresa ORDER BY Empresa.cidade";
         try {
             Connection conn = this.getConnection();
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 if (resultSet.getDate("dataLimite").compareTo(new Date()) > 0) {
@@ -68,14 +68,14 @@ public class VagaDAO extends GenericDAO{
 
     public List<Vaga> getAllFromEmpresa(long id_empresa) {
         List<Vaga> listaVagas = new ArrayList<>();
-        String sql = "SELECT * FROM Vaga JOIN Empresa ON Empresa.id_empresa = Vaga.id_empresa WHERE id_empresa = ?";
+        String sql = "SELECT * FROM Vaga JOIN Empresa ON Empresa.id_empresa = Vaga.id_empresa WHERE Vaga.id_empresa = ?;";
 
         try {
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setLong(1, id_empresa);
 
-            ResultSet resultSet = statement.executeQuery(sql);
+            ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 long id_vaga = resultSet.getLong("id_vaga");

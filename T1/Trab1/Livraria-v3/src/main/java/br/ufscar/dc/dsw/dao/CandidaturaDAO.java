@@ -61,7 +61,7 @@ public class CandidaturaDAO extends GenericDAO {
     
     public List<CandidaturaProfissionalView> getAllFromProfissional(long id_profissional) {
         List<CandidaturaProfissionalView> listaCandidaturaProfissionalView = new ArrayList<>();
-        String sql = "SELECT * FROM Candidatura JOIN Vaga ON Vaga.id_vaga = Candidatura.id_vaga JOIN Empresa ON Vaga.cnpj_empresa = Empresa.cnpj WHERE id_profissional = ?";
+        String sql = "SELECT * FROM Candidatura JOIN Vaga ON Vaga.id_vaga = Candidatura.id_vaga JOIN Empresa ON Vaga.cnpj_empresa = Empresa.cnpj WHERE Candidatura.id_profissional = ?";
 
         try {
             Connection conn = this.getConnection();
@@ -106,7 +106,7 @@ public class CandidaturaDAO extends GenericDAO {
 
     public List<CandidaturaEmpresaView> getAllFromVaga(long id_vaga) {
         List<CandidaturaEmpresaView> listaCandidaturaEmpresaViews = new ArrayList<>();
-        String sql = "SELECT * FROM Candidatura JOIN Profissional ON Profissional.id_profissional = Candidatura.id_profissional WHERE id_vaga = ?";
+        String sql = "SELECT * FROM Candidatura JOIN Profissional ON Profissional.id_profissional = Candidatura.id_profissional WHERE Candidatura.id_vaga = ?";
 
         try {
             Connection conn = this.getConnection();

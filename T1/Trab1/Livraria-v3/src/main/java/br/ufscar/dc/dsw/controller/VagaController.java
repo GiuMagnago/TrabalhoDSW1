@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet(urlPatterns = "/vaga")
+@WebServlet(urlPatterns = "/vaga/*")
 public class VagaController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -32,26 +32,21 @@ public class VagaController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        String action = request.getParameter("action");
+        String action = request.getPathInfo();
+        if (action == null) {
+            action = "";
+        }
         HttpSession session = request.getSession();
 
-        try{
-            switch (action) {
-                case "listarPorCidade":
-                    listarPorCidade(request, response, session);
-                    break;
-
-                case "minhasVagas":
-                    minhasVagas(request, response, session);
-                    break;
-
-                default:
-                    invalidateRequest(request, response, session);
-                    break;
+        try {
+            if (action.equals("/listarPorCidade")) {
+                listarPorCidade(request, response, session);
+            } else if (action.equals("/minhasVagas")) {
+                minhasVagas(request, response, session);
+            } else {
+                invalidateRequest(request, response, session);
             }
-        }
-        catch (ServletException e)
-        {
+        } catch (ServletException e) {
             throw new ServletException(e);
         }
     }
@@ -59,44 +54,43 @@ public class VagaController extends HttpServlet {
     protected void listarPorCidade(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
         List<Vaga> listVagas = dao.getAllOrderByCidade();
         session.setAttribute("listaVagas", listVagas);
-        response.sendRedirect("SistemaVagas/listaVagas.jsp");
+        session.setAttribute("empresa", (Empresa) session.getAttribute("empresa"));
+
+        response.sendRedirect("/SistemaVagas/listaVaga.jsp");
     }
 
     protected void minhasVagas(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
-        List<Vaga> listVagas = dao.getAllFromEmpresa(Long.parseLong(request.getParameter("userId")));
+        List<Vaga> listVagas = dao.getAllFromEmpresa(Long.parseLong(request.getParameter("idUsuario")));
 
         if (listVagas.size() > 0) {
             session.setAttribute("listaVagas", listVagas);
         } else {
             session.setAttribute("semVagas", "Esta empresa não nenhuma vaga registrada");
         }
-        response.sendRedirect("SistemaVagas/listaVagas.jsp");
+        response.sendRedirect("/SistemaVagas/listaVaga.jsp");
     }
 
     protected void invalidateRequest(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
 		session.invalidate();
-		response.sendRedirect("SistemaVagas/index.jsp");
+		response.sendRedirect("/SistemaVagas/index.jsp");
 	}
 
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        String action = request.getParameter("action");
+        String action = request.getPathInfo();
+        if (action == null) {
+            action = "";
+        }
         HttpSession session = request.getSession();
 
-        try{
-            switch (action) {
-                case "criarVaga":
-                    criarVaga(request, response, session);
-                    break;
-
-                default:
-                    invalidateRequest(request, response, session);
-                    break;
+        try {
+            if (action.equals("/criarVaga")) {
+                listarPorCidade(request, response, session);
+            } else {
+                invalidateRequest(request, response, session);
             }
-        }
-        catch (ServletException e)
-        {
+        } catch (ServletException e) {
             throw new ServletException(e);
         }
     }
@@ -132,6 +126,6 @@ public class VagaController extends HttpServlet {
             session.setAttribute("erroAgendamento", "Data invalida");
         }
 
-        response.sendRedirect("SistemaVagas/vaga/minhasVagas");
+        response.sendRedirect("/SistemaVagas/vaga/minhasVagas");
 	}
 }

@@ -27,7 +27,7 @@
                 </h1>
             </div>
             <div class="optionBox">
-                <a href="/SistemaVagas/cadastro/profissional.jsp" class="btn profissional">
+                <a href="/SistemaVagas/profissional/formCadastro" class="btn profissional">
                     <fmt:message key="profissional"/>
                 </a>
                 <a href="/SistemaVagas/empresa/formCadastro" class="btn empresa">
