@@ -49,4 +49,12 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    public String getPapel() {
+        return papel;
+    }
+    
+    public void setPapel(String papel) {
+        this.papel = papel;
+    }
 }

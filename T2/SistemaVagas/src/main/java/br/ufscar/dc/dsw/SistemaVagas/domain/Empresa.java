@@ -1,7 +1,11 @@
 package br.ufscar.dc.dsw.SistemaVagas.domain;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -19,6 +23,9 @@ public class Empresa extends Usuario {
 
     @Column(nullable = false, length = 40)
     private String cidade;
+
+    @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
+    private List<Vaga> vagas;
 
     public String getCnpj() {
         return cpnj;
