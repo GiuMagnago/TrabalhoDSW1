@@ -11,6 +11,8 @@ public interface IEmpresaDAO extends CrudRepository<Empresa, Long> {
 
     List<Empresa> findAll();
     
+    List<Empresa> findByCidade(String cidade);
+    
     Empresa save(Empresa empresa);
 
     void deleteById(long id);

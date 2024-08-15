@@ -7,12 +7,10 @@ import br.ufscar.dc.dsw.SistemaVagas.domain.Empresa;
 import br.ufscar.dc.dsw.SistemaVagas.domain.Vaga;
 
 @SuppressWarnings("unchecked")
-public interface IVagaDAO extends CrudRepository<Vaga, Long>, IVagaRepositoryCustom{
+public interface IVagaDAO extends CrudRepository<Vaga, Long>, IVagaRepositoryCustom {
     Vaga findById(long id);
 
     List<Vaga> findByEmpresa(Empresa empresa);
-
-    List<Vaga> findByCidade(String cidade);
 
     List<Vaga> findAll();
     

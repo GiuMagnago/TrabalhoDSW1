@@ -13,11 +13,10 @@ public class VagaRepositoryImpl implements IVagaRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    public List<Vaga> findVagasByCidade(String cidade) {
+    public List<Vaga> findByCidade(String cidade) {
         String jpql = "SELECT v FROM Vaga v JOIN v.empresa e WHERE e.cidade = :cidade";
         TypedQuery<Vaga> query = entityManager.createQuery(jpql, Vaga.class);
         query.setParameter("cidade", cidade);
         return query.getResultList();
     }
 }
-

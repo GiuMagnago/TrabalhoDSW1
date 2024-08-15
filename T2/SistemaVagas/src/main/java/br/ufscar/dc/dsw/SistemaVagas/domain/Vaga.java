@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.SistemaVagas.domain;
 
 import java.sql.Date;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -37,7 +38,7 @@ public class Vaga {
     private Empresa empresa;
 
     @OneToMany(mappedBy = "vaga", cascade = CascadeType.REMOVE)
-    private Candidatura candidatura;
+    private List<Candidatura> candidaturas;
 
     public Long getId() {
         return id;
@@ -87,11 +88,11 @@ public class Vaga {
         this.empresa = empresa;
     }
 
-    public Candidatura getCandidatura() {
-        return candidatura;
+    public List<Candidatura> getCandidatura() {
+        return candidaturas;
     }
 
-    public void setCandidatura(Candidatura candidatura) {
-        this.candidatura = candidatura;
+    public void setCandidatura(List<Candidatura> candidaturas) {
+        this.candidaturas = candidaturas;
     }
 }

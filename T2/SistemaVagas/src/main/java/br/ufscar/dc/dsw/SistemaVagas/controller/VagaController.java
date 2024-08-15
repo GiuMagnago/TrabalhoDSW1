@@ -61,7 +61,7 @@ public class VagaController {
          * 
          * 
          */
-        attr.addFlashAttribute("sucess", "vaga.create.sucess"); // Adiciona um atributo para o front falando que a criação foi um sucesso
+        attr.addFlashAttribute("success", "vaga.create.sucess"); // Adiciona um atributo para o front falando que a criação foi um sucesso
         return "redirect:/vagas/listar";
     }
 }
