@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -24,8 +23,8 @@ public class Candidatura {
     @JoinColumn(name = "profissional_id")
     private Profissional profissional;
 
-    @OneToOne
-    @JoinColumn(name = "vaga_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "vaga_id")
     private Vaga vaga;
 
     public String getStatus_candidatura() {

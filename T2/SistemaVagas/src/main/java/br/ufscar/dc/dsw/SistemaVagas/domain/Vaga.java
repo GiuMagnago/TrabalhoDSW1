@@ -2,6 +2,7 @@ package br.ufscar.dc.dsw.SistemaVagas.domain;
 
 import java.sql.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -35,7 +36,7 @@ public class Vaga {
     @JoinColumn(name = "empresa_id")
     private Empresa empresa;
 
-    @OneToOne(mappedBy = "vaga")
+    @OneToMany(mappedBy = "vaga", cascade = CascadeType.REMOVE)
     private Candidatura candidatura;
 
     public Long getId() {
