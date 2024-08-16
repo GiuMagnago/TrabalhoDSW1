@@ -13,10 +13,7 @@ import jakarta.persistence.Table;
 @Table(name = "Empresa")
 public class Empresa extends Usuario {
     @Column(nullable = false, unique = true, length = 14)
-    private String cpnj;
-    
-    @Column(nullable = false, length = 256)
-    private String nome;
+    private String cnpj;
 
     @Column(nullable = false, length = 256)
     private String descricao;
@@ -28,19 +25,11 @@ public class Empresa extends Usuario {
     private List<Vaga> vagas;
 
     public String getCnpj() {
-        return cpnj;
+        return cnpj;
     }
 
     public void setCnpj(String cnpj) {
-        this.cpnj = cnpj;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
+        this.cnpj = cnpj;
     }
 
     public String getDescricao() {

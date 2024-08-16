@@ -5,11 +5,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.SistemaVagas.domain.Empresa;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.IEmpresaService;
@@ -30,13 +31,13 @@ public class EmpresaController {
         return "empresa/lista";
     }
 
-    @GetMapping("/cadastrarForm")
+    @GetMapping("/formCadastro")
     @PreAuthorize("hasRole('ADMIN')")
-    public String cadastrar(Model model) {
+    public String cadastrar(Empresa empresa) {
         return "empresa/cadastro";
     }
 
-    @GetMapping("/editarForm")
+    @GetMapping("/formEdicao/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String editar(@PathVariable("id") Long id, Model model) {
         model.addAttribute("empresa", service.buscarPorId(id));
@@ -45,17 +46,34 @@ public class EmpresaController {
 
     @PostMapping("/cadastrar")
     @PreAuthorize("hasRole('ADMIN')")
-    public String registerEmpresa(Empresa empresa) {
+    public String criar(Empresa empresa, BindingResult result, RedirectAttributes attr) {
+        if (result.hasErrors()) {
+            return "empresa/cadastro";
+        }
         empresa.setSenha(passwordEncoder.encode(empresa.getSenha()));
         empresa.setPapel("ROLE_EMPRESA");
         service.salvar(empresa);
-        return "redirect:/admin/index";
+        attr.addFlashAttribute("success", "empresa.create.success");
+        return "redirect:/empresas/listar";
     }
 
-    @PostMapping("/remover")
+    @PostMapping("/editar")
     @PreAuthorize("hasRole('ADMIN')")
-    public String removeEmpresa(@RequestParam Long id) {
+    public String atualizar(Empresa empresa, BindingResult result, RedirectAttributes attr) {
+        if (result.hasErrors()) {
+            return "empresa/cadastro";
+        }
+        empresa.setSenha(passwordEncoder.encode(empresa.getSenha()));
+        service.salvar(empresa);
+        attr.addFlashAttribute("success", "empresa.edit.success");
+        return "redirect:/empresas/listar";
+    }
+
+    @GetMapping("/remover/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String remover(@PathVariable("id") Long id, RedirectAttributes attr) {
         service.excluir(id);
-        return "redirect:/admin/index";
+        attr.addFlashAttribute("success", "empresa.delete.success");
+        return "redirect:/empresas/listar";
     }
 }

@@ -15,9 +15,6 @@ import jakarta.persistence.Table;
 public class Profissional extends Usuario {
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
-    
-    @Column(nullable = false, length = 256)
-    private String nome;
 
     @Column(nullable = false, length = 15)
     private String telefone;
@@ -37,14 +34,6 @@ public class Profissional extends Usuario {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getTelefone() {

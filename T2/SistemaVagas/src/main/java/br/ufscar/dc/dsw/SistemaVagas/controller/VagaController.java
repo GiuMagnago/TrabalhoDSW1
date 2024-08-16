@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -41,7 +42,7 @@ public class VagaController {
 
     @GetMapping("/formCriacao")
     @PreAuthorize("hasRole('EMPRESA')")
-    public String formCriacao(Model model) {
+    public String formCriacao(Vaga vaga) {
         return "vaga/criar";
     }
 
@@ -62,6 +63,14 @@ public class VagaController {
          * 
          */
         attr.addFlashAttribute("success", "vaga.create.sucess"); // Adiciona um atributo para o front falando que a criação foi um sucesso
+        return "redirect:/vagas/listar";
+    }
+
+    @GetMapping("/remover/{id}")
+    @PreAuthorize("hasRole('EMPRESA')")
+    public String remover(@PathVariable("id") Long id, RedirectAttributes attr) {
+        service.excluir(id);
+        attr.addAttribute("succes", "vaga.delete.success");
         return "redirect:/vagas/listar";
     }
 }

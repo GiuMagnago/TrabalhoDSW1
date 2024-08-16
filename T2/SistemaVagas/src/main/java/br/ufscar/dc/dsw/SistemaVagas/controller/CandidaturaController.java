@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -46,14 +47,22 @@ public class CandidaturaController {
 
     @PostMapping("/criar")
     @PreAuthorize("hasRole('PROFISSIONAL')")
-    public String criacao(Candidatura candidatura, BindingResult result, RedirectAttributes attr) {
+    public String criar(Candidatura candidatura, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
             return "candidatura/criar";
         }
 
         candidatura.setStatus_candidatura("ABERTO");
         service.salvar(candidatura);
-        attr.addFlashAttribute("success");
+        attr.addFlashAttribute("success", "candidatura.create.success");
         return "redirect:/candidaturas/listar";
+    }
+
+    @PostMapping("/remover/{id}")
+    @PreAuthorize("hasRole('PROFISSIONAL')")
+    public String remover(@PathVariable("id") Long id, RedirectAttributes attr) {
+        service.excluir(id);
+        attr.addAttribute("success", "cadidatura.delete.success");
+        return "redirect:/cadidaturas/listar";
     }
 }

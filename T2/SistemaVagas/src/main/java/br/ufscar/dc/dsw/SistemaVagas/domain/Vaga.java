@@ -33,8 +33,8 @@ public class Vaga {
     @Column(nullable = false)
     private Date dataLimite;
 
-    @Column(nullable = true, length = 40)
-    private String cidade;
+    // @Column(nullable = true, length = 40)
+    // private String cidade;
 
     @ManyToOne
     @JoinColumn(name = "empresa_id")
@@ -83,13 +83,13 @@ public class Vaga {
         this.dataLimite = dataLimite;
     }
 
-    public String getCidade(){
-        return cidade;
-    }
+    // public String getCidade(){
+    //     return cidade;
+    // }
 
-    public void setCidade(String cidade){
-        this.cidade = cidade;
-    }
+    // public void setCidade(String cidade){
+    //     this.cidade = cidade;
+    // }
 
     public Empresa getEmpresa() {
         return empresa;

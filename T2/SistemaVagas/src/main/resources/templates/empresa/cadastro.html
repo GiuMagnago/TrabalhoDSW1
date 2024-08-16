@@ -8,7 +8,8 @@
 </head>
 <body>
     <h1>Cadastro de Empresa</h1>
-    <form action="/empresas/cadastrar" method="post">
+    <form th:action="${empresa.id == null} ? @{/empresas/cadastrar} : @{/empresas/editar}" th:object="${empresa}" method="post" >
+        <input type="hidden" id="id" th:field="*{id}" />
         <div>
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>

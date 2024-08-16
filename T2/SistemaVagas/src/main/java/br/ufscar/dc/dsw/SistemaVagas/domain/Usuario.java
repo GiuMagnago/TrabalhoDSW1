@@ -16,15 +16,21 @@ import jakarta.persistence.Table;
 public class Usuario {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    
+    @Column(nullable = false, length = 256)
+    private String nome;
 
     @Column(nullable = false, unique = true, length = 50)
     private String email;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false)
     private String senha;
 
     @Column(nullable = false)
     private String papel;
+
+    @Column(nullable = false)
+    private boolean enable;
 
     public Long getId() {
         return id;
@@ -34,6 +40,14 @@ public class Usuario {
         this.id = id;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
     public String getEmail() {
         return email;
     }
@@ -56,5 +70,13 @@ public class Usuario {
     
     public void setPapel(String papel) {
         this.papel = papel;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 }
