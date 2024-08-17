@@ -19,6 +19,9 @@ public class Candidatura {
     @Column(nullable = false, length = 20)
     private String status_candidatura;
 
+    @Column(nullable = false)
+    private String curriculoPath;
+
     @ManyToOne
     @JoinColumn(name = "profissional_id")
     private Profissional profissional;
@@ -27,12 +30,28 @@ public class Candidatura {
     @JoinColumn(name = "vaga_id")
     private Vaga vaga;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getStatus_candidatura() {
         return status_candidatura;
     }
 
     public void setStatus_candidatura(String status_candidatura) {
         this.status_candidatura = status_candidatura;
+    }
+
+    public String getCurriculoPath() {
+        return curriculoPath;
+    }
+
+    public void setCurriculoPath(String curriculoPath) {
+        this.curriculoPath = curriculoPath;
     }
 
     public Profissional getProfissional() {

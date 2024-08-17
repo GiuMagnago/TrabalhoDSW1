@@ -52,6 +52,7 @@ public class ProfissionalController {
             return "profissionais/cadastro";
         }
         profissional.setSenha(passwordEncoder.encode(profissional.getSenha()));
+        profissional.setPapel("ROLE_PROFISSIONAL");
         service.salvar(profissional);
         attr.addFlashAttribute("sucess", "profissional.create.sucess");
         return "redirect:/profissionais/listar";

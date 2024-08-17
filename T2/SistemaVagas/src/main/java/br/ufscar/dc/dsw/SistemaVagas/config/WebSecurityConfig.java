@@ -47,8 +47,10 @@ public class WebSecurityConfig {
 						.requestMatchers("/", "/error", "/login/**", "/js/**").permitAll()
 						.requestMatchers("/css/**", "/image/**", "/webjars/**").permitAll()
 						.requestMatchers("/empresas/**", "/profissionais/**").hasRole("ADMIN")
-                        .requestMatchers("/vagas/**").permitAll()
-                        .requestMatchers("/candidaturas/**").hasAnyRole("EMPRESA", "PROFISSIONAL", "ADMIN")
+                        .requestMatchers("/vagas/listar", "/vagas/listarPorCidade").permitAll()
+                        .requestMatchers("/vagas/**").hasRole("EMPRESA")
+                        .requestMatchers("/candidaturas/listarPorVaga/**", "/candidaturas/editar").hasRole("EMPRESA")
+                        .requestMatchers("/candidaturas/**").hasRole("PROFISSIONAL")
 						.anyRequest().authenticated())
 				.formLogin((form) -> form
 						.loginPage("/login")

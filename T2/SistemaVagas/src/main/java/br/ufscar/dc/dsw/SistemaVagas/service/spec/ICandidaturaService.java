@@ -7,13 +7,13 @@ import br.ufscar.dc.dsw.SistemaVagas.domain.Profissional;
 import br.ufscar.dc.dsw.SistemaVagas.domain.Vaga;
 
 public interface ICandidaturaService {
-    public Candidatura buscarPorId(long id);
+    Candidatura buscarPorId(long id);
 
-    public List<Candidatura> buscarPorProfissional(Profissional profissional);
+    List<Candidatura> buscarPorProfissional(Profissional profissional);
 
-    public List<Candidatura> buscarPorVaga(Vaga vaga);
+    List<Candidatura> buscarPorVaga(Vaga vaga);
 
-    public Candidatura salvar(Candidatura candidatura);
+    Candidatura salvar(Candidatura candidatura);
 
-    public void excluir(long id);
+    void excluir(long id);
 }

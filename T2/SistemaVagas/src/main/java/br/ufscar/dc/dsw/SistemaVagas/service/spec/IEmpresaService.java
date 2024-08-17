@@ -11,5 +11,9 @@ public interface IEmpresaService {
 
     List<Empresa> buscarTodos();
 
+    Empresa buscarPorCnpj(String cnpj);
+
+    List<String> buscarCidadesUnicas();
+
     void excluir(long id);
 }

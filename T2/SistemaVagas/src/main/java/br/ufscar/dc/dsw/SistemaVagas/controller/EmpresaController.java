@@ -63,6 +63,7 @@ public class EmpresaController {
         if (result.hasErrors()) {
             return "empresa/cadastro";
         }
+        System.out.println("awdniuawhdiaudhu    " + empresa.getId());
         empresa.setSenha(passwordEncoder.encode(empresa.getSenha()));
         service.salvar(empresa);
         attr.addFlashAttribute("success", "empresa.edit.success");

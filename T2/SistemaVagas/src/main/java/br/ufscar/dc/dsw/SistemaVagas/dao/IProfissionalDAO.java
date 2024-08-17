@@ -10,6 +10,8 @@ public interface IProfissionalDAO extends CrudRepository<Profissional, Long> {
     Profissional findById(long id);
 
     List<Profissional> findAll();
+
+    Profissional findByCpf(String cpf);
     
     Profissional save(Profissional profissional);
 

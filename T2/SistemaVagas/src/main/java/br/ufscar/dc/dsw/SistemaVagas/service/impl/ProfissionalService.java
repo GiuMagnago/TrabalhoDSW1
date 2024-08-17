@@ -31,6 +31,11 @@ public class ProfissionalService implements IProfissionalService {
         return dao.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public Profissional buscarPorCpf(String cpf) {
+        return dao.findByCpf(cpf);
+    }
+
     public void excluir(long id) {
         dao.deleteById(id);
     }
