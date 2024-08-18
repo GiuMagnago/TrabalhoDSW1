@@ -1,5 +1,6 @@
 package br.ufscar.dc.dsw.SistemaVagas.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,6 +32,7 @@ import br.ufscar.dc.dsw.SistemaVagas.service.impl.StorageService;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.ICandidaturaService;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.IProfissionalService;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.IVagaService;
+import jakarta.mail.internet.InternetAddress;
 
 @Controller
 @RequestMapping("/candidaturas")
@@ -104,7 +106,7 @@ public class CandidaturaController {
         candidatura.setVaga(vagaService.buscarPorId(vagaID));
         candidatura.setProfissional(profissional);
         candidatura.setStatus_candidatura("ABERTO");
-        candidatura.setCurriculoPath(storageService.store(curriculo));
+        candidatura.setCurriculoPath(storageService.store(curriculo, ("curriculo_" + profissionalId + ".pdf")));
         service.salvar(candidatura);
         attr.addFlashAttribute("success", "candidatura.create.success");
         return "redirect:/candidaturas/listar";
@@ -117,6 +119,17 @@ public class CandidaturaController {
         return "candidatura/editar";  
     }
 
+    private void sendEmail(Candidatura candidatura) {
+        try {
+            Profissional profissional = candidatura.getProfissional();
+            InternetAddress from = new InternetAddress("sistemavagas@gmail.com", "SistemaVagas");
+            InternetAddress to = new InternetAddress(profissional.getEmail(), profissional.getNome());
+            emailService.send(from, to, candidatura.getStatus_candidatura(), "link");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
     @PostMapping("/editar")
     @PreAuthorize("hasRole('EMPRESA')")
@@ -124,7 +137,9 @@ public class CandidaturaController {
         Candidatura candidatura = service.buscarPorId(id);
         candidatura.setStatus_candidatura(status);
         service.salvar(candidatura);
-        emailService.enviarEmail(candidatura.getProfissional().getEmail(), status, "link");
+
+        sendEmail(candidatura);
+
         attr.addFlashAttribute("success", "candidatura.edit.success");
         return "redirect:/candidaturas/listarPorVaga/" + candidatura.getVaga().getId();
     }

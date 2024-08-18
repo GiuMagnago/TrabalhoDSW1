@@ -11,9 +11,9 @@
     - [x] Formulário com thymeleaf 
     - [x] Senha criptografada
     - [x] Sistema de autenticação implementado.
-- [x] Cadastro de Vagas
+- [ ] Cadastro de Vagas
     - [x] Formulário com thymeleaf 
-    - [x] Salvar arquivos PDF
+    - [ ] Salvar arquivos PDF (renomeação de pdf)
 - [x] Tabela com as vagas
     - [x] Busca de vaga por cidade.
     - [x] Checar data limite da vaga
@@ -21,7 +21,7 @@
 - [x] Tabela com todas as candidaturas de um profissional
     - [x] Apresentar o status que a vaga se encontra
 - [x] Atualizar o status da candidatura do profissional
-    - [ ] Envio de email para o profissional
+    - [x] Envio de email para o profissional
     - [x] Baixar o curriculo do profissional
 - [ ] Permissões de cada tipo de usuário
     - [ ] Admin        - Tudo

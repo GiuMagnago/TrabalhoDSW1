@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @Service
 public class StorageService {
@@ -27,17 +28,15 @@ public class StorageService {
         }
     }
 
-    public String store(MultipartFile file) {
+    public String store(MultipartFile file, String newFileName) {
         try {
-            String filename = file.getOriginalFilename();
-            Path destinationFile = this.rootLocation.resolve(Paths.get(filename))
+            Path destinationFile = this.rootLocation.resolve(Paths.get(newFileName))
                     .normalize();
             if (!destinationFile.getParent().equals(this.rootLocation)) {
                 throw new RuntimeException("Cannot store file outside current directory.");
             }
-            try (var inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destinationFile);
-            }
+            Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
+
             return destinationFile.toString();
         } catch (IOException e) {
             throw new RuntimeException("Failed to store file", e);

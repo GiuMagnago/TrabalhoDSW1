@@ -48,20 +48,18 @@
 									<span class="oi oi-brush" th:text="#{link.excluir.label}" aria-hidden="true"></span>
 								</a>
 							</td>
-
-							<td sec:authorize="hasRole('ROLE_EMPRESA')">
-                                <a class="btn btn-info btn-sm"
-									th:href="@{/candidaturas/formEdicao/{id} (id=${candidatura.id}) }" role="button"> 
-									<span class="oi oi-brush" th:text="#{link.edit.label}" aria-hidden="true"></span>
-								</a>
-                            </td>
 							<td sec:authorize="hasRole('ROLE_EMPRESA')">
                                 <a class="btn btn-info btn-sm"
                                     th:href="@{/candidaturas/download/{id}(id=${candidatura.id})}" role="button">
                                     <span class="oi oi-download" th:text="#{link.download.label}" aria-hidden="true"></span>
                                 </a>
                             </td>
-							
+							<td sec:authorize="hasRole('ROLE_EMPRESA')" th:if=${#dates.createNow().after(candidatura.vaga.dataLimite)}>
+                                <a class="btn btn-info btn-sm"
+									th:href="@{/candidaturas/formEdicao/{id} (id=${candidatura.id}) }" role="button"> 
+									<span class="oi oi-brush" th:text="#{link.edit.label}" aria-hidden="true"></span>
+								</a>
+                            </td>
 						</tr>
 					</tbody>
 				</table>

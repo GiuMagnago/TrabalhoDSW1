@@ -67,13 +67,13 @@ public class SistemaVagasApplication {
 			profissionalDAO.save(profissional1);
 
 			Profissional profissional2 = new Profissional();
-			profissional2.setNome("maria");
-			profissional2.setEmail("maria@gmail.com");
+			profissional2.setNome("giuseppe");
+			profissional2.setEmail("giuseppecm2014@gmail.com");
 			profissional2.setSenha(encoder.encode("123"));
 			profissional2.setPapel("ROLE_PROFISSIONAL");
 			profissional2.setCpf("12345678901");
 			profissional2.setTelefone("1612345678");
-			profissional2.setSexo("Feminino");
+			profissional2.setSexo("Masculino");
 			profissional2.setDataNasc(new Date(dateFormat.parse("01-01-2001").getTime()));
 			profissionalDAO.save(profissional2);
 
@@ -95,14 +95,38 @@ public class SistemaVagasApplication {
 			vaga2.setEmpresa(empresa);
 			vagaDAO.save(vaga2);
 
+			Vaga vaga3 = new Vaga();
+			vaga3.setCnpj_empresa("123");
+			vaga3.setRemuneracao(7000);
+			vaga3.setDescricao("...");
+			vaga3.setDataLimite(new Date(dateFormat.parse("30-12-2024").getTime()));
+			vaga3.setEmpresa(empresa);
+			vagaDAO.save(vaga3);
+
 
 			Candidatura candidatura1 = new Candidatura();
 			candidatura1.setProfissional(profissional1);
-			candidatura1.setVaga(vaga1);
+			candidatura1.setVaga(vaga2);
 			candidatura1.setCurriculoPath("...");
 			candidatura1.setStatus_candidatura("ABERTO");
-			candidatura1.setCurriculoPath("src/main/resources/uploads/teste.pdf");
+			candidatura1.setCurriculoPath("src/main/resources/uploads/curriculo_3.pdf");
 			candidaturaDAO.save(candidatura1);
+
+			Candidatura candidatura2 = new Candidatura();
+			candidatura2.setProfissional(profissional2);
+			candidatura2.setVaga(vaga1);
+			candidatura2.setCurriculoPath("...");
+			candidatura2.setStatus_candidatura("ABERTO");
+			candidatura2.setCurriculoPath("src/main/resources/uploads/curriculo_4.pdf");
+			candidaturaDAO.save(candidatura2);
+
+			Candidatura candidatura3 = new Candidatura();
+			candidatura3.setProfissional(profissional2);
+			candidatura3.setVaga(vaga2);
+			candidatura3.setCurriculoPath("...");
+			candidatura3.setStatus_candidatura("ABERTO");
+			candidatura3.setCurriculoPath("src/main/resources/uploads/curriculo_4.pdf");
+			candidaturaDAO.save(candidatura3);
 		};
 	}
 }
