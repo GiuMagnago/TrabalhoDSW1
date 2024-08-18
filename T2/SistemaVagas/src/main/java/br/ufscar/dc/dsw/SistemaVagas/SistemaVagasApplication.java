@@ -101,6 +101,7 @@ public class SistemaVagasApplication {
 			candidatura1.setVaga(vaga1);
 			candidatura1.setCurriculoPath("...");
 			candidatura1.setStatus_candidatura("ABERTO");
+			candidatura1.setCurriculoPath("src/main/resources/uploads/teste.pdf");
 			candidaturaDAO.save(candidatura1);
 		};
 	}

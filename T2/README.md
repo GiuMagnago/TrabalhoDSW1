@@ -14,15 +14,15 @@
 - [x] Cadastro de Vagas
     - [x] Formulário com thymeleaf 
     - [x] Salvar arquivos PDF
-- [ ] Tabela com as vagas
-    - [ ] Busca de vaga por cidade.
+- [x] Tabela com as vagas
+    - [x] Busca de vaga por cidade.
+    - [x] Checar data limite da vaga
 - [x] Tabela com todas as vagas de uma empresa
-- [ ] Tabela com todas as candidaturas de um profissional
+- [x] Tabela com todas as candidaturas de um profissional
     - [x] Apresentar o status que a vaga se encontra
-    - [ ] Checar data limite da vaga
-- [ ] Atualizar o status da candidatura do profissional
+- [x] Atualizar o status da candidatura do profissional
     - [ ] Envio de email para o profissional
-    - [ ] Baixar o curriculo do profissional
+    - [x] Baixar o curriculo do profissional
 - [ ] Permissões de cada tipo de usuário
     - [ ] Admin        - Tudo
     - [ ] Empresa      - TodasVagas;VagasPorEmpresa;CadastroVagas;CandidaturasPorVaga;AtualizarStatusCandidatura

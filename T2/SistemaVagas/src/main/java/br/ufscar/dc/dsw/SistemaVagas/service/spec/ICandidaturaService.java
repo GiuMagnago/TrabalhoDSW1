@@ -13,6 +13,8 @@ public interface ICandidaturaService {
 
     List<Candidatura> buscarPorVaga(Vaga vaga);
 
+    boolean existeCandidatura(Profissional profissional, Vaga vaga);
+    
     Candidatura salvar(Candidatura candidatura);
 
     void excluir(long id);

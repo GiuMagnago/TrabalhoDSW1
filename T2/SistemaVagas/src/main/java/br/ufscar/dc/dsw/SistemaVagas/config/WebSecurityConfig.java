@@ -49,7 +49,7 @@ public class WebSecurityConfig {
 						.requestMatchers("/empresas/**", "/profissionais/**").hasRole("ADMIN")
                         .requestMatchers("/vagas/listar", "/vagas/listarPorCidade").permitAll()
                         .requestMatchers("/vagas/**").hasRole("EMPRESA")
-                        .requestMatchers("/candidaturas/listarPorVaga/**", "/candidaturas/editar").hasRole("EMPRESA")
+                        .requestMatchers("/candidaturas/listarPorVaga/**", "/candidaturas/formEdicao/**", "/candidaturas/editar", "/candidaturas/download/**").hasRole("EMPRESA")
                         .requestMatchers("/candidaturas/**").hasRole("PROFISSIONAL")
 						.anyRequest().authenticated())
 				.formLogin((form) -> form

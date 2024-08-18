@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Profissional</title>
+</head>
+<body>
+    <h1>Cadastro de Vaga</h1>
+    <form th:action="@{/candidaturas/editar}" method="post">
+        <input type="hidden" name="id" th:value="${id}">
+        <select name="status">
+            <option value="ABERTO" th:selected="${candidatura.status_candidatura == 'ABERTO'}" th:text="#{candidatura.status_op1.label}"></option>
+            <option value="NÃO SELECIONADO" th:selected="${candidatura.status_candidatura == 'NÃO SELECIONADO'}" th:text="#{candidatura.status_op2.label}"></option>
+            <option value="ENTREVISTA" th:selected="${candidatura.status_candidatura == 'ENTREVISTA'}" th:text="#{candidatura.status_op3.label}"></option>
+        </select>
+        <input type="text" name="linkEntrevista" placeholder="Link para Videoconferência (se aplicável)" />
+        <button type="submit">Atualizar</button>
+    </form>
+</body>
+</html>

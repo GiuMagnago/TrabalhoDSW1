@@ -33,9 +33,14 @@ public class CandidaturaService implements ICandidaturaService {
         return dao.findByVaga(vaga);
     }
 
+    @Transactional(readOnly = true)
+    public boolean existeCandidatura(Profissional profissional, Vaga vaga) {
+        return dao.existsProfissionalVaga(profissional, vaga);
+    }
+
     public Candidatura salvar(Candidatura candidatura) {
         return dao.save(candidatura);
-    }
+    }    
 
     public void excluir(long id) {
         dao.deleteById(id);

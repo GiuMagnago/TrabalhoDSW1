@@ -69,17 +69,16 @@ public class VagaController {
         if (result.hasErrors()) {
             return "vaga/cadastro";
         }
-        vaga.setEmpresa(empresaService.buscarPorCnpj(vaga.getCnpj_empresa()));
-        service.salvar(vaga); 
+        // Pega o usuário autenticado
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Faz o cast para CustomUserDetails e acessa o objeto Usuario para pegar o ID
+        long empresaId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
+        Empresa empresa = empresaService.buscarPorId(empresaId);
+        
+        vaga.setCnpj_empresa(empresa.getCnpj());
+        vaga.setEmpresa(empresa);
+        service.salvar(vaga);
 
-        /*
-         * checar no front se a data limite é válida
-         * 
-         * 
-         * 
-         * 
-         * 
-         */
         attr.addFlashAttribute("success", "vaga.create.sucess"); // Adiciona um atributo para o front falando que a criação foi um sucesso
         return "redirect:/vagas/listarPorEmpresa";
     }

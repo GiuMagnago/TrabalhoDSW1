@@ -50,20 +50,14 @@
 							</td>
 
 							<td sec:authorize="hasRole('ROLE_EMPRESA')">
-                                <span th:text="${candidatura.status_candidatura}"></span>
-                                <form th:action="@{/candidaturas/editar}" method="post">
-                                    <input type="hidden" name="id" th:value="${candidatura.id}">
-                                    <select name="status" onchange="this.form.submit()">
-                                        <option value="ABERTO" th:selected="${candidatura.status_candidatura == 'ABERTO'}" th:text="#{candidatura.status_op1.label}"></option>
-                                        <option value="NÃO SELECIONADO" th:selected="${candidatura.status_candidatura == 'NÃO SELECIONADO'}" th:text="#{candidatura.status_op2.label}"></option>
-                                        <option value="ENTREVISTA" th:selected="${candidatura.status_candidatura == 'ENTREVISTA'}" th:text="#{candidatura.status_op3.label}"></option>
-                                    </select>
-									<input type="text" name="linkEntrevista" placeholder="Link para Videoconferência (se aplicável)" />
-                                </form>
+                                <a class="btn btn-info btn-sm"
+									th:href="@{/candidaturas/formEdicao/{id} (id=${candidatura.id}) }" role="button"> 
+									<span class="oi oi-brush" th:text="#{link.edit.label}" aria-hidden="true"></span>
+								</a>
                             </td>
 							<td sec:authorize="hasRole('ROLE_EMPRESA')">
                                 <a class="btn btn-info btn-sm"
-                                    th:href="@{/candidaturas/download/{filename}(filename=${candidatura.curriculoPath})}" role="button">
+                                    th:href="@{/candidaturas/download/{id}(id=${candidatura.id})}" role="button">
                                     <span class="oi oi-download" th:text="#{link.download.label}" aria-hidden="true"></span>
                                 </a>
                             </td>
