@@ -11,9 +11,9 @@
     - [x] Formulário com thymeleaf 
     - [x] Senha criptografada
     - [x] Sistema de autenticação implementado.
-- [ ] Cadastro de Vagas
+- [x] Cadastro de Vagas
     - [x] Formulário com thymeleaf 
-    - [ ] Salvar arquivos PDF (renomeação de pdf)
+    - [x] Salvar arquivos PDF
 - [x] Tabela com as vagas
     - [x] Busca de vaga por cidade.
     - [x] Checar data limite da vaga
