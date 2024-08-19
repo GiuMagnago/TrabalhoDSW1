@@ -44,9 +44,12 @@ public class WebSecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
 				.authorizeHttpRequests((authz) -> authz
-						.requestMatchers("/", "/error", "/login/**", "/js/**").permitAll()
+						.requestMatchers("/", "/error", "/login", "/js/**").permitAll()
 						.requestMatchers("/css/**", "/image/**", "/webjars/**").permitAll()
-						.requestMatchers("/empresas/**", "/profissionais/**").hasRole("ADMIN")
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/empresa").hasRole("EMPRESA")
+                        .requestMatchers("/profissional").hasRole("PROFISSIONAL")
+						.requestMatchers("/empresas/**", "/profissionais/**", "/empresa/**", "/profissional/**").hasRole("ADMIN")
                         .requestMatchers("/vagas/listar", "/vagas/listarPorCidade").permitAll()
                         .requestMatchers("/vagas/**").hasRole("EMPRESA")
                         .requestMatchers("/candidaturas/listarPorVaga/**", "/candidaturas/formEdicao/**", "/candidaturas/editar", "/candidaturas/download/**").hasRole("EMPRESA")

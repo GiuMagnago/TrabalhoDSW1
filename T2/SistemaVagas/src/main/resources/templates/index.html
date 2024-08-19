@@ -6,8 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>hello world</h1>
-    <a th:href="@{/home}">login</a>
-    <a th:href="@{/vagas/listar}">vagas</a>
+    <h1 th:text="#{welcome.message}"></h1>
+    <a th:href="@{/home}" th:text="#{login.label}"></a>
+    <a th:href="@{/vagas/listar}" th:text="#{vaga.listar.label}"></a>
 </body>
 </html>

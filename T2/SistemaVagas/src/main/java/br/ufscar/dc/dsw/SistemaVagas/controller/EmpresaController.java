@@ -23,7 +23,7 @@ public class EmpresaController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-
+    
     @GetMapping("/listar")
     @PreAuthorize("hasRole('ADMIN')")
     public String listar(Model model) {

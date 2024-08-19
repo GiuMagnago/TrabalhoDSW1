@@ -2,25 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Cadastro de Profissional</title>
+    <title>SistemaVagas</title>
 </head>
 <body>
-    <h1>Cadastro de Vaga</h1>
+    <h1 th:text="#{vaga.cadastro.label}"></h1>
     <form th:action="@{/vagas/cadastrar}" th:object="${vaga}" method="post">
         <div>
-            <label for="remuneracao">Remuneracao:</label>
+            <label for="remuneracao" th:text="#{vaga.cadastro.remuneracao.label}"></label>
             <input type="number" id="remuneracao" th:field="*{remuneracao}" required>
         </div>
         <div>
-            <label for="descricao">Descricao:</label>
+            <label for="descricao" th:text="#{vaga.cadastro.descricao.label}"></label>
             <input type="text" id="descricao" th:field="*{descricao}" required>
         </div>
         <div>
-            <label for="dataLimite">Data Limite de Inscricao:</label>
+            <label for="dataLimite" th:text="#{vaga.cadastro.dataLimite.label}"></label>
             <input type="date" id="dataLimite" th:field="*{dataLimite}" required>
         </div>
         <div>
-            <button type="submit">Cadastrar</button>
+            <button type="submit" th:text="#{submit.cadastro.label}"></button>
         </div>
     </form>
 </body>
