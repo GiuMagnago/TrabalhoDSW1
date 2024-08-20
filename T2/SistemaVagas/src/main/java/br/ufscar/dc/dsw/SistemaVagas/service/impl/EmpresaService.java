@@ -36,11 +36,6 @@ public class EmpresaService implements IEmpresaService {
         return dao.findByCnpj(cnpj);
     }
 
-    @Transactional(readOnly = true)
-    public List<String> buscarCidadesUnicas() {
-        return dao.findUniqueCidades();
-    }
-
     public void excluir(long id) {
         dao.deleteById(id);
     }

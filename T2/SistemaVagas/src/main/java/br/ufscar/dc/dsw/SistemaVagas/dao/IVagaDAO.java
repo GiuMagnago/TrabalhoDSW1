@@ -17,6 +17,9 @@ public interface IVagaDAO extends CrudRepository<Vaga, Long>/*, IVagaRepositoryC
 
     @Query("SELECT v FROM Vaga v JOIN v.empresa e WHERE e.cidade = :cidade")
     List<Vaga> findByCidade(String cidade);
+
+    @Query("SELECT DISTINCT e.cidade FROM Vaga v JOIN v.empresa e")
+    List<String> findDistinctCidade();
     
     Vaga save(Vaga vaga);
 

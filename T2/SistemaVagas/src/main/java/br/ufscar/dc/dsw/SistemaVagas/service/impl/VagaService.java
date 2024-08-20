@@ -37,6 +37,11 @@ public class VagaService implements IVagaService{
         return dao.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public List<String> buscarCidadesDistintas() {
+        return dao.findDistinctCidade();
+    }
+
     public Vaga salvar(Vaga vaga) {
         return dao.save(vaga);
     }

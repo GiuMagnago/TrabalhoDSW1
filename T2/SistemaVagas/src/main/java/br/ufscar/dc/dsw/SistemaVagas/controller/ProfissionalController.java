@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.SistemaVagas.domain.Profissional;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.IProfissionalService;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/profissionais")
@@ -38,7 +39,7 @@ public class ProfissionalController {
         return "profissional/cadastro";
     }
 
-    @GetMapping("/formEdicao{id}")
+    @GetMapping("/formEdicao/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String editar(@PathVariable("id") Long id, Model model) {
         model.addAttribute("profissional", service.buscarPorId(id));
@@ -47,7 +48,7 @@ public class ProfissionalController {
 
     @PostMapping("/cadastrar")
     @PreAuthorize("hasRole('ADMIN')")
-    public String criar(Profissional profissional, BindingResult result, RedirectAttributes attr) {
+    public String criar(@Valid Profissional profissional, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
             return "profissionais/cadastro";
         }
@@ -60,7 +61,7 @@ public class ProfissionalController {
 
     @PostMapping("/editar")
     @PreAuthorize("hasRole('ADMIN')")
-    public String atualizar(Profissional profissional, BindingResult result, RedirectAttributes attr) {
+    public String atualizar(@Valid Profissional profissional, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
             return "profissionais/cadastro";
         }

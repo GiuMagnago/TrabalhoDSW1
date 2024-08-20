@@ -13,7 +13,5 @@ public interface IEmpresaService {
 
     Empresa buscarPorCnpj(String cnpj);
 
-    List<String> buscarCidadesUnicas();
-
     void excluir(long id);
 }

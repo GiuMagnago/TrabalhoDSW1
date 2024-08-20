@@ -9,20 +9,20 @@
 
 <body>
     <h1>
-        <span th:text="#{home.message.1}"></span>
+        <span th:text="#{welcome.perfil.message}"></span>
         <span th:inline="text">[[${#authentication.principal.usuario.nome}]]!</span>
     </h1>
 
     <div sec:authorize="hasRole('ROLE_ADMIN')">
-        <p><a th:href="@{/admin}"><span th:text="#{home.message.2}"></a></p>
+        <p><a th:href="@{/admin}"><span th:text="#{admin.perfil}"></a></p>
     </div>
 
     <div sec:authorize="hasRole('ROLE_EMPRESA')">
-        <p><a th:href="@{/empresas/}"><span th:text="#{home.message.3}"></a></p>
+        <p><a th:href="@{/empresa}"><span th:text="#{empresa.perfil}"></a></p>
     </div>
 
     <div sec:authorize="hasRole('ROLE_PROFISSIONAL')">
-        <p><a th:href="@{/profissional}"><span th:text="#{home.message.4}"></a></p>
+        <p><a th:href="@{/profissional}"><span th:text="#{profissional.perfil}"></a></p>
     </div>
 
     <div sec:authorize="isAuthenticated()">

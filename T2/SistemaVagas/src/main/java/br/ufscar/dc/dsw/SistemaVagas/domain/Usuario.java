@@ -8,6 +8,8 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @SuppressWarnings("serial")
 @Entity
@@ -17,15 +19,20 @@ public class Usuario {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
+    @NotBlank(message = "{NotBlank.usuario.nome}")
     @Column(nullable = false, length = 256)
     private String nome;
 
+    @NotBlank(message = "{NotBlank.usuario.email}")
+    @Size(max = 50)
     @Column(nullable = false, unique = true, length = 50)
     private String email;
 
+    @NotBlank(message = "{NotBlank.usuario.senha}")
     @Column(nullable = false)
     private String senha;
 
+    @NotBlank(message = "{NotBlank.usuario.papel}")
     @Column(nullable = false)
     private String papel;
 

@@ -5,7 +5,7 @@
     <title>SistemaVagas</title>
 </head>
 <body>
-    <h1 th:text="${candidatura.edicao.label}"></h1>
+    <h1 th:text="#{candidatura.edicao.label}"></h1>
     <form th:action="@{/candidaturas/editar}" method="post">
         <input type="hidden" name="id" th:value="${id}">
         <select name="status">
@@ -13,7 +13,7 @@
             <option value="NÃO SELECIONADO" th:selected="${candidatura.status_candidatura == 'NÃO SELECIONADO'}" th:text="#{candidatura.status2.label}"></option>
             <option value="ENTREVISTA" th:selected="${candidatura.status_candidatura == 'ENTREVISTA'}" th:text="#{candidatura.status3.label}"></option>
         </select>
-        <label for="linkEntrevista" th:text="#{candidatura.edicao.linkEntrevisa.label}"></label>
+        <label for="linkEntrevista" th:text="#{candidatura.edicao.linkEntrevista.label}"></label>
         <input type="text" name="linkEntrevista"/>
         <button type="submit" th:text="#{submit.atualizar.label}"></button>
     </form>

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.SistemaVagas.domain.Empresa;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.IEmpresaService;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/empresas")
@@ -46,7 +47,7 @@ public class EmpresaController {
 
     @PostMapping("/cadastrar")
     @PreAuthorize("hasRole('ADMIN')")
-    public String criar(Empresa empresa, BindingResult result, RedirectAttributes attr) {
+    public String criar(@Valid Empresa empresa, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
             return "empresa/cadastro";
         }
@@ -59,7 +60,7 @@ public class EmpresaController {
 
     @PostMapping("/editar")
     @PreAuthorize("hasRole('ADMIN')")
-    public String atualizar(Empresa empresa, BindingResult result, RedirectAttributes attr) {
+    public String atualizar(@Valid Empresa empresa, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
             return "empresa/cadastro";
         }

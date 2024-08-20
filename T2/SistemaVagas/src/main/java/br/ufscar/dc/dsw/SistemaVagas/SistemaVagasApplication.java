@@ -47,11 +47,23 @@ public class SistemaVagasApplication {
 			empresa.setEmail("google@gmail.com");
 			empresa.setSenha(encoder.encode("123"));
 			empresa.setPapel("ROLE_EMPRESA");
-			empresa.setCnpj("123");
+			empresa.setCnpj("11111111111111");
 			empresa.setDescricao("aaaa");
 			empresa.setCidade("São Carlos");
 			empresa.setEnable(true);
 			empresaDAO.save(empresa);
+
+			Empresa empresa1 = new Empresa();
+			empresa1.setNome("nestle");
+			empresa1.setEmail("nestle@gmail.com");
+			empresa1.setSenha(encoder.encode("123"));
+			empresa1.setPapel("ROLE_EMPRESA");
+			empresa1.setCnpj("22222222222222");
+			empresa1.setDescricao("aaaa");
+			empresa1.setCidade("São Paulo");
+			empresa1.setEnable(true);
+			empresaDAO.save(empresa1);
+
 
 
 
@@ -80,7 +92,7 @@ public class SistemaVagasApplication {
 
 
 			Vaga vaga1 = new Vaga();
-			vaga1.setCnpj_empresa("123");
+			vaga1.setCnpj_empresa("11111111111111");
 			vaga1.setRemuneracao(3000);
 			vaga1.setDescricao("...");
 			vaga1.setDataLimite(new Date(dateFormat.parse("30-08-2024").getTime()));
@@ -88,15 +100,15 @@ public class SistemaVagasApplication {
 			vagaDAO.save(vaga1);
 
 			Vaga vaga2 = new Vaga();
-			vaga2.setCnpj_empresa("123");
+			vaga2.setCnpj_empresa("22222222222222");
 			vaga2.setRemuneracao(5000);
 			vaga2.setDescricao("...");
 			vaga2.setDataLimite(new Date(dateFormat.parse("30-07-2024").getTime()));
-			vaga2.setEmpresa(empresa);
+			vaga2.setEmpresa(empresa1);
 			vagaDAO.save(vaga2);
 
 			Vaga vaga3 = new Vaga();
-			vaga3.setCnpj_empresa("123");
+			vaga3.setCnpj_empresa("11111111111111");
 			vaga3.setRemuneracao(7000);
 			vaga3.setDescricao("...");
 			vaga3.setDataLimite(new Date(dateFormat.parse("30-12-2024").getTime()));

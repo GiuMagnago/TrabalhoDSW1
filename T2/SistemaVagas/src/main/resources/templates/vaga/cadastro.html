@@ -8,19 +8,28 @@
     <h1 th:text="#{vaga.cadastro.label}"></h1>
     <form th:action="@{/vagas/cadastrar}" th:object="${vaga}" method="post">
         <div>
-            <label for="remuneracao" th:text="#{vaga.cadastro.remuneracao.label}"></label>
-            <input type="number" id="remuneracao" th:field="*{remuneracao}" required>
+            <label for="remuneracao"><span th:text="#{vaga.cadastro.remuneracao.label}"></span>:</label>
+            <input type="number" id="remuneracao" th:field="*{remuneracao}" th:classappend="${#fields.hasErrors('remuneracao')} ? is-invalid" required>
+            <div>
+                <span th:errors="*{remuneracao}"></span>
+            </div>
         </div>
         <div>
-            <label for="descricao" th:text="#{vaga.cadastro.descricao.label}"></label>
-            <input type="text" id="descricao" th:field="*{descricao}" required>
+            <label for="descricao"><span th:text="#{vaga.cadastro.descricao.label}"></span>:</label>
+            <input type="text" id="descricao" th:field="*{descricao}" th:classappend="${#fields.hasErrors('descricao')} ? is-invalid" required>
+            <div>
+                <span th:errors="*{descricao}"></span>
+            </div>
         </div>
         <div>
-            <label for="dataLimite" th:text="#{vaga.cadastro.dataLimite.label}"></label>
-            <input type="date" id="dataLimite" th:field="*{dataLimite}" required>
+            <label for="dataLimite"><span th:text="#{vaga.cadastro.dataLimite.label}"></span>:</label>
+            <input type="date" id="dataLimite" th:field="*{dataLimite}" th:classappend="${#fields.hasErrors('dataLimite')} ? is-invalid" required>
+            <div>
+                <span th:errors="*{dataLimite}"></span>
+            </div>
         </div>
         <div>
-            <button type="submit" th:text="#{submit.cadastro.label}"></button>
+            <button type="submit" th:text="#{submit.cadastrar.label}"></button>
         </div>
     </form>
 </body>

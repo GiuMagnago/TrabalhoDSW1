@@ -16,7 +16,7 @@ public class Candidatura {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private String status_candidatura;
 
     @Column(nullable = false)

@@ -34,11 +34,13 @@
 						<td th:text="${empresa.cnpj}"></td>
 						<td th:text="${empresa.descricao}"></td>
 						<td th:text="${empresa.cidade}"></td>
-						<td colspan="2">
+						<td>
 							<a th:href="@{/empresas/formEdicao/{id} (id=${empresa.id}) }"
 								role="button">
 								<span th:text="#{link.editar.label}"></span>
 							</a>
+						</td>
+						<td>
 							<a th:href="@{/empresas/remover/{id} (id=${empresa.id}) }"
 								role="button">
 								<span th:text="#{link.excluir.label}"></span>

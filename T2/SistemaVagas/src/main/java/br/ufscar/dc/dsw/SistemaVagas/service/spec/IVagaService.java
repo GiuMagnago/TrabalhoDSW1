@@ -14,6 +14,8 @@ public interface IVagaService {
 
     List<Vaga> buscarTodos();
 
+    List<String> buscarCidadesDistintas();
+
     Vaga salvar(Vaga vaga);
 
     void excluir(long id);

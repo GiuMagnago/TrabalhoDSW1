@@ -19,6 +19,7 @@ import br.ufscar.dc.dsw.SistemaVagas.domain.Vaga;
 import br.ufscar.dc.dsw.SistemaVagas.security.CustomUserDetails;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.IEmpresaService;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.IVagaService;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/vagas")
@@ -32,14 +33,14 @@ public class VagaController {
     @GetMapping("/listar")
     public String listar(Model model) {
         model.addAttribute("vagas", service.buscarTodos());
-        model.addAttribute("cidades", empresaService.buscarCidadesUnicas());
+        model.addAttribute("cidades", service.buscarCidadesDistintas());
         return "vaga/lista";
     }
 
     @GetMapping("/listarPorCidade")
     public String listarPorCidade(@RequestParam("cidade") String cidade, Model model) {
         model.addAttribute("vagas", service.buscarPorCidade(cidade));
-        model.addAttribute("cidades", empresaService.buscarCidadesUnicas());
+        model.addAttribute("cidades", service.buscarCidadesDistintas());
         model.addAttribute("cidadeSelecionada", cidade);
         return "vaga/lista";
     }
@@ -65,7 +66,7 @@ public class VagaController {
 
     @PostMapping("/cadastrar")
     @PreAuthorize("hasRole('EMPRESA')")
-    public String criar(Vaga vaga, BindingResult result, RedirectAttributes attr) {
+    public String criar(@Valid Vaga vaga, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
             return "vaga/cadastro";
         }
