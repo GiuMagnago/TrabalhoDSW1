@@ -8,7 +8,7 @@ import br.ufscar.dc.dsw.SistemaVagas.domain.Empresa;
 import br.ufscar.dc.dsw.SistemaVagas.domain.Vaga;
 
 @SuppressWarnings("unchecked")
-public interface IVagaDAO extends CrudRepository<Vaga, Long>/*, IVagaRepositoryCustom*/ {
+public interface IVagaDAO extends CrudRepository<Vaga, Long> {
     Vaga findById(long id);
 
     List<Vaga> findByEmpresa(Empresa empresa);
