@@ -11,6 +11,7 @@
     <div class="cadastro-box">
         <h1 th:text="#{vaga.cadastrar.label}"></h1>
         <form th:action="@{/vagas/criar}" th:object="${vaga}" method="post">
+            <input type="hidden" name="cnpj_empresa" th:value="${cnpj}" />
             <div>
                 <label for="remuneracao" th:text="#{vaga.remuneracao.label}"></label>
                 <input type="number" id="remuneracao" th:field="*{remuneracao}"

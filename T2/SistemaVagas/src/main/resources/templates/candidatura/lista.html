@@ -11,6 +11,9 @@
 <body>
 	<section>
 		<div>
+			<nav style="display: inline-flex; justify-content: space-between; width: 100%;">
+				<b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+			</nav>
 			<div th:replace="~{fragments/alert}"></div>
 			<table class="table">
 				<thead>

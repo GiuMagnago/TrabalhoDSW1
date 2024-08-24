@@ -45,7 +45,7 @@ public class Vaga {
 
     @NotPast(message = "{NotPast}")
     @NotNull(message = "{NotNull.vaga.dataLimite}")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
     private Date dataLimite;
 

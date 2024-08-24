@@ -15,7 +15,8 @@
                 <input class="file-upload" type="file" id="curriculo" name="curriculo" accept="application/pdf" required><br>
                 <span class="file-name">Nenhum arquivo escolhido</span>
             </div>
-            <div>
+            <div style="display: inline-flex; justify-content: space-between; align-items: center;">
+                <b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
                 <button type="submit" th:text="#{submit.inscrever.label}"></button>
             </div>
         </form>

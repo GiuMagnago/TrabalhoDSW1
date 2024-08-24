@@ -1,7 +1,5 @@
 package br.ufscar.dc.dsw.SistemaVagas.controller;
 
-import java.sql.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -63,7 +61,11 @@ public class VagaController {
 
     @GetMapping("/formCadastro")
     @PreAuthorize("hasRole('EMPRESA')")
-    public String formCadastro(Vaga vaga) {
+    public String formCadastro(Vaga vaga, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        long empresaId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
+        Empresa empresa = empresaService.buscarPorId(empresaId);
+        model.addAttribute("cnpj", empresa.getCnpj());
         return "vaga/cadastro";
     }
 
@@ -71,17 +73,11 @@ public class VagaController {
     @PreAuthorize("hasRole('EMPRESA')")
     public String criar(@Valid Vaga vaga, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
+            System.out.println(vaga.getCnpj_empresa());
             return "vaga/cadastro";
-        } else if (vaga.getRemuneracao() < 0 || vaga.getDataLimite().before(new Date(System.currentTimeMillis()))) {
-            model.addAttribute("error", "error.vaga.criar");
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        long empresaId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
-        Empresa empresa = empresaService.buscarPorId(empresaId);
-        
-        vaga.setCnpj_empresa(empresa.getCnpj());
-        vaga.setEmpresa(empresa);
+        vaga.setEmpresa(empresaService.buscarPorCnpj(vaga.getCnpj_empresa()));
         service.salvar(vaga);
 
         attr.addFlashAttribute("success", "success.vaga.criar"); // Adiciona um atributo para o front falando que a criação foi um successo
