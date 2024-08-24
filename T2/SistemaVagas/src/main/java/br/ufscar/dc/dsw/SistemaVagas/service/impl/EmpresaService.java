@@ -17,8 +17,8 @@ public class EmpresaService implements IEmpresaService {
     @Autowired
     IEmpresaDAO dao;
 
-    public void salvar(Empresa empresa) {
-        dao.save(empresa);
+    public Empresa salvar(Empresa empresa) {
+        return dao.save(empresa);
     }
 
     @Transactional(readOnly = true)

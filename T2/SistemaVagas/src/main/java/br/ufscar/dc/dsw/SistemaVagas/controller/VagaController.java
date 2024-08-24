@@ -1,5 +1,7 @@
 package br.ufscar.dc.dsw.SistemaVagas.controller;
 
+import java.sql.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -39,6 +41,9 @@ public class VagaController {
 
     @GetMapping("/listarPorCidade")
     public String listarPorCidade(@RequestParam("cidade") String cidade, Model model) {
+        if (cidade.isEmpty()) {
+            return "redirect:/vagas/listar";
+        }
         model.addAttribute("vagas", service.buscarPorCidade(cidade));
         model.addAttribute("cidades", service.buscarCidadesDistintas());
         model.addAttribute("cidadeSelecionada", cidade);
@@ -48,9 +53,7 @@ public class VagaController {
     @GetMapping("/listarPorEmpresa")
     @PreAuthorize("hasRole('EMPRESA')")
     public String listarPorEmpresa(Model model) {
-        // Pega o usuário autenticado
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // Faz o cast para CustomUserDetails e acessa o objeto Usuario para pegar o ID
         long empresaId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
         Empresa empresa = empresaService.buscarPorId(empresaId);
 
@@ -60,19 +63,20 @@ public class VagaController {
 
     @GetMapping("/formCadastro")
     @PreAuthorize("hasRole('EMPRESA')")
-    public String formCriacao(Vaga vaga) {
+    public String formCadastro(Vaga vaga) {
         return "vaga/cadastro";
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping("/criar")
     @PreAuthorize("hasRole('EMPRESA')")
-    public String criar(@Valid Vaga vaga, BindingResult result, RedirectAttributes attr) {
+    public String criar(@Valid Vaga vaga, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
             return "vaga/cadastro";
+        } else if (vaga.getRemuneracao() < 0 || vaga.getDataLimite().before(new Date(System.currentTimeMillis()))) {
+            model.addAttribute("error", "error.vaga.criar");
         }
-        // Pega o usuário autenticado
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // Faz o cast para CustomUserDetails e acessa o objeto Usuario para pegar o ID
         long empresaId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
         Empresa empresa = empresaService.buscarPorId(empresaId);
         
@@ -80,15 +84,24 @@ public class VagaController {
         vaga.setEmpresa(empresa);
         service.salvar(vaga);
 
-        attr.addFlashAttribute("success", "vaga.create.sucess"); // Adiciona um atributo para o front falando que a criação foi um sucesso
+        attr.addFlashAttribute("success", "success.vaga.criar"); // Adiciona um atributo para o front falando que a criação foi um successo
         return "redirect:/vagas/listarPorEmpresa";
     }
 
     @GetMapping("/remover/{id}")
     @PreAuthorize("hasRole('EMPRESA')")
     public String remover(@PathVariable("id") Long id, RedirectAttributes attr) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        long empresaId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
+        Empresa empresa = empresaService.buscarPorId(empresaId);
+
+        if (service.buscarPorId(id).getEmpresa() != empresa) {
+            attr.addFlashAttribute("error", "error.vaga.excluir");
+            return "redirect:/vagas/listar";
+        }
+
         service.excluir(id);
-        attr.addAttribute("succes", "vaga.delete.success");
-        return "redirect:/vagas/listar";
+        attr.addAttribute("succes", "success.vaga.excluir");
+        return "redirect:/vagas/listarPorEmpresa";
     }
 }

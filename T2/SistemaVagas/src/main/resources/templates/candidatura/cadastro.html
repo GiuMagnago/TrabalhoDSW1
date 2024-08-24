@@ -3,18 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>SistemaVagas</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1 th:text="#{candidatura.cadastro.label}"></h1>
-    <form th:action="@{/candidaturas/cadastrar}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="vagaID" th:value="${vagaID}">
-        <div>
-            <label for="curriculo"><span th:text="#{candidatura.curriculo.label}"></span>:</label>
-            <input type="file" id="curriculo" name="curriculo" accept="application/pdf" required>
-        </div>
-        <div>
-            <button type="submit" th:text="#{submit.inscrever.label}"></button>
-        </div>
-    </form>
+    <div class="cadastro-box">
+        <h1 th:text="#{candidatura.cadastro.label}"></h1>
+        <form th:action="@{/candidaturas/criar}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="vagaID" th:value="${vagaID}">
+            <div class="curriculo-input-box">
+                <label class="custom-upload-btn" for="curriculo"><span th:text="#{candidatura.curriculo.label}"></span>:</label>
+                <input class="file-upload" type="file" id="curriculo" name="curriculo" accept="application/pdf" required><br>
+                <span class="file-name">Nenhum arquivo escolhido</span>
+            </div>
+            <div>
+                <button type="submit" th:text="#{submit.inscrever.label}"></button>
+            </div>
+        </form>
+    </div>
+    <script>
+        const input = document.getElementsByClassName('file-upload')[0];
+        const fileName = document.querySelector('.file-name');
+
+        input.addEventListener('change', function() {
+            fileName.textContent = this.files[0] ? this.files[0].name : 'Nenhum arquivo escolhido';
+        });
+    </script>
 </body>
 </html>

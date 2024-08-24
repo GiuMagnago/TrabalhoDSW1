@@ -24,12 +24,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.SistemaVagas.domain.Candidatura;
+import br.ufscar.dc.dsw.SistemaVagas.domain.Empresa;
 import br.ufscar.dc.dsw.SistemaVagas.domain.Profissional;
 import br.ufscar.dc.dsw.SistemaVagas.domain.Vaga;
 import br.ufscar.dc.dsw.SistemaVagas.security.CustomUserDetails;
-import br.ufscar.dc.dsw.SistemaVagas.service.impl.EmailService;
 import br.ufscar.dc.dsw.SistemaVagas.service.impl.StorageService;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.ICandidaturaService;
+import br.ufscar.dc.dsw.SistemaVagas.service.spec.IEmailService;
+import br.ufscar.dc.dsw.SistemaVagas.service.spec.IEmpresaService;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.IProfissionalService;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.IVagaService;
 import jakarta.mail.internet.InternetAddress;
@@ -47,17 +49,18 @@ public class CandidaturaController {
     IProfissionalService profissionalService;
 
     @Autowired
-    EmailService emailService;
+    IEmpresaService empresaService;
+
+    @Autowired
+    IEmailService emailService;
 
     @Autowired
     StorageService storageService;
 
     @GetMapping("/listar")
     @PreAuthorize("hasRole('PROFISSIONAL')")
-    public String listarPorProfissional(Model model) {
-        // Pega o usuário autenticado
+    public String listar(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // Faz o cast para CustomUserDetails e acessa o objeto Usuario para pegar o ID
         long profissionalId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
         Profissional profissional = profissionalService.buscarPorId(profissionalId);
 
@@ -67,38 +70,43 @@ public class CandidaturaController {
 
     @GetMapping("/listarPorVaga/{id}")
     @PreAuthorize("hasRole('EMPRESA')")
-    public String listarPorVaga(@PathVariable("id") Long id, Model model) {
+    public String listarPorVaga(@PathVariable("id") Long id, Model model, RedirectAttributes attr) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        long empresaId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
+        Empresa empresa = empresaService.buscarPorId(empresaId);
+
+        if (vagaService.buscarPorId(id).getEmpresa() != empresa) {
+            attr.addFlashAttribute("error", "error.candidatura.listar");
+            return "redirect:/vagas/listar";
+        }
+
         model.addAttribute("candidaturas", service.buscarPorVaga(vagaService.buscarPorId(id)));
         return "candidatura/lista";
     }
 
     @GetMapping("/formCadastro/{id}")
     @PreAuthorize("hasRole('PROFISSIONAL')")
-    public String cadastrar(@PathVariable("id") Long vagaID, Model model, RedirectAttributes attr) {
-        // Pega o usuário autenticado
+    public String formCadastro(@PathVariable("id") Long vagaID, Model model, RedirectAttributes attr) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // Faz o cast para CustomUserDetails e acessa o objeto Usuario para pegar o ID
         long profissionalId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
         Profissional profissional = profissionalService.buscarPorId(profissionalId);
 
         Vaga vaga = vagaService.buscarPorId(vagaID);
-                            
+
         if (service.existeCandidatura(profissional, vaga)) {
-            attr.addFlashAttribute("error", "candidatura.create.error");
+            attr.addFlashAttribute("error", "error.candidatura.criar");
             return "redirect:/vagas/listar";
         }
         model.addAttribute("vagaID", vagaID);
         return "candidatura/cadastro";  
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping("/criar")
     @PreAuthorize("hasRole('PROFISSIONAL')")
     public String criar(@RequestParam("vagaID") Long vagaID, 
                         @RequestParam("curriculo") MultipartFile curriculo, 
                         RedirectAttributes attr) {
-        // Pega o usuário autenticado
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        // Faz o cast para CustomUserDetails e acessa o objeto Usuario para pegar o ID
         long profissionalId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
         Profissional profissional = profissionalService.buscarPorId(profissionalId);
 
@@ -108,39 +116,51 @@ public class CandidaturaController {
         candidatura.setStatus_candidatura("ABERTO");
         candidatura.setCurriculoPath(storageService.store(curriculo, ("curriculo_" + profissionalId + ".pdf")));
         service.salvar(candidatura);
-        attr.addFlashAttribute("success", "candidatura.create.success");
+        attr.addFlashAttribute("success", "success.candidatura.criar");
         return "redirect:/candidaturas/listar";
     }
 
     @GetMapping("/formEdicao/{id}")
     @PreAuthorize("hasRole('EMPRESA')")
-    public String editar(@PathVariable("id") Long id, Model model, RedirectAttributes attr) {
+    public String formEdicao(@PathVariable("id") Long id, Model model, RedirectAttributes attr) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        long empresaId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
+        Empresa empresa = empresaService.buscarPorId(empresaId);
+
+        if (service.buscarPorId(id).getVaga().getEmpresa() != empresa) {
+            attr.addFlashAttribute("error", "error.candidatura.editar");
+            return "redirect:/vagas/listarPorEmpresa";
+        }
         model.addAttribute("candidatura", service.buscarPorId(id));
         return "candidatura/editar";  
     }
 
-    private void sendEmail(Candidatura candidatura) {
+    private boolean sendEmail(Candidatura candidatura) {
         try {
             Profissional profissional = candidatura.getProfissional();
             InternetAddress from = new InternetAddress("sistemavagas@gmail.com", "SistemaVagas");
             InternetAddress to = new InternetAddress(profissional.getEmail(), profissional.getNome());
             emailService.send(from, to, candidatura.getStatus_candidatura(), "link");
+            return true;
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return false;
     }
 
     @PostMapping("/editar")
     @PreAuthorize("hasRole('EMPRESA')")
-    public String atualizar(@RequestParam("id") Long id, @RequestParam("status") String status, RedirectAttributes attr) {
+    public String editar(@RequestParam("id") Long id, @RequestParam("status") String status, RedirectAttributes attr) {
         Candidatura candidatura = service.buscarPorId(id);
         candidatura.setStatus_candidatura(status);
         service.salvar(candidatura);
 
-        sendEmail(candidatura);
-
-        attr.addFlashAttribute("success", "candidatura.edit.success");
+        if (sendEmail(candidatura)) {
+            attr.addFlashAttribute("success", "success.candidatura.notificar");
+        } else {
+            attr.addFlashAttribute("error", "error.candidatura.notificar");
+        }
         return "redirect:/candidaturas/listarPorVaga/" + candidatura.getVaga().getId();
     }
 
@@ -167,9 +187,18 @@ public class CandidaturaController {
     @GetMapping("/remover/{id}")
     @PreAuthorize("hasRole('PROFISSIONAL')")
     public String remover(@PathVariable("id") Long id, RedirectAttributes attr) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        long profissionalId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
+        Profissional profissional = profissionalService.buscarPorId(profissionalId);
+
+        if (service.buscarPorId(id).getProfissional() != profissional) {
+            attr.addFlashAttribute("error", "error.candidatura.excluir");
+            return "redirect:/candidaturas/listar";
+        }
+
         storageService.deleteFile(service.buscarPorId(id).getCurriculoPath()); // Deletar o curriculo
         service.excluir(id);
-        attr.addAttribute("success", "cadidatura.delete.success");
+        attr.addAttribute("success", "success.candidatura.excluir");
         return "redirect:/candidaturas/listar";
     }
 }

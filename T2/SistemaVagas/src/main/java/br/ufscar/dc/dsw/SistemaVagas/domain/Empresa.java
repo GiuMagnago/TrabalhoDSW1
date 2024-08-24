@@ -2,6 +2,7 @@ package br.ufscar.dc.dsw.SistemaVagas.domain;
 
 import java.util.List;
 
+import br.ufscar.dc.dsw.SistemaVagas.validation.UniqueCNPJ;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +15,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "Empresa")
 public class Empresa extends Usuario {
+    @UniqueCNPJ(message = "{UniqueCNPJ}")
     @NotBlank(message = "{NotBlank.empresa.cnpj}")
     @Size(min = 14, max = 14)
     @Column(nullable = false, unique = true, length = 14)

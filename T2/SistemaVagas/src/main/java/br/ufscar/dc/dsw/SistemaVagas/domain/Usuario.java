@@ -1,5 +1,6 @@
 package br.ufscar.dc.dsw.SistemaVagas.domain;
 
+import br.ufscar.dc.dsw.SistemaVagas.validation.UniqueEmail;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +24,7 @@ public class Usuario {
     @Column(nullable = false, length = 256)
     private String nome;
 
+    @UniqueEmail(message = "{UniqueEmail}")
     @NotBlank(message = "{NotBlank.usuario.email}")
     @Size(max = 50)
     @Column(nullable = false, unique = true, length = 50)

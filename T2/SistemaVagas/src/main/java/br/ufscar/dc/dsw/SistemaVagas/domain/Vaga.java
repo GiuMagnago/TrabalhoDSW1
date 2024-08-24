@@ -1,10 +1,12 @@
 package br.ufscar.dc.dsw.SistemaVagas.domain;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import br.ufscar.dc.dsw.SistemaVagas.validation.NotNegative;
+import br.ufscar.dc.dsw.SistemaVagas.validation.NotPast;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,11 +28,12 @@ public class Vaga {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @NotBlank(message = "{NotBlank.vaga.cnpj_empresa}")
+    @NotBlank(message = "{NotBlank.empresa.cnpj}")
     @Size(min = 14, max = 14)
     @Column(nullable = false, length = 14)
     private String cnpj_empresa;
 
+    @NotNegative(message = "{NotNegative}")
     @NotNull(message = "{NotNull.vaga.remuneracao}")
     @Column(nullable = false)
     private double remuneracao;
@@ -40,6 +43,7 @@ public class Vaga {
     @Column(nullable = false, length = 256)
     private String descricao;
 
+    @NotPast(message = "{NotPast}")
     @NotNull(message = "{NotNull.vaga.dataLimite}")
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(nullable = false)
@@ -88,8 +92,8 @@ public class Vaga {
         return dataLimite;
     }
 
-    public void setDataLimite(Date dataLimite) {
-        this.dataLimite = dataLimite;
+    public void setDataLimite(Date d) {
+        this.dataLimite = d;
     }
 
     public Empresa getEmpresa() {

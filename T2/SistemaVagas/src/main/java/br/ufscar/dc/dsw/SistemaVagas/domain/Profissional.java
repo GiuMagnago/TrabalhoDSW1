@@ -1,10 +1,12 @@
 package br.ufscar.dc.dsw.SistemaVagas.domain;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import br.ufscar.dc.dsw.SistemaVagas.validation.NotFutureBorn;
+import br.ufscar.dc.dsw.SistemaVagas.validation.UniqueCPF;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,6 +20,7 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "Profissional")
 public class Profissional extends Usuario {
+    @UniqueCPF(message = "{UniqueCPF}")
     @NotBlank(message = "{NotBlank.profissional.cpf}")
     @Size(min = 11, max = 11)
     @Column(nullable = false, unique = true, length = 11)
@@ -31,8 +34,9 @@ public class Profissional extends Usuario {
     @Column(nullable = false, length = 15)
     private String sexo;
 
+    @NotFutureBorn
     @NotNull(message = "{NotNull.profissional.dataNasc}")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false, length = 15)
     private Date dataNasc;
 

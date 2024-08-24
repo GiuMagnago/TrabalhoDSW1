@@ -1,51 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SistemaVagas</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SistemaVagas</title>
+	<link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
 	<section>
-		<nav>
-			<a th:href="@{/profissionais/formCadastro}" role="button">
+		<nav style="display: inline-flex; justify-content: space-between; width: 100%;">
+			<b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+			<a class="btn-criar" th:href="@{/profissionais/formCadastro}" role="button">
 				<span th:text="#{profissional.cadastrar.label}"></span>
 			</a>
 		</nav>
-			<div>
-				<table>
-					<thead>
-						<tr>
-							<th>#</th>
-							<th th:text="#{profissional.email.label}"></th>
-							<th th:text="#{profissional.nome.label}"></th>
-							<th th:text="#{profissional.cpf.label}"></th>
-							<th th:text="#{profissional.telefone.label}"></th>
-                            <th th:text="#{profissional.sexo.label}"></th>
-							<th th:text="#{profissional.dataNasc.label}"></th>
-						</tr>
-					</thead>
-					<tbody>						
-						<tr th:each="profissional : ${profissionais}">
-							<td th:text="${profissional.id}"></td>
-							<td th:text="${profissional.email}"></td>
-							<td th:text="${profissional.nome}"></td>
-							<td th:text="${profissional.cpf}"></td>
-                            <td th:text="${profissional.telefone}"></td>
-                            <td th:text="${profissional.sexo}"></td>
-							<td th:text="${profissional.dataNasc}"></td>
-							<td colspan="2">
-								<a th:href="@{/profissionais/formEdicao/{id} (id=${profissional.id}) }" role="button"> 
-									<span th:text="#{link.editar.label}"></span>
-								</a>
-                                <a th:href="@{/profissionais/remover/{id} (id=${profissional.id}) }" role="button"> 
-									<span th:text="#{link.excluir.label}"></span>
-								</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+		<div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th th:text="#{profissional.email.label}"></th>
+						<th th:text="#{profissional.nome.label}"></th>
+						<th th:text="#{profissional.cpf.label}"></th>
+						<th th:text="#{profissional.telefone.label}"></th>
+						<th th:text="#{profissional.sexo.label}"></th>
+						<th th:text="#{profissional.dataNasc.label}"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="profissional : ${profissionais}">
+						<td th:text="${profissional.id}"></td>
+						<td th:text="${profissional.email}"></td>
+						<td th:text="${profissional.nome}"></td>
+						<td th:text="${profissional.cpf}"></td>
+						<td th:text="${profissional.telefone}"></td>
+						<td th:text="${profissional.sexo}"></td>
+						<td th:text="${#dates.format(profissional.dataNasc, 'dd-MM-yyyy')}"></td>
+						<td>
+							<a th:href="@{/profissionais/formEdicao/{id} (id=${profissional.id}) }" role="button">
+								<span th:text="#{link.editar.label}"></span>
+							</a>
+						</td>
+						<td>
+							<a th:href="@{/profissionais/remover/{id} (id=${profissional.id}) }" role="button" onclick="confirmDelete(event)">
+								<span th:text="#{link.excluir.label}"></span>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div th:replace="~{fragments/alert}"></div>
 	</section>
+	<script th:inline="javascript">
+		var deleteConfirmationMessage = /*[[${#messages.msg('remove.label.message')}]]*/ 'Atenção! Tem certeza que deseja excluir esse item?';
+
+		function confirmDelete(event) {
+			event.preventDefault();
+			if (confirm(deleteConfirmationMessage)) {
+				window.location.href = event.currentTarget.href;
+			}
+		}
+	</script>
 </body>
+
 </html>

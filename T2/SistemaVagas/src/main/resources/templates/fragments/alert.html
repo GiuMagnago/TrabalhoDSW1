@@ -1,0 +1,5 @@
+<!-- Se houver uma mensagem de sucesso, exiba um alerta -->
+<div th:if="${success}" th:utext="'<script>alert(\'' + #{${success}} + '\');</script>'"></div>
+
+<!-- Se houver uma mensagem de erro, exiba um alerta -->
+<div th:if="${error}" th:utext="'<script>alert(\'' + #{${error}} + '\');</script>'"></div>

@@ -17,8 +17,8 @@ public class ProfissionalService implements IProfissionalService {
     @Autowired
     IProfissionalDAO dao;
 
-    public void salvar(Profissional profissional) {
-        dao.save(profissional);
+    public Profissional salvar(Profissional profissional) {
+        return dao.save(profissional);
     }
 
     @Transactional(readOnly = true)

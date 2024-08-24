@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufscar.dc.dsw.SistemaVagas.domain.Profissional;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.IProfissionalService;
+import br.ufscar.dc.dsw.SistemaVagas.service.spec.IUsuarioService;
 import jakarta.validation.Valid;
 
 @Controller
@@ -22,6 +22,10 @@ import jakarta.validation.Valid;
 public class ProfissionalController {
     @Autowired
     IProfissionalService service;
+
+    @Autowired
+    IUsuarioService usuarioService;
+    
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -35,47 +39,53 @@ public class ProfissionalController {
 
     @GetMapping("/formCadastro")
     @PreAuthorize("hasRole('ADMIN')")
-    public String cadastrar(Profissional profissional) {
+    public String formCadastro(Profissional profissional) {
         return "profissional/cadastro";
     }
 
     @GetMapping("/formEdicao/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String editar(@PathVariable("id") Long id, Model model) {
+    public String formEdicao(@PathVariable("id") Long id, Model model) {
         model.addAttribute("profissional", service.buscarPorId(id));
         return "profissional/cadastro";
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping("/criar")
     @PreAuthorize("hasRole('ADMIN')")
-    public String criar(@Valid Profissional profissional, BindingResult result, RedirectAttributes attr) {
+    public String criar(@Valid Profissional profissional, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
-            return "profissionais/cadastro";
+            return "profissional/cadastro";
         }
         profissional.setSenha(passwordEncoder.encode(profissional.getSenha()));
         profissional.setPapel("ROLE_PROFISSIONAL");
         service.salvar(profissional);
-        attr.addFlashAttribute("sucess", "profissional.create.sucess");
+
+        attr.addFlashAttribute("success", "success.profissional.criar");
         return "redirect:/profissionais/listar";
     }
 
     @PostMapping("/editar")
     @PreAuthorize("hasRole('ADMIN')")
-    public String atualizar(@Valid Profissional profissional, BindingResult result, RedirectAttributes attr) {
+    public String editar(@Valid Profissional profissional, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
-            return "profissionais/cadastro";
+            return "profissional/cadastro";
         }
         profissional.setSenha(passwordEncoder.encode(profissional.getSenha()));
         service.salvar(profissional);
-        attr.addFlashAttribute("sucess", "profissional.edit.sucess");
+        attr.addFlashAttribute("success", "success.profissional.editar");
         return "redirect:/profissionais/listar";
     }
 
     @GetMapping("/remover/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String remover(@RequestParam Long id, RedirectAttributes attr) {
+    public String remover(@PathVariable("id") Long id, RedirectAttributes attr) {
+        if (service.buscarPorId(id) == null) {
+            attr.addFlashAttribute("error", "error.profissional.excluir");
+            return "redirect:/profissionais/listar";
+        }
+
         service.excluir(id);
-        attr.addFlashAttribute("sucess", "profissional.delete.sucess");
+        attr.addFlashAttribute("success", "success.profissional.excluir");
         return "redirect:/profissionais/listar";
     }
 }

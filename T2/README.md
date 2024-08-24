@@ -1,8 +1,8 @@
 # Lista de Tarefas
 
-- [ ] Sistema internacionalizado (português + inglês)
-- [ ] Pagina de redirecionamento de erro
-- [ ] Validação das informações de cadastro e edição
+- [x] Sistema internacionalizado (português + inglês)
+- [x] Pagina de redirecionamento de erro
+- [x] Validação das informações de cadastro e edição
 - [x] CRUD Profissionais
     - [x] Formulário com thymeleaf 
     - [x] Senha criptografada
@@ -23,8 +23,4 @@
 - [x] Atualizar o status da candidatura do profissional
     - [x] Envio de email para o profissional
     - [x] Baixar o curriculo do profissional
-- [ ] Permissões de cada tipo de usuário
-    - [ ] Admin        - Tudo
-    - [ ] Empresa      - TodasVagas;VagasPorEmpresa;CadastroVagas;CandidaturasPorVaga;AtualizarStatusCandidatura
-    - [ ] Profissional - TodasVagas;CandidatarVaga;CandidaturasPorProfissional;
 

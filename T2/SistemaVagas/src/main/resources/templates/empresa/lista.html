@@ -5,17 +5,19 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>SistemaVagas</title>
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 	<section>
-		<nav>
-			<a th:href="@{/empresas/formCadastro}" role="button">
+		<nav style="display: inline-flex; justify-content: space-between; width: 100%;">
+			<b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+			<a class="btn-criar" th:href="@{/empresas/formCadastro}" role="button">
 				<span th:text="#{empresa.cadastrar.label}"></span>
 			</a>
 		</nav>
 		<div>
-			<table>
+			<table class="table">
 				<thead>
 					<tr>
 						<th>#</th>
@@ -42,7 +44,7 @@
 						</td>
 						<td>
 							<a th:href="@{/empresas/remover/{id} (id=${empresa.id}) }"
-								role="button">
+								role="button" onclick="confirmDelete(event)">
 								<span th:text="#{link.excluir.label}"></span>
 							</a>
 						</td>
@@ -50,7 +52,18 @@
 				</tbody>
 			</table>
 		</div>
+		<div th:replace="~{fragments/alert}"></div>
 	</section>
+	<script th:inline="javascript">
+		var deleteConfirmationMessage = /*[[${#messages.msg('remove.label.message')}]]*/ 'Atenção! Tem certeza que deseja excluir esse item?';
+
+		function confirmDelete(event) {
+			event.preventDefault(); // Previne o comportamento padrão do link
+			if (confirm(deleteConfirmationMessage)) {
+				window.location.href = event.currentTarget.href; // Redireciona para o link se o usuário confirmar
+			}
+		}
+	</script>
 </body>
 
 </html>

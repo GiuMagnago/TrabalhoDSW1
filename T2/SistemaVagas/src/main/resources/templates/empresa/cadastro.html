@@ -5,61 +5,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SistemaVagas</title>
-    <link rel="stylesheet" href="/path/to/your/styles.css"> <!-- Inclua seu CSS aqui -->
+    <link rel="stylesheet" href="/css/style.css"> <!-- Inclua seu CSS aqui -->
 </head>
 
 <body>
-    <h1 th:text="#{empresa.cadastrar.label}"></h1>
-    <form th:action="${empresa.id == 0} ? @{/empresas/cadastrar} : @{/empresas/editar}" th:object="${empresa}"
-        method="post">
-        <input type="hidden" id="id" th:field="*{id}" />
-        <input type="hidden" id="papel" th:field="*{papel}" />
-        <div>
-            <label for="email"><span th:text="#{empresa.email.label}"></span>:</label>
-            <input type="email" id="email" name="email" th:field="*{email}" th:classappend="${#fields.hasErrors('email')} ? is-invalid" required>
+    <div class="cadastro-box">
+
+        <h1 th:text="#{empresa.cadastrar.label}"></h1>
+        <form th:action="${empresa.id == 0} ? @{/empresas/criar} : @{/empresas/editar}" th:object="${empresa}"
+            method="post">
+            <input type="hidden" id="id" th:field="*{id}" />
+            <input type="hidden" id="papel" th:field="*{papel}" />
             <div>
-                <span th:errors="*{email}"></span>
+                <label for="email" th:text="#{empresa.email.label}"></label>
+                <input type="email" id="email" name="email" th:field="*{email}" th:classappend="${#fields.hasErrors('email')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{email}"></span>
+                </div>
             </div>
-        </div>
-        <div>
-            <label for="senha"><span th:text="#{empresa.senha.label}"></span>:</label>
-            <input type="password" id="senha" name="senha" th:field="*{senha}" th:classappend="${#fields.hasErrors('senha')} ? is-invalid" required>
             <div>
-                <span th:errors="*{senha}"></span>
+                <label for="senha" th:text="#{empresa.senha.label}"></label>
+                <input type="password" id="senha" name="senha" th:field="*{senha}" th:classappend="${#fields.hasErrors('senha')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{senha}"></span>
+                </div>
             </div>
-        </div>
-        <div>
-            <label for="cnpj"><span th:text="#{empresa.cnpj.label}"></span>:</label>
-            <input type="text" id="cnpj" name="cnpj" th:field="*{cnpj}" th:classappend="${#fields.hasErrors('cnpj')} ? is-invalid" required>
             <div>
-                <span th:errors="*{cnpj}"></span>
+                <label for="cnpj" th:text="#{empresa.cnpj.label}"></label>
+                <input type="text" id="cnpj" name="cnpj" th:field="*{cnpj}" th:classappend="${#fields.hasErrors('cnpj')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{cnpj}"></span>
+                </div>
             </div>
-        </div>
-        <div>
-            <label for="nome"><span th:text="#{empresa.nome.label}"></span>:</label>
-            <input type="text" id="nome" name="nome" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')} ? is-invalid" required>
             <div>
-                <span th:errors="*{nome}"></span>
+                <label for="nome" th:text="#{empresa.nome.label}"></label>
+                <input type="text" id="nome" name="nome" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{nome}"></span>
+                </div>
             </div>
-        </div>
-        <div>
-            <label for="descricao"><span th:text="#{empresa.descricao.label}"></span>:</label>
-            <textarea id="descricao" name="descricao" rows="4" th:field="*{descricao}" th:classappend="${#fields.hasErrors('descricao')} ? is-invalid" required></textarea>
             <div>
-                <span th:errors="*{descricao}"></span>
+                <label for="descricao" th:text="#{empresa.descricao.label}"></label>
+                <textarea id="descricao" name="descricao" rows="4" th:field="*{descricao}" th:classappend="${#fields.hasErrors('descricao')} ? is-invalid" required></textarea>
+                <div>
+                    <span th:errors="*{descricao}"></span>
+                </div>
             </div>
-        </div>
-        <div>
-            <label for="cidade"><span th:text="#{empresa.cidade.label}"></span>:</label>
-            <input type="text" id="cidade" name="cidade" th:field="*{cidade}" th:classappend="${#fields.hasErrors('cidade')} ? is-invalid" required>
             <div>
-                <span th:errors="*{cidade}"></span>
+                <label for="cidade" th:text="#{empresa.cidade.label}"></label>
+                <input type="text" id="cidade" name="cidade" th:field="*{cidade}" th:classappend="${#fields.hasErrors('cidade')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{cidade}"></span>
+                </div>
             </div>
-        </div>
-        <div>
-            <button type="submit" th:text="${empresa.id == 0} ? #{submit.cadastrar.label} : #{submit.atualizar.label}"></button>
-        </div>
-    </form>
+            <div style="display: inline-flex; justify-content: space-between; align-items: center;">
+                <b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+                <button type="submit" th:text="${empresa.id == 0} ? #{submit.cadastrar.label} : #{submit.atualizar.label}" style="height: fit-content;"></button>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>

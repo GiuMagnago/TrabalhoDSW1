@@ -5,31 +5,31 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>SistemaVagas</title>
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 	<section>
 		<div>
-			<table>
+			<div th:replace="~{fragments/alert}"></div>
+			<table class="table">
 				<thead>
 					<tr>
 						<th>#</th>
-						<th th:text="#{candidatura.profissional_id.label}"></th>
-						<th th:text="#{candidatura.vaga_id.label}"></th>
+						<th th:text="#{candidatura.empresa.nome.label}"></th>
 						<th th:text="#{candidatura.status.label}"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="candidatura : ${candidaturas}">
 						<td th:text="${candidatura.id}"></td>
-						<td th:text="${candidatura.profissional.id}"></td>
-						<td th:text="${candidatura.vaga.id}"></td>
+						<td th:text="${candidatura.vaga.empresa.nome}"></td>
 
 						<td sec:authorize="hasRole('ROLE_PROFISSIONAL')">
 							<span th:text="${candidatura.status_candidatura}"></span>
 						</td>
 						<td sec:authorize="hasRole('ROLE_PROFISSIONAL')">
-							<a th:href="@{/candidaturas/remover/{id} (id=${candidatura.id}) }" role="button">
+							<a th:href="@{/candidaturas/remover/{id} (id=${candidatura.id}) }" role="button" onclick="confirmDelete(event)">
 								<span th:text="#{link.excluir.label}"></span>
 							</a>
 						</td>
@@ -48,6 +48,16 @@
 				</tbody>
 			</table>
 		</div>
+		<script th:inline="javascript">
+			var deleteConfirmationMessage = /*[[${#messages.msg('remove.label.message')}]]*/ 'Atenção! Tem certeza que deseja excluir esse item?';
+	
+			function confirmDelete(event) {
+				event.preventDefault();
+				if (confirm(deleteConfirmationMessage)) {
+					window.location.href = event.currentTarget.href;
+				}
+			}
+		</script>
 </body>
 
 </html>

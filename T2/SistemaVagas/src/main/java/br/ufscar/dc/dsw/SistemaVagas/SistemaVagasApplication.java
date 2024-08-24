@@ -1,6 +1,5 @@
 package br.ufscar.dc.dsw.SistemaVagas;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 import org.springframework.boot.CommandLineRunner;
@@ -74,8 +73,8 @@ public class SistemaVagasApplication {
 			profissional1.setPapel("ROLE_PROFISSIONAL");
 			profissional1.setCpf("12345678900");
 			profissional1.setTelefone("1612345678");
-			profissional1.setSexo("Masculino");
-			profissional1.setDataNasc(new Date(dateFormat.parse("01-01-2001").getTime()));
+			profissional1.setSexo("M");
+			profissional1.setDataNasc(dateFormat.parse("01-01-2001"));
 			profissionalDAO.save(profissional1);
 
 			Profissional profissional2 = new Profissional();
@@ -85,8 +84,8 @@ public class SistemaVagasApplication {
 			profissional2.setPapel("ROLE_PROFISSIONAL");
 			profissional2.setCpf("12345678901");
 			profissional2.setTelefone("1612345678");
-			profissional2.setSexo("Masculino");
-			profissional2.setDataNasc(new Date(dateFormat.parse("01-01-2001").getTime()));
+			profissional2.setSexo("M");
+			profissional2.setDataNasc(dateFormat.parse("01-01-2001"));
 			profissionalDAO.save(profissional2);
 
 
@@ -95,34 +94,34 @@ public class SistemaVagasApplication {
 			vaga1.setCnpj_empresa("11111111111111");
 			vaga1.setRemuneracao(3000);
 			vaga1.setDescricao("...");
-			vaga1.setDataLimite(new Date(dateFormat.parse("30-08-2024").getTime()));
+			vaga1.setDataLimite(dateFormat.parse("30-08-2024"));
 			vaga1.setEmpresa(empresa);
 			vagaDAO.save(vaga1);
 
-			Vaga vaga2 = new Vaga();
-			vaga2.setCnpj_empresa("22222222222222");
-			vaga2.setRemuneracao(5000);
-			vaga2.setDescricao("...");
-			vaga2.setDataLimite(new Date(dateFormat.parse("30-07-2024").getTime()));
-			vaga2.setEmpresa(empresa1);
-			vagaDAO.save(vaga2);
+			// Vaga vaga2 = new Vaga();
+			// vaga2.setCnpj_empresa("22222222222222");
+			// vaga2.setRemuneracao(5000);
+			// vaga2.setDescricao("...");
+			// vaga2.setDataLimite(new Date(dateFormat.parse("30-07-2024").getTime()));
+			// vaga2.setEmpresa(empresa1);
+			// vagaDAO.save(vaga2);
 
 			Vaga vaga3 = new Vaga();
 			vaga3.setCnpj_empresa("11111111111111");
 			vaga3.setRemuneracao(7000);
 			vaga3.setDescricao("...");
-			vaga3.setDataLimite(new Date(dateFormat.parse("30-12-2024").getTime()));
+			vaga3.setDataLimite(dateFormat.parse("30-12-2024"));
 			vaga3.setEmpresa(empresa);
 			vagaDAO.save(vaga3);
 
 
-			Candidatura candidatura1 = new Candidatura();
-			candidatura1.setProfissional(profissional1);
-			candidatura1.setVaga(vaga2);
-			candidatura1.setCurriculoPath("...");
-			candidatura1.setStatus_candidatura("ABERTO");
-			candidatura1.setCurriculoPath("src/main/resources/uploads/curriculo_3.pdf");
-			candidaturaDAO.save(candidatura1);
+			// Candidatura candidatura1 = new Candidatura();
+			// candidatura1.setProfissional(profissional1);
+			// candidatura1.setVaga(vaga2);
+			// candidatura1.setCurriculoPath("...");
+			// candidatura1.setStatus_candidatura("ABERTO");
+			// candidatura1.setCurriculoPath("src/main/resources/uploads/curriculo_3.pdf");
+			// candidaturaDAO.save(candidatura1);
 
 			Candidatura candidatura2 = new Candidatura();
 			candidatura2.setProfissional(profissional2);
@@ -132,13 +131,13 @@ public class SistemaVagasApplication {
 			candidatura2.setCurriculoPath("src/main/resources/uploads/curriculo_4.pdf");
 			candidaturaDAO.save(candidatura2);
 
-			Candidatura candidatura3 = new Candidatura();
-			candidatura3.setProfissional(profissional2);
-			candidatura3.setVaga(vaga2);
-			candidatura3.setCurriculoPath("...");
-			candidatura3.setStatus_candidatura("ABERTO");
-			candidatura3.setCurriculoPath("src/main/resources/uploads/curriculo_4.pdf");
-			candidaturaDAO.save(candidatura3);
+			// Candidatura candidatura3 = new Candidatura();
+			// candidatura3.setProfissional(profissional2);
+			// candidatura3.setVaga(vaga2);
+			// candidatura3.setCurriculoPath("...");
+			// candidatura3.setStatus_candidatura("ABERTO");
+			// candidatura3.setCurriculoPath("src/main/resources/uploads/curriculo_4.pdf");
+			// candidaturaDAO.save(candidatura3);
 		};
 	}
 }
