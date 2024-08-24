@@ -28,7 +28,6 @@ public class Vaga {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @NotBlank(message = "{NotBlank.empresa.cnpj}")
     @Size(min = 14, max = 14)
     @Column(nullable = false, length = 14)
     private String cnpj_empresa;
@@ -45,7 +44,7 @@ public class Vaga {
 
     @NotPast(message = "{NotPast}")
     @NotNull(message = "{NotNull.vaga.dataLimite}")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
     private Date dataLimite;
 

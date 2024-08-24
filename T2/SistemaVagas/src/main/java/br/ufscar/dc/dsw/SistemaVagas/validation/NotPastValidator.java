@@ -8,6 +8,9 @@ import jakarta.validation.ConstraintValidatorContext;
 public class NotPastValidator implements ConstraintValidator<NotPast, Date> {
     @Override
     public boolean isValid(Date date, ConstraintValidatorContext context) {
-        return date.after(new Date(System.currentTimeMillis()));
+        if (date != null) {
+            return date.after(new Date(System.currentTimeMillis()));
+        }
+        return true;
     }
 }

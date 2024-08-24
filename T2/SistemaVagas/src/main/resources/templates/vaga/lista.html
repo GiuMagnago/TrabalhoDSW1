@@ -11,7 +11,7 @@
 <body>
     <section>
         <nav style="display: inline-flex; justify-content: space-between; width: 100%;">
-			<b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+            <b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
             <form class="form-cidades" th:action="@{/vagas/listarPorCidade}" method="get">
                 <select name="cidade" class="form-control" onchange="this.form.submit()">
                     <option value="" th:text="#{todasCidades.label}">Todas as cidades</option>

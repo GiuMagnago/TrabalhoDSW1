@@ -10,6 +10,9 @@
 
 <body>
 	<section>
+		<nav style="display: inline-flex; justify-content: space-between; width: 100%; margin-bottom: 10px;">
+			<b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+		</nav>
 		<div>
 			<div th:replace="~{fragments/alert}"></div>
 			<table class="table">
@@ -58,6 +61,8 @@
 				}
 			}
 		</script>
+	</section>
 </body>
 
 </html>
+

@@ -72,6 +72,7 @@ public class VagaController {
     public String criar(@Valid Vaga vaga, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
             return "vaga/cadastro";
+
         } else if (vaga.getRemuneracao() < 0 || vaga.getDataLimite().before(new Date(System.currentTimeMillis()))) {
             model.addAttribute("error", "error.vaga.criar");
         }
