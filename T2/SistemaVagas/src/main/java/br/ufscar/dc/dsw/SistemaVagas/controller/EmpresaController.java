@@ -38,7 +38,8 @@ public class EmpresaController {
 
     @GetMapping("/formCadastro")
     @PreAuthorize("hasRole('ADMIN')")
-    public String cadastrar(Empresa empresa) {
+    public String cadastrar(Empresa empresa, Model model) {
+        model.addAttribute("papel", "ROLE_EMPRESA");
         return "empresa/cadastro";
     }
 
@@ -49,15 +50,15 @@ public class EmpresaController {
         return "empresa/cadastro";
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping("/criar")
     @PreAuthorize("hasRole('ADMIN')")
     public String criar(@Valid Empresa empresa, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
+            System.out.println(result.getAllErrors());
             return "empresa/cadastro";
         }
 
         empresa.setSenha(passwordEncoder.encode(empresa.getSenha()));
-        empresa.setPapel("ROLE_EMPRESA");
         service.salvar(empresa);
 
         attr.addFlashAttribute("success", "success.empresa.criar");

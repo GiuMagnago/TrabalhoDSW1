@@ -39,7 +39,8 @@ public class ProfissionalController {
 
     @GetMapping("/formCadastro")
     @PreAuthorize("hasRole('ADMIN')")
-    public String formCadastro(Profissional profissional) {
+    public String formCadastro(Profissional profissional, Model model) {
+        model.addAttribute("papel", "ROLE_PROFISSIONAL");
         return "profissional/cadastro";
     }
 
@@ -54,10 +55,10 @@ public class ProfissionalController {
     @PreAuthorize("hasRole('ADMIN')")
     public String criar(@Valid Profissional profissional, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
+            System.out.println(result.getAllErrors());
             return "profissional/cadastro";
         }
         profissional.setSenha(passwordEncoder.encode(profissional.getSenha()));
-        profissional.setPapel("ROLE_PROFISSIONAL");
         service.salvar(profissional);
 
         attr.addFlashAttribute("success", "success.profissional.criar");
