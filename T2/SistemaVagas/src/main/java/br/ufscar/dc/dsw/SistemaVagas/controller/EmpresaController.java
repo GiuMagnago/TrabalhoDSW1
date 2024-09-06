@@ -47,6 +47,7 @@ public class EmpresaController {
     @PreAuthorize("hasRole('ADMIN')")
     public String editar(@PathVariable("id") Long id, Model model) {
         model.addAttribute("empresa", service.buscarPorId(id));
+        model.addAttribute("papel", "ROLE_EMPRESA");
         return "empresa/cadastro";
     }
 
@@ -54,7 +55,6 @@ public class EmpresaController {
     @PreAuthorize("hasRole('ADMIN')")
     public String criar(@Valid Empresa empresa, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
-            System.out.println(result.getAllErrors());
             return "empresa/cadastro";
         }
 
@@ -71,7 +71,6 @@ public class EmpresaController {
         if (result.hasErrors()) {
             return "empresa/cadastro";
         }
-
         empresa.setSenha(passwordEncoder.encode(empresa.getSenha()));
         service.salvar(empresa);
 
