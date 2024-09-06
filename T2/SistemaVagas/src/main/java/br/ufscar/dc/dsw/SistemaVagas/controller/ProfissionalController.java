@@ -48,6 +48,7 @@ public class ProfissionalController {
     @PreAuthorize("hasRole('ADMIN')")
     public String formEdicao(@PathVariable("id") Long id, Model model) {
         model.addAttribute("profissional", service.buscarPorId(id));
+        model.addAttribute("papel", "ROLE_PROFISSIONAL");
         return "profissional/cadastro";
     }
 
@@ -55,7 +56,6 @@ public class ProfissionalController {
     @PreAuthorize("hasRole('ADMIN')")
     public String criar(@Valid Profissional profissional, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
-            System.out.println(result.getAllErrors());
             return "profissional/cadastro";
         }
         profissional.setSenha(passwordEncoder.encode(profissional.getSenha()));
