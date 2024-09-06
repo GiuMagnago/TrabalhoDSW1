@@ -56,6 +56,7 @@ public class ProfissionalController {
     @PreAuthorize("hasRole('ADMIN')")
     public String criar(@Valid Profissional profissional, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("papel", "ROLE_PROFISSIONAL");
             return "profissional/cadastro";
         }
         profissional.setSenha(passwordEncoder.encode(profissional.getSenha()));
