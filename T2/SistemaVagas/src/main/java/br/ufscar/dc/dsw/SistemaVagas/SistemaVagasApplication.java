@@ -94,7 +94,7 @@ public class SistemaVagasApplication {
 			vaga1.setCnpj_empresa("11111111111111");
 			vaga1.setRemuneracao(3000);
 			vaga1.setDescricao("...");
-			vaga1.setDataLimite(dateFormat.parse("30-08-2024"));
+			vaga1.setDataLimite(dateFormat.parse("30-08-2025"));
 			vaga1.setEmpresa(empresa);
 			vagaDAO.save(vaga1);
 
@@ -110,7 +110,7 @@ public class SistemaVagasApplication {
 			vaga3.setCnpj_empresa("11111111111111");
 			vaga3.setRemuneracao(7000);
 			vaga3.setDescricao("...");
-			vaga3.setDataLimite(dateFormat.parse("30-12-2024"));
+			vaga3.setDataLimite(dateFormat.parse("30-12-2025"));
 			vaga3.setEmpresa(empresa);
 			vagaDAO.save(vaga3);
 
