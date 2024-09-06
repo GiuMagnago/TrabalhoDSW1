@@ -73,10 +73,13 @@ public class VagaController {
     @PreAuthorize("hasRole('EMPRESA')")
     public String criar(@Valid Vaga vaga, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
-            System.out.println(vaga.getCnpj_empresa());
+            System.out.println(result.getAllErrors());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            long empresaId = ((CustomUserDetails) authentication.getPrincipal()).getUsuario().getId();
+            Empresa empresa = empresaService.buscarPorId(empresaId);
+            model.addAttribute("cnpj", empresa.getCnpj());
             return "vaga/cadastro";
         }
-
         vaga.setEmpresa(empresaService.buscarPorCnpj(vaga.getCnpj_empresa()));
         service.salvar(vaga);
 
