@@ -55,6 +55,7 @@ public class EmpresaController {
     @PreAuthorize("hasRole('ADMIN')")
     public String criar(@Valid Empresa empresa, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("papel", "ROLE_EMPRESA");
             return "empresa/cadastro";
         }
 
@@ -69,6 +70,7 @@ public class EmpresaController {
     @PreAuthorize("hasRole('ADMIN')")
     public String atualizar(@Valid Empresa empresa, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("papel", "ROLE_EMPRESA");
             return "empresa/cadastro";
         }
         empresa.setSenha(passwordEncoder.encode(empresa.getSenha()));
