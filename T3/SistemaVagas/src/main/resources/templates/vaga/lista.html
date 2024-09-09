@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SistemaVagas</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <section>
+        <nav style="display: inline-flex; justify-content: space-between; width: 100%;">
+			<b><a type="button" href="/admin" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+            <form class="form-cidades" th:action="@{/vagas/listarPorCidade}" method="get">
+                <select name="cidade" class="form-control" onchange="this.form.submit()">
+                    <option value="" th:text="#{todasCidades.label}">Todas as cidades</option>
+                    <option th:each="cidade : ${cidades}" th:value="${cidade}" th:text="${cidade}"
+                        th:selected="${cidade == cidadeSelecionada}"></option>
+                </select>
+            </form>
+        </nav>
+        <div>
+            <div th:replace="~{fragments/alert}"></div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th th:text="#{vaga.cnpj_empresa.label}"></th>
+                        <th th:text="#{vaga.remuneracao.label}"></th>
+                        <th th:text="#{vaga.descricao.label}"></th>
+                        <th th:text="#{vaga.dataLimite.label}"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="vaga : ${vagas}" th:if="${#dates.createNow().before(vaga.dataLimite)}">
+                        <td th:text="${vaga.id}"></td>
+                        <td th:text="${vaga.cnpj_empresa}"></td>
+                        <td th:text="${vaga.remuneracao}"></td>
+                        <td th:text="${vaga.descricao}"></td>
+                        <td th:text="${#dates.format(vaga.dataLimite, 'dd-MM-yyyy')}"></td>
+                        <td sec:authorize="hasRole('ROLE_PROFISSIONAL')">
+                            <a th:href="@{/candidaturas/formCadastro/{id} (id=${vaga.id}) }" role="button">
+                                <span th:text="#{link.inscrever.label}"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SistemaVagas</title>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+<body>
+    <div class="selection-box">
+        <h1 class="selection-box-title" th:text="#{welcome.generico.message}"></h1>
+        <a th:href="@{/home}" th:text="#{login.message}"></a>
+        <a th:href="@{/vagas/listar}" th:text="#{vaga.listar.label}"></a>
+    </div>
+</body>
+</html>

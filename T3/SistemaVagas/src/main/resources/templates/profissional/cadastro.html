@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SistemaVagas</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="cadastro-box">
+
+        <h1 th:text="#{profissional.cadastrar.label}"></h1>
+        <form th:action="${profissional.id == 0} ? @{/profissionais/criar} : @{/profissionais/editar}" th:object="${profissional}" method="post">
+            <input type="hidden" id="id" th:field="*{id}" />
+            <input type="hidden" name="papel" th:value="${papel}" />
+            <div>
+                <label for="email" th:text="#{profissional.email.label}"></label>
+                <input type="email" id="email" th:field="*{email}" th:classappend="${#fields.hasErrors('email')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{email}"></span>
+                </div>
+            </div>
+            <div>
+                <label for="senha" th:text="#{profissional.senha.label}"></label>
+                <input type="password" id="senha" th:field="*{senha}" th:classappend="${#fields.hasErrors('senha')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{senha}"></span>
+                </div>
+            </div>
+            <div>
+                <label for="cpf" th:text="#{profissional.cpf.label}"></label>
+                <input type="text" id="cpf" th:field="*{cpf}" th:classappend="${#fields.hasErrors('cpf')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{cpf}"></span>
+                </div>
+            </div>
+            <div>
+                <label for="nome" th:text="#{profissional.nome.label}"></label>
+                <input type="text" id="nome" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{nome}"></span>
+                </div>
+            </div>
+            <div>
+                <label for="telefone" th:text="#{profissional.telefone.label}"></label>
+                <input type="text" id="telefone" th:field="*{telefone}" th:classappend="${#fields.hasErrors('telefone')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{telefone}"></span>
+                </div>
+            </div>
+            <div>
+                <label for="sexo" th:text="#{profissional.sexo.label}"></label>
+                <select id="sexo" th:field="*{sexo}">
+                    <option value="M" th:text="#{profissional.sexo.masculino.label}"></option>
+                    <option value="F" th:text="#{profissional.sexo.feminino.label}"></option>
+                </select>
+            </div>
+            <div>
+                <label for="dataNasc" th:text="#{profissional.dataNasc.label}"></label>
+                <input type="date" id="dataNasc" th:field="*{dataNasc}" th:classappend="${#fields.hasErrors('dataNasc')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{dataNasc}"></span>
+                </div>
+            </div>
+            <div style="display: inline-flex; justify-content: space-between; align-items: center;">
+                <b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+                <button type="submit" th:text="${profissional.id == 0} ? #{submit.cadastrar.label} : #{submit.atualizar.label}"></button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

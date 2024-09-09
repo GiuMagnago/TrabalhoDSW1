@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SistemaVagas</title>
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+	<section>
+
+		<nav style="display: inline-flex; justify-content: space-between; width: 100%;">
+			<b><a type="button" href="/empresa" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+			<a class="btn-criar" th:href="@{/vagas/formCadastro}" role="button">
+				<span th:text="#{vaga.cadastrar.label}"></span>
+			</a>
+		</nav>
+
+		<div>
+			<div th:replace="~{fragments/alert}"></div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th th:text="#{vaga.cnpj_empresa.label}"></th>
+						<th th:text="#{vaga.remuneracao.label}"></th>
+						<th th:text="#{vaga.descricao.label}"></th>
+						<th th:text="#{vaga.dataLimite.label}"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="vaga : ${vagas}">
+						<td th:text="${vaga.id}"></td>
+						<td th:text="${vaga.cnpj_empresa}"></td>
+						<td th:text="${vaga.remuneracao}"></td>
+						<td th:text="${vaga.descricao}"></td>
+						<td th:text="${#dates.format(vaga.dataLimite, 'dd-MM-yyyy')}"></td>
+						<td>
+							<a th:href="@{/candidaturas/listarPorVaga/{id} (id=${vaga.id}) }" role="button">
+								<span th:text="#{link.candidaturas.label}"></span>
+							</a>
+						</td>
+						<td>
+							<a th:href="@{/vagas/remover/{id} (id=${vaga.id}) }" role="button" onclick="confirmDelete(event)">
+								<span th:text="#{link.excluir.label}"></span>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</section>
+	<script th:inline="javascript">
+		var deleteConfirmationMessage = /*[[${#messages.msg('remove.label.message')}]]*/ 'Atenção! Tem certeza que deseja excluir esse item?';
+
+		function confirmDelete(event) {
+			event.preventDefault();
+			if (confirm(deleteConfirmationMessage)) {
+				window.location.href = event.currentTarget.href;
+			}
+		}
+	</script>
+
+</html>

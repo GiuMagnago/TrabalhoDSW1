@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>SistemaVagas</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="cadastro-box">
+        <h1 th:text="#{vaga.cadastrar.label}"></h1>
+        <form th:action="@{/vagas/criar}" th:object="${vaga}" method="post">
+            <input type="hidden" name="cnpj_empresa" th:value="${cnpj}" />
+            <div>
+                <label for="remuneracao" th:text="#{vaga.remuneracao.label}"></label>
+                <input type="number" id="remuneracao" th:field="*{remuneracao}"
+                    th:classappend="${#fields.hasErrors('remuneracao')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{remuneracao}"></span>
+                </div>
+            </div>
+            <div>
+                <label for="descricao" th:text="#{vaga.descricao.label}"></label>
+                <textarea id="descricao" name="descricao" rows="4" th:field="*{descricao}"
+                    th:classappend="${#fields.hasErrors('descricao')} ? is-invalid" required></textarea>
+                <div>
+                    <span th:errors="*{descricao}"></span>
+                </div>
+            </div>
+            <div>
+                <label for="dataLimite" th:text="#{vaga.dataLimite.label}"></label>
+                <input type="date" id="dataLimite" th:field="*{dataLimite}"
+                    th:classappend="${#fields.hasErrors('dataLimite')} ? is-invalid" required>
+                <div>
+                    <span th:errors="*{dataLimite}"></span>
+                </div>
+            </div>
+            <div style="display: inline-flex; justify-content: space-between; align-items: center;">
+                <b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+                <button type="submit" th:text="#{submit.cadastrar.label}"></button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

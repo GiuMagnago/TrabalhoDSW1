@@ -1,0 +1,321 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #3C3D37;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #ECDFCC;
+}
+
+a {
+    display: block;
+    padding: 10px;
+    margin: 10px 0;
+    color: #ECDFCC;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    border: 1px solid;
+}
+
+a:hover {
+    background-color: #ECDFCC;
+    color: #3C3D37;
+}
+
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table thead th {
+    background-color: #2E2E2E;
+    padding: 10px;
+    border-bottom: 1px solid #4B4B4B;
+    text-align: center;
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #1E201E;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #2E2E2E;
+}
+
+.table th, .table td {
+    padding: 10px;
+    text-align: center;
+    color: #ECDFCC;
+}
+
+.btn-criar {
+    width: fit-content;
+    background-color: #3C3D37;
+}
+
+/* Index */
+
+.selection-box {
+    width: 300px;
+    padding: 20px;
+    background-color: #1E201E;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.selection-box-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.selection-box a {
+    padding: 12px 20px;
+}
+
+/* Login */
+
+.login-box {
+    width: 300px;
+    padding: 20px;
+    background-color: #1E201E;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.login-box h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+.login-box label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #4B4B4B;
+    border-radius: 4px;
+    background-color: #2E2E2E;
+    color: #ECDFCC;
+}
+
+.login-box input:focus {
+    outline: none;
+    border-color: #ECDFCC;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #697565;
+    color: #ECDFCC;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-box button:hover {
+    background-color: #3C3D37;
+}
+
+/* Lista de Vaga */
+
+section {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #1E201E;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.form-cidades {
+    margin-bottom: 20px;
+}
+
+.form-cidades label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.form-cidades select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #4B4B4B;
+    border-radius: 4px;
+    background-color: #2E2E2E;
+    color: #ECDFCC;
+}
+
+.form-cidades select:focus {
+    outline: none;
+    border-color: #ECDFCC;
+}
+
+
+/* Cadastros */
+
+.cadastro-box {
+    width: 400px;
+    padding: 20px;
+    background-color: #1E201E;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: start;
+}
+
+.cadastro-box h1 {
+    text-align: center;
+}
+
+.cadastro-box form {
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cadastro-box form div {
+    text-align: start;
+    width: 90%;
+}
+
+.cadastro-box input, .cadastro-box textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #4B4B4B;
+    border-radius: 4px;
+    background-color: #2E2E2E;
+    color: #ECDFCC;
+}
+
+.cadastro-box input::placeholder {
+    color: #ecdfccc0;
+}
+
+.curriculo-input-box {
+    width: 80%;
+    background-color: #2E2E2E;
+    border: 1px solid #4B4B4B;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.file-upload {
+    display: none;
+}
+
+.custom-upload-btn {
+    display: inline-block;
+    width: fit-content;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #398fff;
+    color: #2E2E2E;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cadastro-box form div:last-child {
+    text-align: center;
+}
+
+.cadastro-box button {
+    width: fit-content;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #697565;
+    color: #ECDFCC;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cadastro-box button:hover {
+    background-color: #3C3D37;
+}
+
+.cadastro-box select {
+    width: 100%;
+    text-align: center;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 4px;
+    background-color: #2E2E2E;
+    color: #ECDFCC;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Home */
+
+.home-box {
+    width: 600px;
+    padding: 20px;
+    background-color: #1E201E;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+
+.home-box h1 {
+    margin: 20px 10px;
+}
+
+.home-box div {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.home-box a {
+    width: 50%;
+    border: 1px solid;
+}
+
+.home-box form div {
+    display: block;
+}
+
+#login-submit {
+    width: fit-content;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #697565;
+    color: #ECDFCC;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#login-submit:hover {
+    background-color: #3C3D37;
+}

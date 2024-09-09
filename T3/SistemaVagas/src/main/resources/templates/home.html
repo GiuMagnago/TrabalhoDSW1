@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SistemaVagas</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="home-box">
+    <h1>
+        <span th:text="#{welcome.perfil.message}"></span>
+        <span th:inline="text">[[${#authentication.principal.usuario.nome}]]!</span>
+    </h1>
+    
+
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <a th:href="@{/admin}"><span th:text="#{admin.perfil}"></a>
+        </div>
+
+        <div sec:authorize="hasRole('ROLE_EMPRESA')">
+            <a th:href="@{/empresa}"><span th:text="#{empresa.perfil}"></a>
+        </div>
+
+        <div sec:authorize="hasRole('ROLE_PROFISSIONAL')">
+            <a th:href="@{/profissional}"><span th:text="#{profissional.perfil}"></a>
+        </div>
+
+        <div sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" method="post">
+                <div>
+                    <p>
+                        <b><span th:text="#{email.label}"></span>:</b> <span sec:authentication="name"></span>
+                    </p>
+                    <p>
+                        <b><span th:text="#{user.role}"></span>:</b> <span
+                        sec:authentication="principal.authorities"></span>
+                    </p>
+                </div>
+                <div>
+                    <input type="submit" name="login-submit" id="login-submit" value="Logout">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

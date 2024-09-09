@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{error.page.title}"></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="selection-box" style="width: fit-content;">
+        <h1 th:text="${status}" style="font-size: 10em;"></h1>
+        <h2 th:text="#{${error}}" style="font-size: 2em;"></h2>
+        <hr style="margin: 20px 5px;"/>
+        <div>
+            <span th:text="#{${message}}" style="font-size: 1em;"></span><br>
+            <b><a type="button" href="javascript:history.back()"><span th:text="#{previous.message}"></span></a></b>
+        </div>
+    </div>
+</body>
+
+</html>

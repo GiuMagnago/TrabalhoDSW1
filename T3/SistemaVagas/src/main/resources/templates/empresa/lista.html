@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SistemaVagas</title>
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+	<section>
+		<nav style="display: inline-flex; justify-content: space-between; width: 100%;">
+			<b><a type="button" href="/admin" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+			<a class="btn-criar" th:href="@{/empresas/formCadastro}" role="button">
+				<span th:text="#{empresa.cadastrar.label}"></span>
+			</a>
+		</nav>
+		<div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th th:text="#{empresa.email.label}"></th>
+						<th th:text="#{empresa.nome.label}"></th>
+						<th th:text="#{empresa.cnpj.label}"></th>
+						<th th:text="#{empresa.descricao.label}"></th>
+						<th th:text="#{empresa.cidade.label}"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="empresa : ${empresas}">
+						<td th:text="${empresa.id}"></td>
+						<td th:text="${empresa.email}"></td>
+						<td th:text="${empresa.nome}"></td>
+						<td th:text="${empresa.cnpj}"></td>
+						<td th:text="${empresa.descricao}"></td>
+						<td th:text="${empresa.cidade}"></td>
+						<td>
+							<a th:href="@{/empresas/formEdicao/{id} (id=${empresa.id}) }"
+								role="button">
+								<span th:text="#{link.editar.label}"></span>
+							</a>
+						</td>
+						<td>
+							<a th:href="@{/empresas/remover/{id} (id=${empresa.id}) }"
+								role="button" onclick="confirmDelete(event)">
+								<span th:text="#{link.excluir.label}"></span>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div th:replace="~{fragments/alert}"></div>
+	</section>
+	<script th:inline="javascript">
+		var deleteConfirmationMessage = /*[[${#messages.msg('remove.label.message')}]]*/ 'Atenção! Tem certeza que deseja excluir esse item?';
+
+		function confirmDelete(event) {
+			event.preventDefault(); // Previne o comportamento padrão do link
+			if (confirm(deleteConfirmationMessage)) {
+				window.location.href = event.currentTarget.href; // Redireciona para o link se o usuário confirmar
+			}
+		}
+	</script>
+</body>
+
+</html>
