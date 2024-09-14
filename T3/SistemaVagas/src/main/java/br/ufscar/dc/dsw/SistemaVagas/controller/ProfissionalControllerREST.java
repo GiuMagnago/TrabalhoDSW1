@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,6 @@ import br.ufscar.dc.dsw.SistemaVagas.domain.Profissional;
 import br.ufscar.dc.dsw.SistemaVagas.service.spec.IProfissionalService;
 import jakarta.validation.Valid;
 
-@Controller
 @RestController
 public class ProfissionalControllerREST {
 
@@ -52,7 +50,7 @@ public class ProfissionalControllerREST {
 	@ResponseBody
 	public ResponseEntity<Profissional> cria(@Valid @RequestBody Profissional profissional, BindingResult result) {
 		if (result.hasErrors()) {
-			return ResponseEntity.badRequest().body(null);
+			return ResponseEntity.badRequest().build();
 		}
 		service.salvar(profissional);
 		return ResponseEntity.ok(profissional);	
@@ -60,6 +58,7 @@ public class ProfissionalControllerREST {
 
     //atualizar profissional via id
 	@PutMapping(path = "/api/profissionais/{id}")
+	@ResponseBody
 	public ResponseEntity<Profissional> atualiza(@PathVariable("id") long id, @Valid @RequestBody Profissional profissional, BindingResult result) {
 		if (result.hasErrors()) {
 			return ResponseEntity.badRequest().build();

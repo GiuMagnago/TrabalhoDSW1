@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.ufscar.dc.dsw.SistemaVagas.validation.NotFutureBorn;
 import br.ufscar.dc.dsw.SistemaVagas.validation.UniqueCPF;
 import jakarta.persistence.CascadeType;
@@ -40,8 +42,9 @@ public class Profissional extends Usuario {
     @Column(nullable = false, length = 15)
     private Date dataNasc;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.REMOVE)
-    private List<Candidatura> Candidaturas;
+    private List<Candidatura> candidaturas;
 
     public String getCpf() {
         return cpf;
@@ -76,10 +79,10 @@ public class Profissional extends Usuario {
     }
 
     public List<Candidatura> getCandidaturas() {
-        return Candidaturas;
+        return candidaturas;
     }
 
     public void setCandidaturas(List<Candidatura> candidaturas) {
-        Candidaturas = candidaturas;
+        this.candidaturas = candidaturas;
     }
 }

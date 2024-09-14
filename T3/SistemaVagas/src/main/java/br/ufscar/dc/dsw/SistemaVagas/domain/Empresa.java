@@ -2,6 +2,8 @@ package br.ufscar.dc.dsw.SistemaVagas.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.ufscar.dc.dsw.SistemaVagas.validation.UniqueCNPJ;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -29,6 +31,7 @@ public class Empresa extends Usuario {
     @Column(nullable = false, length = 40)
     private String cidade;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "empresa", cascade = CascadeType.REMOVE)
     private List<Vaga> vagas;
 

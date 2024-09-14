@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.ufscar.dc.dsw.SistemaVagas.validation.NotNegative;
 import br.ufscar.dc.dsw.SistemaVagas.validation.NotPast;
 import jakarta.persistence.CascadeType;
@@ -53,6 +55,7 @@ public class Vaga {
     @JoinColumn(name = "empresa_id")
     private Empresa empresa;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "vaga", cascade = CascadeType.REMOVE)
     private List<Candidatura> candidaturas;
 
@@ -104,11 +107,11 @@ public class Vaga {
         this.empresa = empresa;
     }
 
-    public List<Candidatura> getCandidatura() {
+    public List<Candidatura> getCandidaturas() {
         return candidaturas;
     }
 
-    public void setCandidatura(List<Candidatura> candidaturas) {
+    public void setCandidaturas(List<Candidatura> candidaturas) {
         this.candidaturas = candidaturas;
     }
 }
