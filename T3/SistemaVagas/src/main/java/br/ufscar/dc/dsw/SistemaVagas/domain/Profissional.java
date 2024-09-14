@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.ufscar.dc.dsw.SistemaVagas.validation.NotFutureBorn;
+import br.ufscar.dc.dsw.SistemaVagas.validation.NotYoungerThan16;
 import br.ufscar.dc.dsw.SistemaVagas.validation.UniqueCPF;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -24,19 +24,19 @@ import jakarta.validation.constraints.Size;
 public class Profissional extends Usuario {
     @UniqueCPF(message = "{UniqueCPF}")
     @NotBlank(message = "{NotBlank.profissional.cpf}")
-    @Size(min = 11, max = 11)
-    @Column(nullable = false, unique = true, length = 11)
+    @Size(min = 14, max = 14)
+    @Column(nullable = false, unique = true, length = 14)
     private String cpf;
 
     @NotBlank(message = "{NotBlank.profissional.telefone}")
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 14)
     private String telefone;
 
     @NotBlank(message = "{NotBlank.profissional.sexo}")
     @Column(nullable = false, length = 15)
     private String sexo;
 
-    @NotFutureBorn
+    @NotYoungerThan16(message = "{NotYoungerThan16}")
     @NotNull(message = "{NotNull.profissional.dataNasc}")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false, length = 15)

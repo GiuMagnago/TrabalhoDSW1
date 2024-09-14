@@ -50,10 +50,13 @@ public class ProfissionalControllerREST {
 	@ResponseBody
 	public ResponseEntity<Profissional> cria(@Valid @RequestBody Profissional profissional, BindingResult result) {
 		if (result.hasErrors()) {
+			System.out.println(result.getAllErrors());
 			return ResponseEntity.badRequest().build();
 		}
+		profissional.setPapel("ROLE_PROFISSIONAL");
+		profissional.setEnable(true);
 		service.salvar(profissional);
-		return ResponseEntity.ok(profissional);	
+		return ResponseEntity.ok(profissional);
 	}
 
     //atualizar profissional via id

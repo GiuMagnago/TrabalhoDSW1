@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import br.ufscar.dc.dsw.SistemaVagas.validation.NotFutureBorn;
+import br.ufscar.dc.dsw.SistemaVagas.validation.NotYoungerThan16;
 import br.ufscar.dc.dsw.SistemaVagas.validation.UniqueCPF;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,26 +22,26 @@ import jakarta.validation.constraints.Size;
 public class Profissional extends Usuario {
     @UniqueCPF(message = "{UniqueCPF}")
     @NotBlank(message = "{NotBlank.profissional.cpf}")
-    @Size(min = 11, max = 11)
-    @Column(nullable = false, unique = true, length = 11)
+    @Size(min = 14, max = 14)
+    @Column(nullable = false, unique = true, length = 14)
     private String cpf;
 
     @NotBlank(message = "{NotBlank.profissional.telefone}")
-    @Column(nullable = false, length = 15)
+    @Column(nullable = false, length = 14)
     private String telefone;
 
     @NotBlank(message = "{NotBlank.profissional.sexo}")
     @Column(nullable = false, length = 15)
     private String sexo;
 
-    @NotFutureBorn
+    @NotYoungerThan16(message = "{NotYoungerThan16}")
     @NotNull(message = "{NotNull.profissional.dataNasc}")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false, length = 15)
     private Date dataNasc;
 
     @OneToMany(mappedBy = "profissional", cascade = CascadeType.REMOVE)
-    private List<Candidatura> Candidaturas;
+    private List<Candidatura> candidaturas;
 
     public String getCpf() {
         return cpf;
@@ -76,10 +76,10 @@ public class Profissional extends Usuario {
     }
 
     public List<Candidatura> getCandidaturas() {
-        return Candidaturas;
+        return candidaturas;
     }
 
     public void setCandidaturas(List<Candidatura> candidaturas) {
-        Candidaturas = candidaturas;
+        this.candidaturas = candidaturas;
     }
 }

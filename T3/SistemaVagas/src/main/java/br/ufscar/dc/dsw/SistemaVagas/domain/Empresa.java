@@ -19,8 +19,8 @@ import jakarta.validation.constraints.Size;
 public class Empresa extends Usuario {
     @UniqueCNPJ(message = "{UniqueCNPJ}")
     @NotBlank(message = "{NotBlank.empresa.cnpj}")
-    @Size(min = 14, max = 14)
-    @Column(nullable = false, unique = true, length = 14)
+    @Size(min = 18, max = 18)
+    @Column(nullable = false, unique = true, length = 18)
     private String cnpj;
 
     @NotBlank(message = "{NotBlank.empresa.descricao}")
@@ -59,7 +59,11 @@ public class Empresa extends Usuario {
         this.cidade = cidade;
     }
 
-    public List<Vaga> getVagas(){
+    public List<Vaga> getVagas() {
         return vagas;
+    }
+
+    public void setVagas(List<Vaga> vagas) {
+        this.vagas = vagas;
     }
 }

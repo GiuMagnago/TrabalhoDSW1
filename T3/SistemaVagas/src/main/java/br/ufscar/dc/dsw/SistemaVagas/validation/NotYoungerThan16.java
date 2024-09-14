@@ -7,8 +7,8 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = NotFutureBornValidator.class)
-public @interface NotFutureBorn {
+@Constraint(validatedBy = NotYoungerThan16Validator.class)
+public @interface NotYoungerThan16 {
     String message() default "The user must be at least 16 years old to be registered!";
     Class<?>[] groups() default {}; // Add this line
     Class<? extends Payload>[] payload() default {};

@@ -4,11 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SistemaVagas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <div class="navbar">
+        <div>
+            <a href="/home">SistemaVagas</a>
+            <a sec:authorize="hasRole('ROLE_PROFISSIONAL')" href="/profissional">
+                <i class="fas fa-user user-icon"></i>
+            </a>
+            <a sec:authorize="hasRole('ROLE_EMPRESA')" href="/empresa">
+                <i class="fas fa-user user-icon"></i>
+            </a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" href="/admin">
+                <i class="fas fa-user user-icon"></i>
+            </a>
+        </div>
+    </div>
     <div  class="selection-box" style="width: 500px;">
-        <b><a type="button" href="http://localhost:8080/home" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+        <b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
         <h1 th:text="#{empresa.perfil}" style="margin-bottom: 30px;"></h1>
         <a href="/vagas/listarPorEmpresa" th:text="#{vaga.listaEmpresa.label}"></a>
     </div>

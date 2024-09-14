@@ -39,10 +39,4 @@ public class EmpresaService implements IEmpresaService {
     public void excluir(long id) {
         dao.deleteById(id);
     }
-
-    @Transactional(readOnly = true)
-    public boolean empresaTemVagas(long id) {
-        return !dao.findById(id).getVagas().isEmpty(); 
-	
-    }
 }

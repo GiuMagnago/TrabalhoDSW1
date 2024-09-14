@@ -4,6 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -135,12 +138,28 @@ public class CandidaturaController {
         return "candidatura/editar";  
     }
 
-    private boolean sendEmail(Candidatura candidatura) {
+    private boolean sendEmail(Candidatura candidatura, String linkEntrevista) {
         try {
             Profissional profissional = candidatura.getProfissional();
             InternetAddress from = new InternetAddress("sistemavagas@gmail.com", "SistemaVagas");
             InternetAddress to = new InternetAddress(profissional.getEmail(), profissional.getNome());
-            emailService.send(from, to, candidatura.getStatus_candidatura(), "link");
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            cal.add(Calendar.DAY_OF_MONTH, 3);
+            Date dataFutura = cal.getTime();
+
+            SimpleDateFormat formato1 = new SimpleDateFormat("dd/MM/yyyy");
+            String data = formato1.format(dataFutura);
+            
+            String body = "";
+            if (candidatura.getStatus_candidatura().equals("ENTREVISTA")) {
+                body = "Selecionado para entrevista no dia " + data + " às 14:30. Link (Google Meet): " + linkEntrevista + ".";
+            } else {
+                body = "Infelizmente você não passou na análise de currículos.";
+            }
+
+            emailService.send(from, to, candidatura.getStatus_candidatura(), body);
             return true;
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
@@ -151,12 +170,12 @@ public class CandidaturaController {
 
     @PostMapping("/editar")
     @PreAuthorize("hasRole('EMPRESA')")
-    public String editar(@RequestParam("id") Long id, @RequestParam("status") String status, RedirectAttributes attr) {
+    public String editar(@RequestParam("id") Long id, @RequestParam("status") String status, @RequestParam("linkEntrevista") String linkEntrevista, RedirectAttributes attr) {
         Candidatura candidatura = service.buscarPorId(id);
         candidatura.setStatus_candidatura(status);
         service.salvar(candidatura);
 
-        if (sendEmail(candidatura)) {
+        if (sendEmail(candidatura, linkEntrevista)) {
             attr.addFlashAttribute("success", "success.candidatura.notificar");
         } else {
             attr.addFlashAttribute("error", "error.candidatura.notificar");

@@ -39,7 +39,6 @@ public class EmpresaController {
     @GetMapping("/formCadastro")
     @PreAuthorize("hasRole('ADMIN')")
     public String cadastrar(Empresa empresa, Model model) {
-        model.addAttribute("papel", "ROLE_EMPRESA");
         return "empresa/cadastro";
     }
 
@@ -47,7 +46,6 @@ public class EmpresaController {
     @PreAuthorize("hasRole('ADMIN')")
     public String editar(@PathVariable("id") Long id, Model model) {
         model.addAttribute("empresa", service.buscarPorId(id));
-        model.addAttribute("papel", "ROLE_EMPRESA");
         return "empresa/cadastro";
     }
 
@@ -58,7 +56,8 @@ public class EmpresaController {
             model.addAttribute("papel", "ROLE_EMPRESA");
             return "empresa/cadastro";
         }
-
+        empresa.setPapel("ROLE_EMPRESA");
+        empresa.setEnable(true);
         empresa.setSenha(passwordEncoder.encode(empresa.getSenha()));
         service.salvar(empresa);
 
@@ -92,3 +91,4 @@ public class EmpresaController {
         return "redirect:/empresas/listar";
     }
 }
+

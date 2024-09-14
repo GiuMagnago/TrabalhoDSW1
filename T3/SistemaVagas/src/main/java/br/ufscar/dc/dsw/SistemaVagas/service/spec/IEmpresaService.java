@@ -14,6 +14,4 @@ public interface IEmpresaService {
     Empresa buscarPorCnpj(String cnpj);
 
     void excluir(long id);
-
-    boolean empresaTemVagas(long id);
 }

@@ -1,5 +1,7 @@
 package br.ufscar.dc.dsw.SistemaVagas.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.ufscar.dc.dsw.SistemaVagas.validation.UniqueEmail;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,11 +36,12 @@ public class Usuario {
     @Column(nullable = false)
     private String senha;
 
-    @NotBlank(message = "{NotBlank.usuario.papel}")
-    @Column(nullable = false)
+    @JsonIgnore
+    @Column
     private String papel;
 
-    @Column(nullable = false)
+    @JsonIgnore
+    @Column
     private boolean enable;
 
     public Long getId() {

@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>SistemaVagas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <div class="navbar">
+        <div>
+            <a href="/home">SistemaVagas</a>
+            <a sec:authorize="hasRole('ROLE_PROFISSIONAL')" href="/profissional">
+                <i class="fas fa-user user-icon"></i>
+            </a>
+            <a sec:authorize="hasRole('ROLE_EMPRESA')" href="/empresa">
+                <i class="fas fa-user user-icon"></i>
+            </a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" href="/admin">
+                <i class="fas fa-user user-icon"></i>
+            </a>
+        </div>
+    </div>
     <div class="cadastro-box">
         <h1 th:text="#{candidatura.edicao.label}"></h1>
         <div style="text-align: center; font-size: 0.8em;">
@@ -20,6 +35,7 @@
         </div>
         <form th:action="@{/candidaturas/editar}" method="post">
             <input type="hidden" name="id" th:value="${id}">
+            <label for="status">Status</label>
             <select id="candidaturaStatus" name="status" style="margin: 0 0 20px 0;">
                 <option value="ABERTO" th:selected="${candidatura.status_candidatura == 'ABERTO'}" th:text="#{candidatura.status1.label}"></option>
                 <option value="NÃO SELECIONADO" th:selected="${candidatura.status_candidatura == 'NÃO SELECIONADO'}" th:text="#{candidatura.status2.label}"></option>

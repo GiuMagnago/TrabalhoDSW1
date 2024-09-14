@@ -48,7 +48,6 @@ public class ProfissionalController {
     @PreAuthorize("hasRole('ADMIN')")
     public String formEdicao(@PathVariable("id") Long id, Model model) {
         model.addAttribute("profissional", service.buscarPorId(id));
-        model.addAttribute("papel", "ROLE_PROFISSIONAL");
         return "profissional/cadastro";
     }
 
@@ -56,9 +55,10 @@ public class ProfissionalController {
     @PreAuthorize("hasRole('ADMIN')")
     public String criar(@Valid Profissional profissional, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("papel", "ROLE_PROFISSIONAL");
             return "profissional/cadastro";
         }
+        profissional.setPapel("ROLE_PROFISSIONAL");
+        profissional.setEnable(true);
         profissional.setSenha(passwordEncoder.encode(profissional.getSenha()));
         service.salvar(profissional);
 
@@ -92,3 +92,4 @@ public class ProfissionalController {
         return "redirect:/profissionais/listar";
     }
 }
+

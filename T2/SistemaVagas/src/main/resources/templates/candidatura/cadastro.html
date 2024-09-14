@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>SistemaVagas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+    <div class="navbar">
+        <div>
+            <a href="/home">SistemaVagas</a>
+            <a sec:authorize="hasRole('ROLE_PROFISSIONAL')" href="/profissional">
+                <i class="fas fa-user user-icon"></i>
+            </a>
+            <a sec:authorize="hasRole('ROLE_EMPRESA')" href="/empresa">
+                <i class="fas fa-user user-icon"></i>
+            </a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" href="/admin">
+                <i class="fas fa-user user-icon"></i>
+            </a>
+        </div>
+    </div>
     <div class="cadastro-box">
         <h1 th:text="#{candidatura.cadastro.label}"></h1>
         <form th:action="@{/candidaturas/criar}" method="post" enctype="multipart/form-data">

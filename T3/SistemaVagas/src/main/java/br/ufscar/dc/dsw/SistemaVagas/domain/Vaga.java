@@ -31,8 +31,8 @@ public class Vaga {
     private long id;
     
     @NotBlank(message = "{NotBlank.empresa.cnpj}")
-    @Size(min = 14, max = 14)
-    @Column(nullable = false, length = 14)
+    @Size(min = 18, max = 18)
+    @Column(nullable = false, length = 18)
     private String cnpj_empresa;
 
     @NotNegative(message = "{NotNegative}")

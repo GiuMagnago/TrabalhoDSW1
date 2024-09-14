@@ -54,6 +54,8 @@ public class EmpresaControllerREST {
 		if (result.hasErrors()) {
 			return ResponseEntity.badRequest().build();
 		}
+		empresa.setPapel("ROLE_EMPRESA");
+		empresa.setEnable(true);
 		service.salvar(empresa);
 		return ResponseEntity.ok(empresa);
 	}
