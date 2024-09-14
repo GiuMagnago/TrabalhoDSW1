@@ -1,5 +1,6 @@
 package br.ufscar.dc.dsw.SistemaVagas.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,23 @@ public class VagaService implements IVagaService{
     }
 
     @Transactional(readOnly = true)
+    public List<Vaga> buscarEmAberto(Date dataAtual) {
+        return dao.findByDataLimiteAfter(dataAtual);
+    }
+
+    @Transactional(readOnly = true)
     public List<Vaga> buscarPorEmpresa(Empresa empresa) {
         return dao.findByEmpresa(empresa);
     }
 
     @Transactional(readOnly = true)
-    public List<Vaga> buscarPorCidade(String cidade) {
-        return dao.findByCidade(cidade);
+    public List<Vaga> buscarPorEmpresaEmAberto(Empresa empresa, Date dataAtual) {
+        return dao.findByEmpresaAndDataLimiteAfter(empresa, dataAtual);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Vaga> buscarPorCidadeEmAberto(String cidade, Date dataAtual) {
+        return dao.findByEmpresaCidadeAndDataLimiteAfter(cidade, dataAtual);
     }
 
     @Transactional(readOnly = true)

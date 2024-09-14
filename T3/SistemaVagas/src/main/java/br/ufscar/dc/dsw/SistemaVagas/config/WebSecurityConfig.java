@@ -54,6 +54,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/vagas/**").hasRole("EMPRESA")
                         .requestMatchers("/candidaturas/listarPorVaga/**", "/candidaturas/formEdicao/**", "/candidaturas/editar", "/candidaturas/download/**").hasRole("EMPRESA")
                         .requestMatchers("/candidaturas/**").hasRole("PROFISSIONAL")
+                        .requestMatchers("/api/**").permitAll()
 						.anyRequest().authenticated())
 				.formLogin((form) -> form
 						.loginPage("/login")
