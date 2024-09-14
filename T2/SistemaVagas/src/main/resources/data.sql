@@ -1,22 +1,22 @@
 -- Inserir usuário administrador
 INSERT INTO Usuario (id, nome, email, senha, papel, enable)
-VALUES (1, 'Administrador', 'admin@gmail.com', '$2a$10$...', 'ROLE_ADMIN', TRUE);
+VALUES (1, 'Administrador', 'admin@gmail.com', 'a', 'ROLE_ADMIN', TRUE);
 
 -- Inserir empresa Google
 INSERT INTO Usuario (id, nome, email, senha, papel, enable)
-VALUES (2, 'google', 'google@gmail.com', '$2a$10$...', 'ROLE_EMPRESA', TRUE);
+VALUES (2, 'google', 'google@gmail.com', 'a', 'ROLE_EMPRESA', TRUE);
 
 -- Inserir empresa Nestlé
 INSERT INTO Usuario (id, nome, email, senha, papel, enable)
-VALUES (3, 'nestle', 'nestle@gmail.com', '$2a$10$...', 'ROLE_EMPRESA', TRUE);
+VALUES (3, 'nestle', 'nestle@gmail.com', 'a', 'ROLE_EMPRESA', TRUE);
 
 -- Inserir profissional João
 INSERT INTO Usuario (id, nome, email, senha, papel, enable)
-VALUES (4, 'joao', 'joao@gmail.com', '$2a$10$...', 'ROLE_PROFISSIONAL', TRUE);
+VALUES (4, 'joao', 'joao@gmail.com', 'a', 'ROLE_PROFISSIONAL', TRUE);
 
 -- Inserir profissional Giuseppe
 INSERT INTO Usuario (id, nome, email, senha, papel, enable)
-VALUES (5, 'giuseppe', 'giuseppecm2014@gmail.com', '$2a$10$...', 'ROLE_PROFISSIONAL', TRUE);
+VALUES (5, 'giuseppe', 'giuseppecm2014@gmail.com', 'a', 'ROLE_PROFISSIONAL', TRUE);
 
 
 -- Inserir empresa Google

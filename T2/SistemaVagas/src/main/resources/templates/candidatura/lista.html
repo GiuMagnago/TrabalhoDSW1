@@ -12,41 +12,46 @@
 	<section>
 		<div>
 			<nav style="display: inline-flex; justify-content: space-between; width: 100%;">
-				<b><a type="button" href="/profissional" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+				<b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
 			</nav>
 			<div th:replace="~{fragments/alert}"></div>
 			<table class="table">
 				<thead>
 					<tr>
 						<th>#</th>
-						<th th:text="#{candidatura.empresa.nome.label}"></th>
+						<th sec:authorize="hasRole('ROLE_PROFISSIONAL')" th:text="#{candidatura.empresa.nome.label}"></th>
+						<th sec:authorize="hasRole('ROLE_EMPRESA')" th:text="#{candidatura.profissional.nome.label}"></th>
 						<th th:text="#{candidatura.status.label}"></th>
+						<th sec:authorize="hasRole('ROLE_EMPRESA')" th:text="#{candidatura.curriculo.label}"></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="candidatura : ${candidaturas}">
 						<td th:text="${candidatura.id}"></td>
-						<td th:text="${candidatura.vaga.empresa.nome}"></td>
 
-						<td sec:authorize="hasRole('ROLE_PROFISSIONAL')">
-							<span th:text="${candidatura.status_candidatura}"></span>
-						</td>
-						<td sec:authorize="hasRole('ROLE_PROFISSIONAL')">
-							<a th:href="@{/candidaturas/remover/{id} (id=${candidatura.id}) }" role="button" onclick="confirmDelete(event)">
-								<span th:text="#{link.excluir.label}"></span>
-							</a>
-						</td>
-						<td sec:authorize="hasRole('ROLE_EMPRESA')">
-							<a th:href="@{/candidaturas/download/{id}(id=${candidatura.id})}" role="button">
-								<span th:text="#{link.download.label}"></span>
-							</a>
-						</td>
+						<td sec:authorize="hasRole('ROLE_PROFISSIONAL')" th:text="${candidatura.vaga.empresa.nome}"></td>
+						<td sec:authorize="hasRole('ROLE_EMPRESA')" th:text="${candidatura.profissional.nome}"></td>
+
+						<td sec:authorize="hasRole('ROLE_PROFISSIONAL')" th:text="${candidatura.status_candidatura}"></td>
 						<td sec:authorize="hasRole('ROLE_EMPRESA')"
 							th:if=${#dates.createNow().after(candidatura.vaga.dataLimite)}>
 							<a th:href="@{/candidaturas/formEdicao/{id} (id=${candidatura.id}) }" role="button">
 								<span th:text="#{link.editar.label}"></span>
 							</a>
 						</td>
+
+						<td sec:authorize="hasRole('ROLE_PROFISSIONAL')">
+							<a th:href="@{/candidaturas/remover/{id} (id=${candidatura.id}) }" role="button" onclick="confirmDelete(event)">
+								<span th:text="#{link.excluir.label}"></span>
+							</a>
+						</td>
+						
+						<td sec:authorize="hasRole('ROLE_EMPRESA')">
+							<a th:href="@{/candidaturas/download/{id}(id=${candidatura.id})}" role="button">
+								<span th:text="#{link.download.label}"></span>
+							</a>
+						</td>
+						
 					</tr>
 				</tbody>
 			</table>

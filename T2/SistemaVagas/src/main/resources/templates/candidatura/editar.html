@@ -20,18 +20,30 @@
         </div>
         <form th:action="@{/candidaturas/editar}" method="post">
             <input type="hidden" name="id" th:value="${id}">
-            <select name="status" style="margin: 0 0 20px 0;">
+            <select id="candidaturaStatus" name="status" style="margin: 0 0 20px 0;">
                 <option value="ABERTO" th:selected="${candidatura.status_candidatura == 'ABERTO'}" th:text="#{candidatura.status1.label}"></option>
                 <option value="NÃO SELECIONADO" th:selected="${candidatura.status_candidatura == 'NÃO SELECIONADO'}" th:text="#{candidatura.status2.label}"></option>
                 <option value="ENTREVISTA" th:selected="${candidatura.status_candidatura == 'ENTREVISTA'}" th:text="#{candidatura.status3.label}"></option>
             </select>
-            <label for="linkEntrevista" th:text="#{candidatura.edicao.linkEntrevista.label}" ></label>
-            <input type="text" name="linkEntrevista"/>
+            <div id="entrevista-link-input" style="display: none; justify-content: space-between; align-items: center; flex-direction: column;">
+                <label for="linkEntrevista" th:text="#{candidatura.edicao.linkEntrevista.label}" ></label>
+                <input type="text" name="linkEntrevista"/>
+            </div>
             <div style="display: inline-flex; justify-content: space-between; align-items: center;">
                 <b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
                 <button type="submit" th:text="#{submit.atualizar.label}"></button>
             </div>
         </form>
     </div>
+    <script>
+        let select = document.getElementById("candidaturaStatus");
+        select.addEventListener("change", () => {
+            if (select.value === "ENTREVISTA") {
+                document.getElementById("entrevista-link-input").style.display = "flex";
+            } else {
+                document.getElementById("entrevista-link-input").style.display = "none";
+            }
+        });
+    </script>
 </body>
 </html>

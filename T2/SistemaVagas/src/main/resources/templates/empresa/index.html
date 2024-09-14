@@ -8,7 +8,7 @@
 </head>
 <body>
     <div  class="selection-box" style="width: 500px;">
-        <b><a type="button" href="http://localhost:8080/home" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+        <b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
         <h1 th:text="#{empresa.perfil}" style="margin-bottom: 30px;"></h1>
         <a href="/vagas/listarPorEmpresa" th:text="#{vaga.listaEmpresa.label}"></a>
     </div>

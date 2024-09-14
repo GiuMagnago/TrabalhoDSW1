@@ -12,7 +12,7 @@
 	<section>
 
 		<nav style="display: inline-flex; justify-content: space-between; width: 100%;">
-			<b><a type="button" href="/empresa" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+			<b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
 			<a class="btn-criar" th:href="@{/vagas/formCadastro}" role="button">
 				<span th:text="#{vaga.cadastrar.label}"></span>
 			</a>
@@ -24,7 +24,6 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th th:text="#{vaga.cnpj_empresa.label}"></th>
 						<th th:text="#{vaga.remuneracao.label}"></th>
 						<th th:text="#{vaga.descricao.label}"></th>
 						<th th:text="#{vaga.dataLimite.label}"></th>
@@ -33,7 +32,6 @@
 				<tbody>
 					<tr th:each="vaga : ${vagas}">
 						<td th:text="${vaga.id}"></td>
-						<td th:text="${vaga.cnpj_empresa}"></td>
 						<td th:text="${vaga.remuneracao}"></td>
 						<td th:text="${vaga.descricao}"></td>
 						<td th:text="${#dates.format(vaga.dataLimite, 'dd-MM-yyyy')}"></td>

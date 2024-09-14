@@ -1,6 +1,7 @@
 package br.ufscar.dc.dsw.SistemaVagas;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,6 +30,16 @@ public class SistemaVagasApplication {
 	@Bean
 	public CommandLineRunner demo(IUsuarioDAO usuarioDAO, IEmpresaDAO empresaDAO, IProfissionalDAO profissionalDAO, IVagaDAO vagaDAO, ICandidaturaDAO candidaturaDAO, BCryptPasswordEncoder encoder) {
 		return (args) -> {
+			List<Usuario> users = usuarioDAO.findAll();
+			for (Usuario user : users) {
+				if (user.getNome().equals("Administrador")) {
+					user.setSenha(encoder.encode("admin"));
+				} else {
+					user.setSenha(encoder.encode("123"));
+				}
+				usuarioDAO.save(user);
+			}
+
 			// SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
 			// Usuario admin = new Usuario();

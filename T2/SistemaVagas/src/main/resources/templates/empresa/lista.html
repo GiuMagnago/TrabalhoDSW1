@@ -11,7 +11,7 @@
 <body>
 	<section>
 		<nav style="display: inline-flex; justify-content: space-between; width: 100%;">
-			<b><a type="button" href="/admin" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
+			<b><a type="button" href="javascript:history.back()" style="width: fit-content;"><span th:text="#{previous.message}"></span></a></b>
 			<a class="btn-criar" th:href="@{/empresas/formCadastro}" role="button">
 				<span th:text="#{empresa.cadastrar.label}"></span>
 			</a>
