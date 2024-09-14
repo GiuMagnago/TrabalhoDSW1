@@ -1,5 +1,7 @@
 package br.ufscar.dc.dsw.SistemaVagas.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -32,7 +34,7 @@ public class VagaController {
 
     @GetMapping("/listar")
     public String listar(Model model) {
-        model.addAttribute("vagas", service.buscarTodos());
+        model.addAttribute("vagas", service.buscarEmAberto(new Date()));
         model.addAttribute("cidades", service.buscarCidadesDistintas());
         return "vaga/lista";
     }
@@ -42,7 +44,7 @@ public class VagaController {
         if (cidade.isEmpty()) {
             return "redirect:/vagas/listar";
         }
-        model.addAttribute("vagas", service.buscarPorCidade(cidade));
+        model.addAttribute("vagas", service.buscarPorCidadeEmAberto(cidade, new Date()));
         model.addAttribute("cidades", service.buscarCidadesDistintas());
         model.addAttribute("cidadeSelecionada", cidade);
         return "vaga/lista";
