@@ -33,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="vaga : ${vagas}" th:if="${#dates.createNow().before(vaga.dataLimite)}">
+                    <tr th:each="vaga : ${vagas}">
                         <td th:text="${vaga.id}"></td>
                         <td th:text="${vaga.cnpj_empresa}"></td>
                         <td th:text="${vaga.remuneracao}"></td>
