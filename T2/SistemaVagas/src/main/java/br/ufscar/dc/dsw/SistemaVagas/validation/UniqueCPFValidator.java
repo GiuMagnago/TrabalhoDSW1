@@ -12,17 +12,10 @@ public class UniqueCPFValidator implements ConstraintValidator<UniqueCPF, String
     @Autowired
     IProfissionalDAO dao;
 
-    private long id;
-
-    @Override
-    public void initialize(UniqueCPF constraintAnnotation) {
-        this.id = constraintAnnotation.id();
-    }
-
     @Override
     public boolean isValid(String CPF, ConstraintValidatorContext context) {
         if (dao != null) {
-            return dao.findByCpfAndId(CPF, id) == null;
+            return dao.findByCpf(CPF) == null;
         }
         return true;
     }

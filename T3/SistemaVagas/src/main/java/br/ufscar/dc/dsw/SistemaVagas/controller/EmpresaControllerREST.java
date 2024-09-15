@@ -62,13 +62,16 @@ public class EmpresaControllerREST {
 
 	// update de empresa via id
 	@PutMapping(path = "/api/empresas/{id}")
+	@ResponseBody
 	public ResponseEntity<Empresa> atualiza(@PathVariable("id") long id, @Valid @RequestBody Empresa empresa, BindingResult result) {
-		if (result.hasErrors()) {
+		if (result.getErrorCount() > 2 || result.getFieldValue("cnpj") == null || result.getFieldValue("email") == null) {
 			return ResponseEntity.badRequest().build();
 		}
 		if (service.buscarPorId(id) == null) {
 			return ResponseEntity.notFound().build();
 		}
+		empresa.setPapel("ROLE_EMPRESA");
+		empresa.setEnable(true);
 		service.salvar(empresa);
 		return ResponseEntity.ok(empresa);
 	}

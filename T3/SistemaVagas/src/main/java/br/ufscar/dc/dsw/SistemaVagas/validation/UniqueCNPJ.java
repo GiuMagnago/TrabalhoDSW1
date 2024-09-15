@@ -12,5 +12,4 @@ public @interface UniqueCNPJ {
     String message() default "There is already a registration with this CNPJ!";
     Class<?>[] groups() default {}; // Add this line
     Class<? extends Payload>[] payload() default {};
-    long id() default 0L;
 }

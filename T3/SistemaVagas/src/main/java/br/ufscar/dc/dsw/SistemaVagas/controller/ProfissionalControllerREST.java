@@ -63,12 +63,14 @@ public class ProfissionalControllerREST {
 	@PutMapping(path = "/api/profissionais/{id}")
 	@ResponseBody
 	public ResponseEntity<Profissional> atualiza(@PathVariable("id") long id, @Valid @RequestBody Profissional profissional, BindingResult result) {
-		if (result.hasErrors()) {
+		if (result.getErrorCount() > 2 || result.getFieldValue("cpf") == null || result.getFieldValue("email") == null) {
 			return ResponseEntity.badRequest().build();
 		}
 		if (service.buscarPorId(id) == null) {
 			return ResponseEntity.notFound().build();
 		}
+		profissional.setPapel("ROLE_PROFISSIONAL");
+		profissional.setEnable(true);
 		service.salvar(profissional);
 		return ResponseEntity.ok(profissional);
 	}

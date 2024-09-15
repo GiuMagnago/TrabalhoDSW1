@@ -69,10 +69,11 @@ public class ProfissionalController {
     @PostMapping("/editar")
     @PreAuthorize("hasRole('ADMIN')")
     public String editar(@Valid Profissional profissional, BindingResult result, RedirectAttributes attr, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("papel", "ROLE_PROFISSIONAL");
+        if (result.getErrorCount() > 2 || result.getFieldValue("cpf") == null || result.getFieldValue("email") == null) {
             return "profissional/cadastro";
         }
+        profissional.setPapel("ROLE_PROFISSIONAL");
+        profissional.setEnable(true);
         profissional.setSenha(passwordEncoder.encode(profissional.getSenha()));
         service.salvar(profissional);
         attr.addFlashAttribute("success", "success.profissional.editar");
@@ -92,4 +93,3 @@ public class ProfissionalController {
         return "redirect:/profissionais/listar";
     }
 }
-

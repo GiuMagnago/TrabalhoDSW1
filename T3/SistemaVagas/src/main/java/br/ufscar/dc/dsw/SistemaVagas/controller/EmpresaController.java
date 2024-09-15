@@ -53,7 +53,6 @@ public class EmpresaController {
     @PreAuthorize("hasRole('ADMIN')")
     public String criar(@Valid Empresa empresa, BindingResult result, RedirectAttributes attr, Model model) {
         if (result.hasErrors()) {
-            model.addAttribute("papel", "ROLE_EMPRESA");
             return "empresa/cadastro";
         }
         empresa.setPapel("ROLE_EMPRESA");
@@ -68,13 +67,13 @@ public class EmpresaController {
     @PostMapping("/editar")
     @PreAuthorize("hasRole('ADMIN')")
     public String atualizar(@Valid Empresa empresa, BindingResult result, RedirectAttributes attr, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("papel", "ROLE_EMPRESA");
+        if (result.getErrorCount() > 2 || result.getFieldValue("cnpj") == null || result.getFieldValue("email") == null) {
             return "empresa/cadastro";
         }
+        empresa.setPapel("ROLE_EMPRESA");
+        empresa.setEnable(true);
         empresa.setSenha(passwordEncoder.encode(empresa.getSenha()));
         service.salvar(empresa);
-
         attr.addFlashAttribute("success", "success.empresa.editar");
         return "redirect:/empresas/listar";
     }

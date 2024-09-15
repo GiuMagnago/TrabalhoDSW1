@@ -11,18 +11,11 @@ import jakarta.validation.ConstraintValidatorContext;
 public class UniqueCNPJValidator implements ConstraintValidator<UniqueCNPJ, String> {
     @Autowired
     IEmpresaDAO dao;
-
-    private long id;
-
-    @Override
-    public void initialize(UniqueCNPJ constraintAnnotation) {
-        this.id = constraintAnnotation.id();
-    }
-
+    
     @Override
     public boolean isValid(String CNPJ, ConstraintValidatorContext context) {
         if (dao != null) {
-            return dao.findByCnpjAndId(CNPJ, id) == null;
+            return dao.findByCnpj(CNPJ) == null;
         }
         return true;
     }

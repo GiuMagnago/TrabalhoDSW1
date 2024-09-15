@@ -1,7 +1,5 @@
 package br.ufscar.dc.dsw.SistemaVagas.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import br.ufscar.dc.dsw.SistemaVagas.validation.UniqueEmail;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
