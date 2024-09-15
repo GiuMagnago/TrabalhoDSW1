@@ -1,185 +1,472 @@
-Roteiro de execução:
+# Roteiro de execução:
 
-É preciso Java, JDK, Maven, MySQL, Spring-Boot. Com tudo isso instalado, basta abrir a pasta do projeto e executar o comando: mvn spring-boot:run
+## Ferramentas utilizadas
+- Java 17
 
-Após rodar o projeto, basta utilizar os enpoints abaixo (recomendamos também objetos em JSON para serem utilizados):
+- JDK
+- Maven
+- MySQL
+- Spring-Boot
 
-Cria um novo profissional [Create - CRUD]
-POST http://localhost:8080/api/profissionais
-Body: raw/JSON (application/json)
-JSON exemplo:
+Para executar o programa localmente é necessário rodar o comando nesse diretório
+```sh
+$ mvn spring-boot:run
+```
+> Certifique-se de ter um deamon do MySQL rodando em sua maquina
+
+## Populando o banco de dados
+- Nome do banco de dados: **SistemaVagas**
+- Ele pode ser configurado em `application.properties`
+
+#### Inserindo Usuários
+```sql
+-- Inserir usuário administrador
+INSERT INTO Usuario (id, nome, email, senha, papel, enable)
+VALUES (1, 'Administrador', 'admin@gmail.com', 'a', 'ROLE_ADMIN', TRUE);
+
+-- Inserir empresa Google
+INSERT INTO Usuario (id, nome, email, senha, papel, enable)
+VALUES (2, 'google', 'google@gmail.com', 'a', 'ROLE_EMPRESA', TRUE);
+
+-- Inserir empresa Nestlé
+INSERT INTO Usuario (id, nome, email, senha, papel, enable)
+VALUES (3, 'nestle', 'nestle@gmail.com', 'a', 'ROLE_EMPRESA', TRUE);
+
+-- Inserir profissional João
+INSERT INTO Usuario (id, nome, email, senha, papel, enable)
+VALUES (4, 'joao', 'joao@gmail.com', 'a', 'ROLE_PROFISSIONAL', TRUE);
+```
+#### Usuários
+
+| ID  | Nome | Email | Senha (BCrypt) | Papel |
+|-----|------|-------|----------------|-------|
+| 1 | Administrador | admin@gmail.com | admin | ROLE_ADMIN |
+| 2 | Google | google@gmail.com | 123 | ROLE_EMPRESA |
+| 3 | Nestlé | nestle@gmail.com | 123 | ROLE_EMPRESA |
+| 4 | João | joao@gmail.com | 123 | ROLE_PROFISSIONAL |
+| 5 | recebeEmail | altereIsso@gmail.com | 123 | ROLE_PROFISSIONAL |
+
+#### Inserindo Vagas
+```sql
+-- Inserir vaga 1
+INSERT INTO Vaga (cnpj_empresa, remuneracao, descricao, dataLimite, empresa_id)
+VALUES ('11.111.111/1111.11', 3000, '...', '2025-08-30', 2);
+
+-- Inserir Vaga 2
+INSERT INTO Vaga (cnpj_empresa, remuneracao, descricao, dataLimite, empresa_id)
+VALUES ('22.222.222/2222.22', 5000, '...', '2024-07-30', 3);
+
+-- Inserir Vaga 3
+INSERT INTO Vaga (cnpj_empresa, remuneracao, descricao, dataLimite, empresa_id)
+VALUES ('11.111.111/1111.11', 7000, '...', '2025-12-30', 2);
+```
+#### Vagas
+| CNPJ Empresa | Remuneração | Descrição | Data Limite | Empresa ID |
+|--------------|-------------|-----------|-------------|------------|
+| 11.111.111/1111.11 | 3000 | ... | 2025-08-30  | 2 |
+| 22.222.222/2222.22 | 5000 | ... | 2024-07-30  | 3 |
+| 11.111.111/1111.11 | 7000 | ... | 2025-12-30  | 2 |
+
+#### Inserindo Candidaturas
+```sql
+-- Inserir candidatura 1
+INSERT INTO Candidatura (profissional_id, vaga_id, curriculoPath, status_candidatura)
+VALUES (4, 1, 'src/main/resources/uploads/curriculo_3.pdf', 'ABERTO');
+
+-- Inserir Candidatura 2
+INSERT INTO Candidatura (profissional_id, vaga_id, curriculoPath, status_candidatura)
+VALUES (5, 2, 'src/main/resources/uploads/curriculo_4.pdf', 'ABERTO');
+```
+
+#### Candidaturas
+| Profissional ID | Vaga ID | Currículo Path | Status Candidatura |
+|-----------------|---------|----------------|--------------------|
+| 4 | 1 | src/main/resources/uploads/curriculo_3.pdf | ABERTO |
+| 5 | 2 | src/main/resources/uploads/curriculo_4.pdf | ABERTO |
+
+
+## Usando a API
+- Nesse passo iremos usar a ferramenta `curl` para fazer a chamada dos endpoints
+da nossa aplicação
+
+#### CRUD Profissionais
+
+##### CREATE
+###### Criação de uma Empresa
+```sh
+$ curl -X POST http://localhost:8080/api/empresas \
+-H "Content-Type: application/json" \
+-d '{
+    "nome": "Nome da Empresa",
+    "email": "email@empresa.com",
+    "senha": "senha123",
+    "cnpj":"12.345.678/9123-45",
+    "descricao": "Descrição da Empresa",
+    "cidade": "Cidade da Empresa"
+}'
+```
+Retorno esperado:
+```json
 {
-    "nome": "lucas",
-    "email": "lucas@gmail.com",
-    "senha": "123",
-    "cpf": "333.333.333-33",
-    "telefone": "(55) 5555-5555",
-    "sexo": "M",
-    "dataNasc": "2001-01-01T02:00:00.000+00:00"
+    "id":6,
+    "nome":"Empresa Teste",
+    "email":"empresa@teste.com",
+    "senha":"senha123",
+    "cnpj":"12.345.678/9123-45",
+    "descricao":"Descrição da empresa",
+    "cidade":"Cidade Teste"
 }
+```
 
-Retorna a lista de profissionais [Read - CRUD]
-GET http://localhost:8080/api/profissionais
-
-Retorna o profissional de id = {id} [Read - CRUD]
-GET http://localhost:8080/api/profissionais/{id}
-
-Atualiza o profissional de id = {id} [Update - CRUD]
-PUT http://localhost:8080/api/profissionais/{id}
-Body: raw/JSON (application/json)
-JSON exemplo:
+##### READ
+###### Lendo todas as empresas:
+```sh
+$ curl -X GET http://localhost:8080/api/empresas
+```
+Retorno esperado:
+```json
+[
+    {
+        "id":2,
+        "nome":"google",
+        "email":"google@gmail.com",
+        "senha":"$2a$10$qUG3wH58/2TLQ16OOk.6puf/CMNj2B/s8CSah/5yb4SeSD4yeeK5O",
+        "cnpj":"11.111.111/1111-11",
+        "descricao":"aaaa",
+        "cidade":"São Carlos"
+    },
+    {
+        "id":3,
+        "nome":"nestle",
+        "email":"nestle@gmail.com",
+        "senha":"$2a$10$KAcf439I5rvdF9dYIDPFKupXkpYhLl/LB/faGLQaKo171f.UM7WtG",
+        "cnpj":"22.222.222/2222-22",
+        "descricao":"aaaa",
+        "cidade":"São Paulo"
+    }
+]
+```
+###### Lendo apenas uma empresa:
+```sh
+$ curl -X GET http://localhost:8080/api/empresas/{empresa_id}
+```
+Retorno esperado:
+```json
 {
-    "id": 4,
-    "nome": "joao neves",
-    "email": "joao@gmail.com",
-    "senha": "$2a$10$R7q3Gpmg8Dq4fs1CI2KM5ObzAmsqOWX2dQ.w0C9WxeIfvrTBJTO.C",
-    "cpf": "111.111.111-11",
-    "telefone": "(99) 9999-9999",
-    "sexo": "M",
-    "dataNasc": "2001-01-01T02:00:00.000+00:00"
+    "id":2,
+    "nome":"google",
+    "email":"google@gmail.com",
+    "senha":"$2a$10$qUG3wH58/2TLQ16OOk.6puf/CMNj2B/s8CSah/5yb4SeSD4yeeK5O",
+    "cnpj":"11.111.111/1111-11",
+    "descricao":"aaaa",
+    "cidade":"São Carlos"
 }
+```
 
-Remove o profissional de id = {id} [Delete - CRUD]
-DELETE http://localhost:8080/api/profissionais/{id}
-
-REST API -- CRUD de empresas
-Cria uma nova empresa [Create - CRUD]
-POST http://localhost:8080/api/empresas
-Body: raw/JSON (application/json)
-JSON exemplo:
+##### UPDATE
+###### Atualizando as informaçoes de uma empresa
+```sh
+$ curl -X PUT http://localhost:8080/api/empresas/{empresa_id} \
+-H "Content-Type: application/json" \
+-d '{
+    "nome": "Nome Atualizado da Empresa",
+    "email": "novoemail@empresa.com",
+    "senha": "novasenha123",
+    "cnpj":"11.121.111/1111-11",
+    "descricao": "Descrição Atualizada da Empresa",
+    "cidade": "Nova Cidade"
+}'
+```
+Retorno esperado:
+```json
 {
-    "nome": "samsung",
-    "email": "samsung@gmail.com",
-    "senha": "123",
-    "cnpj": "33.333.333/3333-33",
-    "descricao": "aaaa",
-    "cidade": "Belo Horizonte"
+    "id":7,
+    "nome":"Nome Atualizado da Empresa",
+    "email":"novoemail@empresa.com",
+    "senha":"novasenha123",
+    "cnpj":"11.121.111/1111-11",
+    "descricao":"Descrição Atualizada da Empresa",
+    "cidade":"Nova Cidade"
 }
+```
 
-Retorna a lista de empresas [Read - CRUD]
-GET http://localhost:8080/api/empresas
+##### DELETE
+###### Remover uma empresa do nosso banco
+```sh
+$ curl -X DELETE http://localhost:8080/api/empresas/{empresa_id}
+```
 
-Retorna a empresa de id = {id} [Read - CRUD]
-GET http://localhost:8080/api/empresas/{id}
+Retorno esperado:
+```json
+true
+```
 
-Retorna a lista de todas as empresas da cidade de nome = {nome}
-GET http://localhost:8080/api/empresas/cidades/{nome}
+#### CRUD Profissionais
 
-Atualiza a empresa de id = {id} [Update - CRUD]
-PUT http://localhost:8080/api/empresas/{id}
-Body: raw/JSON (application/json)
-JSON exemplo:
+##### CREATE
+###### Criação de um Profissional
+```sh
+$ curl -X POST "http://localhost:8080/api/profissionais" \
+-H "Content-Type: application/json" \
+-d '{
+    "nome": "Profissional Exemplo",
+    "email": "profissional@exemplo.com",
+    "senha": "senha123",
+    "cpf": "987.654.321-01",
+    "telefone": "11912345678",
+    "sexo": "Masculino",
+    "dataNasc": "2000-01-01"
+}'
+```
+Retorno esperado:
+```json
 {
-    "nome": "samsung",
-    "email": "samsung@gmail.com",
-    "senha": "123",
-    "cnpj": "33.333.333/3333-33",
-    "descricao": "aaaa",
-    "cidade": "Belo Horizonte"
+    "id":11,
+    "nome":"Profissional Exemplo",
+    "email":"profissional@exemplo.com",
+    "senha":"senha123",
+    "cpf":"987.654.321-01",
+    "telefone":"1191234-5678",
+    "sexo":"Masculino",
+    "dataNasc":"2000-01-01T00:00:00.000+00:00"
 }
+```
 
-Remove a empresa de id = {id} [Delete - CRUD]
-DELETE http://localhost:8080/api/empresas/{id}
+##### READ
+###### Lendo todos os profissionais:
+```sh
+$ curl -X GET "http://localhost:8080/api/profissionais"
+```
+Retorno esperado:
+```json
+[
+    {
+        "id":4,
+        "nome":"joao",
+        "email":"joao@gmail.com",
+        "senha":"$2a$10$hZ7OL7ks3ife3O3/w18xEu0qdQWbY7Yz7EtGot8B1F/uX5ZL9cemS",
+        "cpf":"123.456.789-00",
+        "telefone":"(16) 1234-5678",
+        "sexo":"M",
+        "dataNasc":"2001-01-01T02:00:00.000+00:00"
+    },
+    {
+        "id":5,
+        "nome":"recebeEmail",
+        "email":"altereIsso@gmail.com",
+        "senha":"$2a$10$0WIlMUofHrODaw1o6ZeUZucWAhsNIDKc8sTHzoEAzJmYbW48o2wD2",
+        "cpf":"123.456.789-01",
+        "telefone":"(16) 1234-5678",
+        "sexo":"M",
+        "dataNasc":"2001-01-01T02:00:00.000+00:00"
+    }
+]
+```
+###### Lendo apenas uma empresa:
+```sh
+$ curl -X GET "http://localhost:8080/api/profissionais/{profissional_id}"
+```
+Retorno esperado:
+```json
+{
+    "id":4,
+    "nome":"joao",
+    "email":"joao@gmail.com",
+    "senha":"$2a$10$hZ7OL7ks3ife3O3/w18xEu0qdQWbY7Yz7EtGot8B1F/uX5ZL9cemS",
+    "cpf":"123.456.789-00",
+    "telefone":"(16) 1234-5678",
+    "sexo":"M",
+    "dataNasc":"2001-01-01T02:00:00.000+00:00"
+}
+```
 
-REST API -- Retorna a lista de vagas [Read - CRUD]
-GET http://localhost:8080/api/vagas
+##### UPDATE
+###### Atualizando as informaçoes de uma empresa
+```sh
+$ curl -X PUT "http://localhost:8080/api/profissionais/{profissional_id}" \
+-H "Content-Type: application/json" \
+-d '{
+    "nome": "Update Profissional",
+    "email": "update@profissional.com",
+    "senha": "novasenha123",
+    "cpf": "927.654.321-01",
+    "telefone": "11987654321",
+    "sexo": "Masculino",
+    "dataNasc": "2000-01-01"
+}'
+```
+Retorno esperado:
+```json
+{
+    "id":13,
+    "nome":"Update Profissional",
+    "email":"update@profissional.com",
+    "senha":"novasenha123",
+    "cpf":"927.654.321-01",
+    "telefone":"11987654321",
+    "sexo":"Masculino",
+    "dataNasc":"2000-01-01T00:00:00.000+00:00"
+}
+```
 
-REST API -- Retorna a vaga de id = {id} [Read - CRUD]
-GET http://localhost:8080/api/vagas/{id}
+##### DELETE
+###### Remover uma empresa do nosso banco
+```sh
+curl -X DELETE "http://localhost:8080/api/profissionais/{profissional_id}
+```
+Retorno esperado:
+```json
+true
+```
 
-REST API -- Retorna a lista de vagas (em aberto) da empresa de id = {id} [Read - CRUD]
-GET http://localhost:8080/api/vagas/empresas/{id}
+#### CRUD Vagas
+> Nesse caso fizemos apenas os READs
 
-Dados Usados para Popular:
+##### READ
+###### Lendo todas as vagas
+```sh
+$ curl -X GET "http://localhost:8080/api/vagas"
+```
+Retorno esperado:
+```json
+[
+    {
+        "id":1,
+        "cnpj_empresa":"11.111.111/1111.11",
+        "remuneracao":3000.0,
+        "descricao":"...",
+        "dataLimite":"2025-08-30T03:00:00.000+00:00",
+        "empresa": 
+        {
+            "id":2,
+            "nome":"google",
+            "email":"google@gmail.com",
+            "senha":"$2a$10$bNQYu0w978aU1emPe3P47Oc2DRvU6JcqVc77kRiOvjusoEbqlhwNq",
+            "cnpj":"11.111.111/1111-11",
+            "descricao":"aaaa",
+            "cidade":"São Carlos"
+        }
+    },
+    {
+        "id":2,
+        "cnpj_empresa":"22.222.222/2222.22",
+        "remuneracao":5000.0,
+        "descricao":"...",
+        "dataLimite":"2024-07-30T03:00:00.000+00:00",
+        "empresa":
+        {
+            "id":3,
+            "nome":"nestle",
+            "email":"nestle@gmail.com",
+            "senha":"$2a$10$toVqRwY9ajqtbke0uSNDh.YJC3zOZz60WVhVt0xKgYxE8hElBImbO",
+            "cnpj":"22.222.222/2222-22",
+            "descricao":"aaaa",
+            "cidade":"São Paulo"
+        }
+    },
+    {
+        "id":3,
+        "cnpj_empresa":"11.111.111/1111.11",
+        "remuneracao":7000.0,
+        "descricao":"...",
+        "dataLimite":"2025-12-30T03:00:00.000+00:00",
+        "empresa":
+        {
+            "id":2,
+            "nome":"google",
+            "email":"google@gmail.com",
+            "senha":"$2a$10$bNQYu0w978aU1emPe3P47Oc2DRvU6JcqVc77kRiOvjusoEbqlhwNq",
+            "cnpj":"11.111.111/1111-11",
+            "descricao":"aaaa",
+            "cidade":"São Carlos"
+        }
+    }
+]
+```
+###### Lendo apenas uma vaga:
+```sh
+$ curl -X GET "http://localhost:8080/api/vagas/{vaga_id}"
+```
+Retorno esperado:
+```json
+{
+    "id":1,
+    "cnpj_empresa":"11.111.111/1111.11",
+    "remuneracao":3000.0,
+    "descricao":"...",
+    "dataLimite":"2025-08-30T03:00:00.000+00:00",
+    "empresa":
+    {
+        "id":2,
+        "nome":"google",
+        "email":"google@gmail.com",
+        "senha":"$2a$10$bNQYu0w978aU1emPe3P47Oc2DRvU6JcqVc77kRiOvjusoEbqlhwNq",
+        "cnpj":"11.111.111/1111-11",
+        "descricao":"aaaa",
+        "cidade":"São Carlos"
+    }
+}
+```
+###### Lendo apenas as vagas de uma empresa:
+```sh
+$ curl -X GET "http://localhost:8080/api/vagas/empresas/{empresa_id}"
+```
+Retorno esperado:
+```json
+[
+    {
+        "id":1,
+        "cnpj_empresa":"11.111.111/1111.11",
+        "remuneracao":3000.0,
+        "descricao":"...",
+        "dataLimite":"2025-08-30T03:00:00.000+00:00",
+        "empresa":
+        {
+            "id":2,
+            "nome":"google",
+            "email":"google@gmail.com",
+            "senha":"$2a$10$bNQYu0w978aU1emPe3P47Oc2DRvU6JcqVc77kRiOvjusoEbqlhwNq",
+            "cnpj":"11.111.111/1111-11",
+            "descricao":"aaaa",
+            "cidade":"São Carlos"
+        }
+    },
+    {
+        "id":3,
+        "cnpj_empresa":"11.111.111/1111.11",
+        "remuneracao":7000.0,
+        "descricao":"...",
+        "dataLimite":"2025-12-30T03:00:00.000+00:00",
+        "empresa":
+        {
+            "id":2,
+            "nome":"google",
+            "email":"google@gmail.com",
+            "senha":"$2a$10$bNQYu0w978aU1emPe3P47Oc2DRvU6JcqVc77kRiOvjusoEbqlhwNq",
+            "cnpj":"11.111.111/1111-11",
+            "descricao":"aaaa",
+            "cidade":"São Carlos"
+        }
+    }
+]
+```
+## CheckList:
 
-Nome do banco de dados: SistemaVagas
+#### REST API - CRUD de Profissionais
+- [x] Implementado 
+- [ ] Parcialmente implementado 
+- [ ] Não implementado
 
-Foi utilizado o arquivo "data.sql" para popular o banco, o arquivo application.properties está configurado para executar o script SQL sempre que a aplicação rodar.
+##### Divisão na implementação da funcionalidade:
+- Giuseppe Chaves (33%)
+- Gabriel Spolon (33%)
+- Antônio Cícero (33%)
 
-#### Usuários ####
-
-1. Administrador:
-	ID: 1
-	Nome: Administrador
-	Email: admin@gmail.com
-	Senha: admin (criptografada com BCryptEnconder)
-	Papel: ROLE_ADMIN (Administrador do sistema)
-
-2. Google (Empresa):
-	ID: 2
-	Nome: Google
-	Email: google@gmail.com
-	Senha: 123 (criptografada com BCryptEnconder)
-	Papel: ROLE_EMPRESA (Empresa)
-
-3. Nestlé (Empresa):
-	ID: 3
-	Nome: Nestlé
-	Email: nestle@gmail.com
-	Senha: 123 (criptografada com BCryptEnconder)
-	Papel: ROLE_EMPRESA (Empresa)
-	Ativo: Sim (enable = TRUE)
-
-4. João (Profissional):
-	ID: 4
-	Nome: João
-	Email: joao@gmail.com
-	Senha: 123 (criptografada com BCryptEnconder)
-	Papel: ROLE_PROFISSIONAL (Profissional)
-
-5. recebeEmail (Profissional):
-	ID: 5
-	Nome: recebeEmail
-	Email: altereIsso@gmail.com
-	Senha: 123 (criptografada com BCryptEnconder)
-	Papel: ROLE_PROFISSIONAL (Profissional)
-
-#### Vagas ####
-1. Vaga 1 (Em aberto):
-	CNPJ da Empresa: 11.111.111/1111.11 (Google)
-	Remuneração: 3000
-	Descrição: ...
-	Data Limite: 30/08/2025
-	Empresa ID: 2 (Google)
-
-2. Vaga 2 (Fechada):
-	CNPJ da Empresa: 22.222.222/2222.22 (Nestlé)
-	Remuneração: 5000
-	Descrição: ...
-	Data Limite: 30/07/2024
-	Empresa ID: 3 (Nestlé)
-
-
-3. Vaga 3 (Em aberto):
-	CNPJ da Empresa: 11.111.111/1111.11 (Google)
-	Remuneração: 7000
-	Descrição: ...
-	Data Limite: 30/12/2025
-	Empresa ID: 2 (Google)
-	
-#### Candidaturas ####
-1. Candidatura 1 (Fase = Em aberto):
-	Profissional ID: 4 (João)
-	Vaga ID: 1 (Vaga 1 - Google)
-	Currículo: src/main/resources/uploads/curriculo_3.pdf
-	Status: ABERTO
-
-2. Candidatura 2 (Fase = Análise):
-	Profissional ID: 5 (recebeEmail)
-	Vaga ID: 2 (Vaga 2 - Nestlé)
-	Currículo: src/main/resources/uploads/curriculo_4.pdf
-	Status: ABERTO
-
-CheckList:
-
-REST API -- CRUD de Profissionais
-(X) Implementado ( ) Parcialmente implementado ( ) Não implementado
-Divisão na implementação da funcionalidade: Giuseppe Chaves (100%)
-
-REST API -- CRUD de Empresas e GETs de Vagas
-(X) Implementado ( ) Parcialmente implementado ( ) Não implementado
-Divisão na implementação da funcionalidade: Gabriel Spolon (50%) e Antônio Cícero (50%)
-
-
-
-
+#### REST API -- CRUD de Empresas e READs de Vagas
+- [x] Implementado 
+- [ ] Parcialmente implementado 
+- [ ] Não implementado
+##### Divisão na implementação da funcionalidade:
+- Giuseppe Chaves (33%)
+- Gabriel Spolon (33%) 
+- Antônio Cícero (33%)
